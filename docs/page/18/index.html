@@ -63,6 +63,46 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/02/15/let-you-sys-admin-override-your-django-settings/">Let you Sys Admin Override your Django Settings</a>
+      </h1>
+      <span class="post-date">Feb 15, 2009 &middot; 2 minute read
+      </span>
+      
+      <p>The previous <a href="http://morethanseven.net/2009/02/11/django-settings-tip-setting-relative-paths/">Django settings tip</a> seemed to go down well so I thought I&rsquo;d jot down a few more over the next few weeks. Most of these have come out of working with a decent sized Django team at <a href="http://thisisglobal.com">Global</a> so I can&rsquo;t take credit for anything but writing them down for the most part. For this example I think <a href="http://alixandalex.com/obfuscated-signatures/">Alex Knowles</a> did the original version.</p>
+
+<p>I was talking with out friendly <a href="http://search.cpan.org/~rclamp/">sys</a> <a href="http://www.unixdaemon.net/">admins</a> on Friday about a new application and whether they were happy with some application specific logging (using the Python logging module) I&rsquo;d build in. Nothing fancy, just application logging to a rotated log file for system events. Their answer was yes, as long as they could control where the log files ended up and the maximum file size, ideally without having to play around in the code or to redeploy the application if they wanted to move the files elsewhere.</p>
+
+<p>These things were already specified in the settings file rather than hardcode into the application but that only gets us half way. The standard Linux way of setting this sort of thing is with a configuration file stored in the /etc directory. So we ended up with the following snippet of code in our settings.py file.</p>
+
+<p>pre. # we&rsquo;re going to allow overriding of settings via a yml file.</p>
+
+<ol>
+<li>This makes live nicer for anyone managing the box</li>
+<li>and means settings can be overloaded without redeploying the site
+SETTINGS_OVERIDE = &ldquo;/etc/application_name.yml&rdquo;
+try:
+file = open(SETTINGS_OVERIDE)
+for key, value in yaml.load(file).items():
+globals()[key]=value
+except:
+# we don&rsquo;t always have the file around or need the setting
+# defined so best to be quite if things go wrong
+pass</li>
+</ol>
+
+<p>Then in the yaml file you can simply clobber any of the settings using a simple name value pair approach.</p>
+
+<p>pre. LOG_FILE: &ldquo;/var/log/application_name.log&rdquo;</p>
+
+<p>It lets us keep production paths that might change out of the developers code, at the same time as giving the sys admins a familiar way of managing the production environment.</p>
+
+<p>It does have one downside, if you&rsquo;re not aware of it&rsquo;s presence then it can make debugging settings related issues a pain. With that in mind you could wrap it so as to only work this way when DEBUG is False, or take the approach here which is to leave extensive comments.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/02/15/looking-new-job-june/">Looking for a New Job in June</a>
       </h1>
       <span class="post-date">Feb 15, 2009 &middot; 4 minute read
@@ -311,18 +351,6 @@ app.run()</p>
 <p>As for what I&rsquo;ve been up to I have a more advanced <a href="http://github.com/garethr/sinatra-hello-world">Hello World</a> example up on GitHub. I&rsquo;m wanting to get a running application that demonstrates all the basic features (except <a href="http://morethanseven.net/2008/04/11/dsls-for-html-and-css-the-future-or-just-plain-wro/">HAML and SASS</a> support). So far I&rsquo;ve got a simple bit of Rack middleware, several views demonstrating different url handling techniques, basic erb templates, before methods, configuration settings, error handling, decent unit test coverage, a rake file with a tasks for documentation, code coverage, etc. I&rsquo;ve also got configuration files for running the application with <a href="http://code.macournoyer.com/thin/">Thin</a> and using <a href="http://god.rubyforge.org/">God</a>. I&rsquo;m going to add some simple database connectivity in at some point (either <a href="http://datamapper.org">DataMapper</a> or <a href="http://sequel.rubyforge.org/">Sequel</a>, I haven&rsquo;t decided yet) and play around with writing spec tests and a capistrano recipe file. All in it&rsquo;s a nice way of learning something new at the same time as producing something that might be useful. Once I have the rest of the bits and pieces I might even right a full tutorial.</p>
 
 <p>I think the sweet spot for these sorts of mini frameworks are small services or little applications that just sit their are run. Both <a href="http://integrityapp.com/">Integrity</a> and <a href="http://irclogger.com">IRCLogger</a> both use Sinatra for instance and I think it&rsquo;s used for the <a href="http://github.com/guides/post-receive-hooks">GitHub WebHooks</a> as well. It&rsquo;s exactly the sort of thing Google AppEngine is useful for in fact and Sinatra would likely be a closer fit that Rails if Google ever feel like adding Ruby support. Although it does depress me a little that the <a href="http://code.google.com/p/googleappengine/issues/list">top four items in the public issue tracker</a> are <em>I want my own language</em>.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/01/29/jsonpickle/">Jsonpickle</a>
-      </h1>
-      <span class="post-date">Jan 29, 2009 &middot; 1 minute read
-      </span>
-      
-      <p><a href="http://code.google.com/p/jsonpickle">Jsonpickle</a> is a Python library for serializing any arbitrary object graph into JSON. The advantage over something like simplejson is the <em>arbitrary</em> part, simplejson throws errors when you try and serialize some types of objects. I also prefer the jsonpickle API (encode, decode) over simplejson (dump, dumps, load, loads).</p>
 
       
     </div>

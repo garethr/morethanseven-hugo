@@ -63,6 +63,28 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2012/03/31/Recent-projects-and-talks/">Recent Projects And Talks</a>
+      </h1>
+      <span class="post-date">Mar 31, 2012 &middot; 1 minute read
+      </span>
+      
+      <p>I&rsquo;ve been pretty busy with all things <a href="https://www.gov.uk">GOV.UK</a> recently but I&rsquo;ve managed to get a few bits of unrelated code up and a few talks in. I&rsquo;m <em>still</em> pretty busy so here&rsquo;s a list of some of them rather than a proper blog post.</p>
+
+<ul>
+<li><a href="http://www.slideshare.net/garethr/mining-puppet">Puppet Data Mining</a> talk from last weeks PuppetCamp in Edinburgh.</li>
+<li><a href="http://www.slideshare.net/garethr/web-operations">Introducting Web Operations</a> talk I gave at work to give my mainly non-development colleagues an idea about what it&rsquo;s all about.</li>
+<li><a href="http://www.slideshare.net/garethr/learnings-from-govuk">Learning from building GOV.UK</a> talk I gave a month back or so to Cambridge Geek Night. We did an excellent full project retrospective after the beta launch and this lists some of the things we learnt.</li>
+</ul>
+
+<p>After someone bugged me on Twitter I realised the small bit of code we&rsquo;ve been using for our Nagios dashboard wasn&rsquo;t out in the wild. So introducing <a href="https://github.com/garethr/nash">Nash</a>, a very simple high level check dashboard which screenscrapes nagiosand runs happily on Heroku.</p>
+
+<p>Although I&rsquo;ve not been writing too much on here I&rsquo;ve been keeping <a href="http://devopsweekly.com/">Devops Weekly</a> going each week for over a year now. I&rsquo;ve just crossed 3000 subscribers which is pretty neat for a pet project.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2012/02/19/Dashboards-at-govuk/">Dashboards At Gov.Uk</a>
       </h1>
       <span class="post-date">Feb 19, 2012 &middot; 1 minute read
@@ -384,35 +406,6 @@ end
 </code></pre>
 
 <p>I&rsquo;ve been pretty impressed with both Mongo and Mongoid here. I like the feel of mapreduce jobs for this sort of reporting task. In particular it&rsquo;s suprising how writing two languages mixed together like this doesn&rsquo;t really affect the readability of the code in my view. Given that with a relational database you&rsquo;d probably be writing SQL anyway maybe that&rsquo;s not that suprising - the syntactic differences between Javascript and Ruby are much smaller than pretty much anything and SQL. Lots of folks have written about the increase of polyglot programming, but I wonder if we&rsquo;ll see an increase in the embedding of one language in another?</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2011/09/11/Rundeck-and-nagios-nrpe-checks/">Rundeck And Nagios Nrpe Checks</a>
-      </h1>
-      <span class="post-date">Sep 11, 2011 &middot; 2 minute read
-      </span>
-      
-      <p>I&rsquo;ve been playing with <a href="http://rundeck.org/">Rundeck</a> recently. For those that haven&rsquo;t seen it yet it&rsquo;s an application for running commands across a cluster of machines and recording the results. It has both a command line client and a very rich web interface which boths allows you to trigger commands and shows the results.</p>
-
-<p>I&rsquo;ve played with a few different jobs so far, including triggering Puppet runs across machines triggered by a Jenkins plugin. I&rsquo;ve also been looking at running all my monitoring tasks at the click of a button (or again as part of a smoke test triggered by Jenkins) and I thought that might make a nice simple example.</p>
-
-<p>My checks are written as Nagios plugins, and run periodically by Nagios. I also trigger them manually, using Dean&rsquo;s <a href="http://www.unixdaemon.net/tools/commandline/introducing-nrpe-runner.html">NRPE runner script</a>.</p>
-
-<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRiJoQIM" alt="Rundeck showing a job output"/></p>
-
-<p>The above shows a successful run across a few machines I use for experimenting with tools. Hopefully you can see the summary of the run on each of the four machines, each ran five NRPE checks and all passed. On failure we&rsquo;d see the results as well as different symbols and colous. We can easily save the output to a file if we need to, rerun or duplicate the job (maybe to have it run against a different group of machines) or we can export the job definition file to load into another instance.</p>
-
-<p>The same job can also be run on the command line (which makes use the of Rundeck API)</p>
-
-<pre><code>./run -j &quot;Run NRPE checks&quot; -p PRGMR
-</code></pre>
-
-<p>This example shows running a specific pre-defined job, but it&rsquo;s also equally possible to fire of adhoc commands to some or all of the machines rundeck knows about.</p>
-
-<p>One thing in particular that I prefer about this approach to say using Capistrano or Fabric for remote execution tasks is that you have a centralised authentication and logging capability. It would be easy enough to encapsulate the jobs into cap or fabric tasks (and manage that in source control) which means you&rsquo;re not stuck if Rundeck isn&rsquo;t available.</p>
 
       
     </div>

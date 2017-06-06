@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Replacing cron jobs with Lambda and Apex &middot; More than seven</title>
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/hyde.css">
+  <link rel="stylesheet" href="/css/poole-overrides.css">
+  <link rel="stylesheet" href="/css/hyde-overrides.css">
+  <link rel="stylesheet" href="/css/hyde-x.css">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link href="/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-435455-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body class="theme-base-08">
+<div class="sidebar">
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1><a href="/">More than seven</a></h1>
+      <p class="lead">Writing about code. Occasional other topics. Made by <a href="https://twitter.com/garethr">@garethr</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1 class="post-title">Replacing cron jobs with Lambda and Apex</h1>
+    <span class="post-date">May 29, 2017 &middot; 5 minute read
+    </span>
+    
+
+<p>Everyone has little scripts that want running on some schedule. I&rsquo;ve
+seen entire organisations basically running on cron jobs. But for all
+the simplicity of cron it has a few issues:</p>
+
+<ul>
+<li>It&rsquo;s a per-host solution, in a world where hosts might be short-lived
+or unavailable for some other reason</li>
+<li>It requires a fully configured and secured machine to run on, which
+comes with direct and indirect costs</li>
+</ul>
+
+<p>There are a variety of <em>distributed cron</em> solutions around, but each
+adds complexity for what might be a throw-away script. In my view this
+is the perfect usecase for trying out AWS Lambda, or other Serverless
+platforms. With a Serverless platform the above two issues go away from
+the point-of-view of the user, they are below the level of abstraction
+of the provided service. Lets see a quick example of doing this.</p>
+
+<h2 id="apex-and-lambda">Apex and Lambda</h2>
+
+<p>There are a number of frameworks and tools for helping deploy Serverless
+functions for different platforms. I&rsquo;m going to use <a href="http://apex.run/">Apex</a>
+because I&rsquo;ve found it provides just enough of a user interface without
+getting in the way of writing a function.</p>
+
+<p>Apex supports a wide range of different languages, and has <a href="https://github.com/apex/apex/tree/master/_examples">lots of
+examples</a> which
+makes getting started relatively easy. Installation is
+<a href="http://apex.run/#installation">straightforward</a> too.</p>
+
+<h2 id="a-sample-function">A sample function</h2>
+
+<p>The function isn&rsquo;t really relevant to this post, but I&rsquo;ll include one
+for completeness. You can write functions in officially supported
+languages (like Javascript or Python) or pick one of the languages
+supported via a shim in Apex. I&rsquo;ve been writing Serverless functions in
+Go and Clojure recently, but I prefer Clojure so lets use that for now.</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>(<span style="color: #008800; font-weight: bold">ns </span><span style="color: #336699">net.morethanseven.hello</span>
+    (<span style="color: #aa6600; background-color: #fff0f0">:gen-class</span> <span style="color: #aa6600; background-color: #fff0f0">:implements</span> [<span style="color: #336699">com.amazonaws.services.lambda.runtime.RequestStreamHandler</span>])
+    (<span style="color: #aa6600; background-color: #fff0f0">:require</span> [<span style="color: #336699">clojure.java.io</span> <span style="color: #aa6600; background-color: #fff0f0">:as</span> <span style="color: #336699">io</span>]
+              [<span style="color: #336699">clojure.string</span> <span style="color: #aa6600; background-color: #fff0f0">:as</span> <span style="color: #336699">str</span>])
+    (<span style="color: #aa6600; background-color: #fff0f0">:import</span> (<span style="color: #0066bb; font-weight: bold">com.amazonaws.services.lambda.runtime</span> <span style="color: #336699">Context</span>)))
+
+(<span style="color: #008800; font-weight: bold">defn </span><span style="color: #336699">-handleRequest</span>
+  [<span style="color: #336699">this</span> <span style="color: #336699">input-stream</span> <span style="color: #336699">output-stream</span> <span style="color: #336699">context</span>]
+  (<span style="color: #008800; font-weight: bold">let </span>[<span style="color: #336699">handle</span> (<span style="color: #0066bb; font-weight: bold">io/writer</span> <span style="color: #336699">output-stream</span>)]
+    (<span style="color: #0066bb; font-weight: bold">.write</span> <span style="color: #336699">handle</span> (<span style="color: #003388">str </span><span style="color: #dd2200; background-color: #fff0f0">&quot;hello&quot;</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;world&quot;</span>))
+    (<span style="color: #0066bb; font-weight: bold">.flush</span> <span style="color: #336699">handle</span>)))
+</pre></div>
+
+<p>This would be saved at
+<code>functions/hello/src/net/morethanseven/hello.clj</code>, and the Apex
+<code>project.json</code> file should point at the function above:</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>{
+  <span style="color: #bb0066; font-weight: bold">&quot;runtime&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;clojure&quot;</span>,
+  <span style="color: #bb0066; font-weight: bold">&quot;handler&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;net.morethanseven.hello::handleRequest&quot;</span>
+}
+</pre></div>
+
+<p>You would also need a small configuration file at <code>functions/hello/project.clj</code>:</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>(<span style="color: #008800; font-weight: bold">defproject </span><span style="color: #336699">net.morethanseven</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;0.1.0-SNAPSHOT&quot;</span>
+  <span style="color: #aa6600; background-color: #fff0f0">:description</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;Hello World.&quot;</span>
+  <span style="color: #aa6600; background-color: #fff0f0">:dependencies</span> [[<span style="color: #336699">com.amazonaws/aws-lambda-java-core</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;1.1.0&quot;</span>]
+                 [<span style="color: #336699">com.amazonaws/aws-lambda-java-events</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;1.1.0&quot;</span> <span style="color: #aa6600; background-color: #fff0f0">:exclusions</span> [
+<span style="color: #336699">com.amazonaws/aws-java-sdk-s3</span>
+<span style="color: #336699">com.amazonaws/aws-java-sdk-sns</span>
+<span style="color: #336699">com.amazonaws/aws-java-sdk-cognitoidentity</span>
+<span style="color: #336699">com.amazonaws/aws-java-sdk-kinesis</span>
+<span style="color: #336699">com.amazonaws/aws-java-sdk-dynamodb</span>]]
+                 [<span style="color: #336699">org.clojure/clojure</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;1.8.0&quot;</span>]]
+  <span style="color: #aa6600; background-color: #fff0f0">:aot</span> <span style="color: #aa6600; background-color: #fff0f0">:all</span>)
+</pre></div>
+
+<p>The above is really just showing an example of how little code a
+function might contain, the specifics are relevant only if you&rsquo;re
+intersted in Clojure. But imagine the same sort of thing for your
+language of choice.</p>
+
+<h1 id="infrastructure">Infrastructure</h1>
+
+<p>The interesting part (hopefully) of this blog post is the observation
+that using AWS Lambda doesn&rsquo;t mean you don&rsquo;t need any infrastructure or
+configuration. The good news is that, for the periodic job/cron usecase
+this infrastructure is fairly standard between jobs.</p>
+
+<p>Apex has <a href="http://apex.run/#managing-infrastructure">useful integration with Terraform</a>
+to help manage any required infrastructure too. We can run the following
+two commands to provision and then manage our infrastructure.</p>
+
+<pre><code>apex infra init
+apex infra deploy
+</code></pre>
+
+<p>Doing so requires us to write a little Terraform code. First we need
+some variables, we&rsquo;ll invclude this in <code>infrastructure/variables.tf</code>:</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_region&quot;</span> {
+<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;AWS Region Lambda function is deployed to&quot;</span>
+}
+
+<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_environment&quot;</span> {
+<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Apex configured environment. Auto provided by &#39;apex infra&#39;&quot;</span>
+}
+
+<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_function_role&quot;</span> {
+<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Provisioned Lambda Role ARN via Apex. Auto provided by &#39;apex infra&#39;&quot;</span>
+}
+
+<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_function_hub&quot;</span> {
+<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Provisioned function &#39;hub&#39; ARN information. Auto provided by &#39;apex infra&#39;&quot;</span>
+}
+
+<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_function_hub_name&quot;</span> {
+<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Provisioned function &#39;hub&#39; name information. Auto provided by &#39;apex infra&#39;&quot;</span>
+}
+</pre></div>
+
+<p>And then we need to describe the resources for our cron job in
+<code>infrastructure/main.tf</code>:</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">resource</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_cloudwatch_event_rule&quot; &quot;every_five_minutes&quot;</span> {
+<span style="color: #336699">    name</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;every-five-minutes&quot;</span>
+<span style="color: #336699">    description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Fires every five minutes&quot;</span>
+<span style="color: #336699">    schedule_expression</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;rate(5 minutes)&quot;</span>
+}
+
+<span style="color: #008800; font-weight: bold">resource</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_cloudwatch_event_target&quot; &quot;check_hub_every_five_minutes&quot;</span> {
+<span style="color: #336699">    rule</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${aws_cloudwatch_event_rule.every_five_minutes.name}&quot;</span>
+<span style="color: #336699">    target_id</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${var.apex_function_hub_name}&quot;</span>
+<span style="color: #336699">    arn</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${var.apex_function_hub}&quot;</span>
+}
+
+<span style="color: #008800; font-weight: bold">resource</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_lambda_permission&quot; &quot;allow_cloudwatch_to_call_hub&quot;</span> {
+<span style="color: #336699">    statement_id</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;AllowExecutionFromCloudWatch&quot;</span>
+<span style="color: #336699">    action</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;lambda:InvokeFunction&quot;</span>
+<span style="color: #336699">    function_name</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${var.apex_function_hub_name}&quot;</span>
+<span style="color: #336699">    principal</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;events.amazonaws.com&quot;</span>
+<span style="color: #336699">    source_arn</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${aws_cloudwatch_event_rule.every_five_minutes.arn}&quot;</span>
+}
+</pre></div>
+
+<p>Here we&rsquo;re running the job every 5 minutes, but it should be relatively
+easy to see how you can change that frequency. See the Terraform and AWS
+Lambda documentation for all the possible options.</p>
+
+<h2 id="on-complexity-user-interface-and-abstractions">On complexity, user interface and abstractions</h2>
+
+<p>The above is undoutedly powerful, and nicely solves the described
+probles with using Cron. However it&rsquo;s not all plain sailing I feel
+with Serverless as a Cron replacement.</p>
+
+<p>Let&rsquo;s talk about complexity. If I can make the assumptions that:</p>
+
+<ul>
+<li>The underlying host I was going to run my cron job on host is well managed,
+potentially by another team in my organisation</li>
+<li>Hosts don&rsquo;t suffer downtime, or if they do it&rsquo;s occasional and they
+are brough back up quickly</li>
+</ul>
+
+<p>Then I can just use cron. And the interface to cron looks something more
+like:</p>
+
+<pre><code>*/5 * * * * /home/garethr/run.sh
+</code></pre>
+
+<p>I still had to write my function (the Clojure code above) but I
+collapsed the configuration of three distinct AWS resources and the use of a
+new tool (Terraform) into a one-line crontab entry. You might have
+provisioned that cron job using Puppet or Chef which adds a few lines
+and a new tool, which sits somewhere between hand editing and the above
+example.</p>
+
+<p>This is really a question of user interface design and abstractions.
+On one hand Serverless provides a nice high-level shared abstraction for
+developers (the function). On another Serverless requires a great deal
+of (virtual) infrastructure, which at the moment tends not to be abstracted
+from the end-user. In the simple case above I had to care about
+<code>aws_cloudwatch_event_targets</code>, <code>aws_cloudwatch_event_rules</code> and
+<code>aws_lambda_permissions</code>. The use of those non-abstract resources all
+couples my simple cron example to a specific platform (AWS) when the
+simple function could likely run on any Serverless platform that
+supports the JVM.</p>
+
+<h2 id="serverless-not-infrastructureless">Serverless, not Infrastructureless</h2>
+
+<p>I&rsquo;m purposefully nit-picking with the above example. Serverless does
+provide a more straightforward cron experience, mainly because it&rsquo;s
+self-contained. But the user interface even for simple examples is still
+very raw in many cases. Importantly, in removing the concept of ervers,
+we don&rsquo;t appear to have removed the need to configure infrastructure,
+which I think is what many people thing of when they hope to be rid of
+servers in the first place.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+
+</body>
+</html>
+

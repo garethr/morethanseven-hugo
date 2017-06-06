@@ -63,6 +63,22 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2008/08/31/django-powered/">Django Powered</a>
+      </h1>
+      <span class="post-date">Aug 31, 2008 &middot; 2 minute read
+      </span>
+      
+      <p>A short break from blogging ends with a new site design. As with all these things their will no doubt be a few kinks still to work out and I&rsquo;ll be adding to the design a little over the coming months. The main reason for all this change? A move to a custom CMS build using Django. This was something of an excuse to play around with Django outside <a href="http://www.gcapmedia.com/">work</a> and I&rsquo;m pretty happy with the results. I have all the bits of wordpress I actually used, plus a few bits I didn&rsquo;t have before. More importantly I have something I want to hack on. Wordpress is a kick ass blogging tool, but keeping it updated or adding new features never seemed much like fun.</p>
+
+<p>It seems like it&rsquo;s the week for Django related site launches in the UK. We released the <a href="http://www.capitalradio.co.uk/">new Capital Radio site</a> on the world last week and Nat beat me by a day or so with <a href="http://natbat.net/">her new Django powered site</a>. Look for more in the future too I would wager.</p>
+
+<p>I have a whole range of posts brewing about what I found out along the way, both building a personal blog and building a large site with a big team. Keeping up with the bleeding edge of Django ahead of the 1.0 release took some doing (I&rsquo;m running the latest Trunk release here at the moment). Deciding to use a combination of <a href="http://pypi.python.org/pypi/Spawning/0.7">Spawning</a> and <a href="http://nginx.net/">Nginx</a> for serving is a nice break from Apache as well. But that is all for later when I have a little more time.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2008/06/21/of-hacking-continuous-integration-and-django/">Of Hacking, Continuous Integration and Django</a>
       </h1>
       <span class="post-date">Jun 21, 2008 &middot; 2 minute read
@@ -372,26 +388,6 @@ end&lt;/code&gt;
 <p>I&rsquo;m not really convinced of the benefits in all fairness. The <em>something else to learn</em> barrier only gets magnified when working within a team environment. You now have to train new recruits of whatever skill level in another syntax. One that they might be able to write quickly enough but can they understand from the briefest of glances at a template? HTML might not be great here but it is familiar to everyone. Their is also the programmers abstraction. What if I can&rsquo;t get the markup I want out the other side of the black box? Yes it&rsquo;s open source so I can hack the box open but that causes even more problems. And while I quite like meaningful whitespace (for instance in Python), in templates which fail if it&rsquo;s not quite right I see a major problem for those whom a text editor is not their best friend.</p>
 
 <p>I am however interested to see whether the problems people have with haml are with haml in particular or with the overall approach of alternative syntax&rsquo;s for HTML and CSS. Are DSLs (Domain Specific Languages) needed for CSS and HTML? and if so is this a possible avenue for innovation on top of slow moving standards?</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/04/06/git-ditz-and-microformats/">Git, Ditz and Microformats</a>
-      </h1>
-      <span class="post-date">Apr 6, 2008 &middot; 3 minute read
-      </span>
-      
-      <p>I finally got round to making use of <a href="http://git.or.cz/">Git</a>, the distributed source code management tools much loved by Open Source projects like the Linux Kernel and now Ruby on Rails. It had been on the long list of things to have a look at for quite a while but for the majority of my personal projects SVN is just fine. The reason that led me to finally run <em>sudo port install git-core</em> was the new <a href="http://ditz.rubyforge.org/">Ditz</a> command line issue tracking software release on <a href="http://gitorious.org/projects/ditz">Gitorious</a> by <a href="http://cs.stanford.edu/people/wmorgan/">William Morgan</a>.</p>
-
-<p>Now, a command line issue tracker is maybe kind of niche and a little geeky. But most desktop or web based issue trackers just seem to wind me up and I like small tools that fit in with my command line centric workflow. I managed to clone <a href="http://gitorious.org/projects/ditz/repos/ditz-microformats">my own copy</a> of Ditz to have a play with. I ran into a few initial problems but nothing a <a href="http://www.kernel.org/pub/software/scm/git/docs/tutorial.html">good tutorial</a> and a <a href="http://groups.google.com/group/gitorious">helpful mailing list</a> couldn&rsquo;t fix.</p>
-
-<p>I&rsquo;m not just playing around either; Ditz comes with the nice ability to generate a set of static HTML files representing your issue database. I&rsquo;ve committed and pushed a few modifications and enhancements onto my clone - mainly validation, semantic markup improvements and a smattering of microformats (work in progress) in the templates and a couple of markup generation helpers in the Ruby code. I plan on working up the interface a little as well but like any good web designer I&rsquo;m starting with the underlying markup structure.</p>
-
-<p>A few other enhancements I&rsquo;d love to see in Ditz or a clone I could pull from include the ability to use <a href="http://www.sqlite.org/">SQLite</a> rather than the default YAML for larger projects, automatic generation of RSS feeds alongside the HTML (although I&rsquo;ve started implementing hAtom) and maybe automated deployment to a remote host over FTP or SSH.</p>
-
-<p>The distributed nature of Git appears to be pushed as the main advantage to those developers taking a look. But I think this is, in many cases, is not <em>that</em> important compared to the familiarity that comes from having used SVN or similar for a while. What I think just might be it&rsquo;s real strength is that Git is a <strong>social source control system</strong>. For Open Source projects like Ditz this is a potentially game changing move. The ease with which anyone can contribute and take things in strange directions without affecting the overall effort is fantastic. It removes barriers to entry for contributors and means making small quick changes is much easier and more immediate. With both Gitorious and <a href="http://github.com/">Github</a> wrapping Git in a shiny web based interface that focuses on these social aspects it will be interesting to see if this leads to more or faster Open Source collaboration efforts.</p>
 
       
     </div>

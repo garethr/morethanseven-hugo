@@ -6,10 +6,20 @@
     <description>Recent content on More than seven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Fri, 26 May 2017 13:56:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 May 2017 13:56:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Replacing cron jobs with Lambda and Apex</title>
+      <link>/2017/05/29/replacing-cron-jobs-with-lambda-and-apex/</link>
+      <pubDate>Mon, 29 May 2017 13:56:00 +0000</pubDate>
+      
+      <guid>/2017/05/29/replacing-cron-jobs-with-lambda-and-apex/</guid>
+      <description>Everyone has little scripts that want running on some schedule. I&amp;rsquo;ve seen entire organisations basically running on cron jobs. But for all the simplicity of cron it has a few issues:
+ It&amp;rsquo;s a per-host solution, in a world where hosts might be short-lived or unavailable for some other reason It requires a fully configured and secured machine to run on, which comes with direct and indirect costs  There are a variety of distributed cron solutions around, but each adds complexity for what might be a throw-away script.</description>
+    </item>
     
     <item>
       <title>Conference speaking as a software vendor</title>

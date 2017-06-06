@@ -63,6 +63,31 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2008/11/01/simulating-rails-environments-django/">Simulating Rails like Environments in Django</a>
+      </h1>
+      <span class="post-date">Nov 1, 2008 &middot; 1 minute read
+      </span>
+      
+      <p>I was always a fan of <a href="http://wiki.rubyonrails.org/rails/pages/Environments">Rail environments</a> and as part of some work upgrading this site to the latest version of Django I decided to clean up my whole deployment process. Part of that involved replacing everything in settings.py with the following snippet of code:</p>
+
+<p>pre. ENV = &ldquo;development&rdquo;
+try:
+exec &ldquo;from environments.&rdquo; + ENV + &ldquo; import *&ldquo;
+except ImportError:
+print &ldquo;You must specify a valid environment&rdquo;
+exit()</p>
+
+<p>I now have two settings files stored in an environments module containing all the usual django settings; one for my development environment and one suitable for live. The settings.py above is for my local development environment, with only one small change for live (this file doesn&rsquo;t get deployed along with the source code for the site, so doesn&rsquo;t get overwritten).</p>
+
+<p>pre. ENV = &lsquo;live&rsquo;</p>
+
+<p>This isn&rsquo;t quite the same as the Rails implementation obviously. I run completely different server setups so I&rsquo;m not too bothered about a flag on the runserver command like the -e flag for mongel. I could also probably do something to autodetect the environment but this works fine for me.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2008/10/13/unit-testing-css-looking-solution/">Unit Testing CSS - Looking for a Solution</a>
       </h1>
       <span class="post-date">Oct 13, 2008 &middot; 4 minute read
@@ -486,22 +511,6 @@ pass</li>
 <p>Both these scripts are pretty simple examples. In the real world you would probably want to make them a little more robust and user friendly. Both could probably do with checking they have the relevant arguments and providing help information if you run them without. I&rsquo;d also probably move the hosts into a config file as it&rsquo;s currently hardcoded into the scripts. I&rsquo;ve also not tested them with other stomp compatible servers like ApacheMQ. In theory they should work fine assuming stomp.py works as advertised.</p>
 
 <p>Overall, it&rsquo;s surprisingly easy to get started with message queues. If you&rsquo;ve been hearing about the advantages of distributed message based architectures but assumed you had to be <a href="http://www.hackdiary.com/">Matt Biddulph</a> to use them, think again.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/08/31/django-powered/">Django Powered</a>
-      </h1>
-      <span class="post-date">Aug 31, 2008 &middot; 2 minute read
-      </span>
-      
-      <p>A short break from blogging ends with a new site design. As with all these things their will no doubt be a few kinks still to work out and I&rsquo;ll be adding to the design a little over the coming months. The main reason for all this change? A move to a custom CMS build using Django. This was something of an excuse to play around with Django outside <a href="http://www.gcapmedia.com/">work</a> and I&rsquo;m pretty happy with the results. I have all the bits of wordpress I actually used, plus a few bits I didn&rsquo;t have before. More importantly I have something I want to hack on. Wordpress is a kick ass blogging tool, but keeping it updated or adding new features never seemed much like fun.</p>
-
-<p>It seems like it&rsquo;s the week for Django related site launches in the UK. We released the <a href="http://www.capitalradio.co.uk/">new Capital Radio site</a> on the world last week and Nat beat me by a day or so with <a href="http://natbat.net/">her new Django powered site</a>. Look for more in the future too I would wager.</p>
-
-<p>I have a whole range of posts brewing about what I found out along the way, both building a personal blog and building a large site with a big team. Keeping up with the bleeding edge of Django ahead of the 1.0 release took some doing (I&rsquo;m running the latest Trunk release here at the moment). Deciding to use a combination of <a href="http://pypi.python.org/pypi/Spawning/0.7">Spawning</a> and <a href="http://nginx.net/">Nginx</a> for serving is a nice break from Apache as well. But that is all for later when I have a little more time.</p>
 
       
     </div>

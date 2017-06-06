@@ -63,6 +63,24 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2010/05/26/Devops-twitter-aggregator/">Devops Twitter Aggregator</a>
+      </h1>
+      <span class="post-date">May 26, 2010 &middot; 1 minute read
+      </span>
+      
+      <p>I&rsquo;ve been hacking on appengine again and have thrown up a simple <a href="http://devopstweets.appspot.com/">twitter aggregator for devops</a>. It&rsquo;s again based on <a href="http://github.com/steffentchr/twitterengine">TwitterEngine</a> with an increasing number of additions and changes.</p>
+
+<p>As well as just the tweets I want to build a few other small features. The first of which is link extraction, so at the moment you&rsquo;ll see recent links a the top of the page. I&rsquo;ll hopefully make that a little more useful, with better browing and converting short urls into the real ones. I also have vague plans for providing exports, listing people talking about devops and some useful graphs to track general activity around devops.</p>
+
+<p>&lt;img src=&ldquo;<a href="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRjphAEM&quot;">http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRjphAEM&quot;</a> alt=&ldquo;Devops aggregator on Twitter&rdquo;</p>
+
+<p>I&rsquo;m really interested to see if the whole discussion around the term devops grows over the next year or so, and I&rsquo;m hoping this will make it a little easier to see that change happen.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2010/05/18/Installing-integrity-on-debianubuntu/">Installing Integrity On Debian/Ubuntu</a>
       </h1>
       <span class="post-date">May 18, 2010 &middot; 1 minute read
@@ -421,43 +439,6 @@ if is_valid_jsonp_callback_value(cb):
 <p>Which is exactly what has just <a href="http://bitbucket.org/jespern/django-piston/changeset/f558b2c66dcc/">gone into the code for Piston</a>. <a href="http://tav.espians.com/sanitising-jsonp-callback-identifiers-for-security.html">This article</a> contains lots of background information about why JSONP callbacks can be a security hole, and helpfully provides a <a href="http://github.com/tav/scripts/blob/master/validate_jsonp.py">nice Python module</a> to help with the sanitisation. Nice to be on the authors list for something I&rsquo;m using actively.</p>
 
 <p>Thanks to <a href="http://twitter.com/jespern">Jesper Noehr</a> for Piston, for some pointers on bitbucket and for quickly taking the patch. If you&rsquo;re accepting a callback on your site or application, especially if it&rsquo;s a public service, you really want to do something like this or you just might have an exploitable security hole.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2010/03/07/Mysql-support-for-cucumber-nagios/">Mysql Support For Cucumber Nagios</a>
-      </h1>
-      <span class="post-date">Mar 7, 2010 &middot; 2 minute read
-      </span>
-      
-      <p>I just noticed Lindsay had <a href="http://github.com/auxesis/cucumber-nagios">committed</a> the amqp steps for cucumber-nagios and remembered I hadn&rsquo;t mentioned on here some other work I&rsquo;ve been doing on the same project. We use MySQL quite a bit at work and I&rsquo;ve been wanting to extent our monitoring for a while. So I set about thinking how that would work with cucumber-nagios. What I&rsquo;ve come up with looks something like this:</p>
-
-<pre>
-Feature: localhost
-  To make sure the rest of the system is in order
-  Our database server should not be overloaded
-
-  Scenario: check running processes count
-    Given I have a MySQL server on localhost
-    And I use the username root
-    Then it should have less than 10 processes
-
-  Scenario: check queries per second
-    Given I have a MySQL server on localhost
-    And I use the username root
-    Then it should have less than 200 select queries per second
-    Then it should have less than 300 queries per second
-    Then it should have less than 5 slow queries pers second
-    Then it should have at least 10 queries per second
-</pre>
-
-<p>The numbers, username details and host details are all variables. So you can write senarios for your specific deployments. The tests over time are based on a very short lived sampling mechanic which I&rsquo;ve yet to test in anger. I&rsquo;m not sure just yet is this approach will lead to too many false positives but we&rsquo;ll have to see.</p>
-
-<p>This <a href="http://codeinthehole.com/archives/8-Monitoring-MySQL-with-Ganglia-and-gmetric.html">mysql gmetric script</a> gave me lots of the ideas for invidual steps. I&rsquo;ll be writing more about some work I&rsquo;ve been doing with cucumber-nagios and ganglia soon as well.</p>
-
-<p>For the moment if anyone want&rsquo;s to try these steps out you can either check out <a href="http://github.com/garethr/cucumber-nagios">my cucumber-nagios</a> fork or just grab the steps from the <a href="http://github.com/garethr/cucumber-nagios/blob/master/lib/generators/project/features/steps/mysql_steps.rb">mysql_steps.rb</a> file. Any feedback much appreciated.</p>
 
       
     </div>

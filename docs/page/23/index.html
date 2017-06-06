@@ -63,6 +63,26 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2008/04/06/git-ditz-and-microformats/">Git, Ditz and Microformats</a>
+      </h1>
+      <span class="post-date">Apr 6, 2008 &middot; 3 minute read
+      </span>
+      
+      <p>I finally got round to making use of <a href="http://git.or.cz/">Git</a>, the distributed source code management tools much loved by Open Source projects like the Linux Kernel and now Ruby on Rails. It had been on the long list of things to have a look at for quite a while but for the majority of my personal projects SVN is just fine. The reason that led me to finally run <em>sudo port install git-core</em> was the new <a href="http://ditz.rubyforge.org/">Ditz</a> command line issue tracking software release on <a href="http://gitorious.org/projects/ditz">Gitorious</a> by <a href="http://cs.stanford.edu/people/wmorgan/">William Morgan</a>.</p>
+
+<p>Now, a command line issue tracker is maybe kind of niche and a little geeky. But most desktop or web based issue trackers just seem to wind me up and I like small tools that fit in with my command line centric workflow. I managed to clone <a href="http://gitorious.org/projects/ditz/repos/ditz-microformats">my own copy</a> of Ditz to have a play with. I ran into a few initial problems but nothing a <a href="http://www.kernel.org/pub/software/scm/git/docs/tutorial.html">good tutorial</a> and a <a href="http://groups.google.com/group/gitorious">helpful mailing list</a> couldn&rsquo;t fix.</p>
+
+<p>I&rsquo;m not just playing around either; Ditz comes with the nice ability to generate a set of static HTML files representing your issue database. I&rsquo;ve committed and pushed a few modifications and enhancements onto my clone - mainly validation, semantic markup improvements and a smattering of microformats (work in progress) in the templates and a couple of markup generation helpers in the Ruby code. I plan on working up the interface a little as well but like any good web designer I&rsquo;m starting with the underlying markup structure.</p>
+
+<p>A few other enhancements I&rsquo;d love to see in Ditz or a clone I could pull from include the ability to use <a href="http://www.sqlite.org/">SQLite</a> rather than the default YAML for larger projects, automatic generation of RSS feeds alongside the HTML (although I&rsquo;ve started implementing hAtom) and maybe automated deployment to a remote host over FTP or SSH.</p>
+
+<p>The distributed nature of Git appears to be pushed as the main advantage to those developers taking a look. But I think this is, in many cases, is not <em>that</em> important compared to the familiarity that comes from having used SVN or similar for a while. What I think just might be it&rsquo;s real strength is that Git is a <strong>social source control system</strong>. For Open Source projects like Ditz this is a potentially game changing move. The ease with which anyone can contribute and take things in strange directions without affecting the overall effort is fantastic. It removes barriers to entry for contributors and means making small quick changes is much easier and more immediate. With both Gitorious and <a href="http://github.com/">Github</a> wrapping Git in a shiny web based interface that focuses on these social aspects it will be interesting to see if this leads to more or faster Open Source collaboration efforts.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2008/04/04/a-first-class-web-citizen/">A First Class Web Citizen</a>
       </h1>
       <span class="post-date">Apr 4, 2008 &middot; 2 minute read
@@ -481,69 +501,6 @@ I prefer to use the table header element to mark up the table row and the origin
 <p>The real reason for the excitement though is the calibre of some of the speakers. Ray Kurzweil, Greg Dyke, Dan Lyons (a.k.a. Fake Steve Jobs), Matt Locke, Aubrey De Grey and Tara Hunt to name a few I&rsquo;m particularly interested in. And remember folks, this is in Newcastle. Which for the few Londoners reading is a couple of hours North of you. On a train with free wifi even.</p>
 
 <p>Now this might not be a web conference but I&rsquo;m pretty interested in the take of the likes of Ray Kurzweil on the web and what will happen in the near future. I&rsquo;m also interested in the types of people who will make the trip - which is really the reason for this post. As everyone knows, one of the best parts of any conference is the chance to chat with like-minded (and not so like-minded) folks. So, who fancies coming along?</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/02/21/sorry-but-the-flickr-api-isnt-rest/">Sorry, but the Flickr API isn&amp;#39;t REST</a>
-      </h1>
-      <span class="post-date">Feb 21, 2008 &middot; 3 minute read
-      </span>
-      
-      <p>After <a href="http://semanticcamp.tommorris.org">SemanticCamp</a> me and <a href="http://icepop.org/">Rey</a> popped in to see <a href="http://blog.whatfettle.com/">Paul</a> and everyone at <a href="http://www.osmosoft.com/">Osmosoft</a> towers. A good few interesting conversations ensued, including one about the difference between <a href="http://blog.whatfettle.com/2008/02/19/mashup-or-integration/">mashups and integration</a>. All good fun basically. <a href="http://simonmcmanus.com/">Simon</a> also had an <a href="http://simonmcmanus.com/2008/02/21/off-the-shelf-integration-in-enterprises/">interesting take on the topic</a> as well.</p>
-
-<p>What has all this to do with the topic of this post? Well, Simon says:</p>
-
-<blockquote>
-<p>When compared to small RESTful APIs like flickr and twitter&hellip;</p>
-</blockquote>
-
-<p>Now I&rsquo;m not really picking on Simon here, more that I&rsquo;ve been meaning to write something on this topic for a while and this proved a good catalyst for a little rant.</p>
-
-<p>The <a href="http://flickr.com">flickr</a> <a href="http://www.flickr.com/services/api/">API</a> is pretty darn cool. But it&rsquo;s not RESTful in pretty much any way you want to shake a stick at it. It&rsquo;s a well designed RPC (remote procedure call) API. Now even flickr get this wrong. They even have <a href="http://www.flickr.com/services/api/response.rest.html">a page</a> which confuses the issue and makes REST out to be a response format based on XML. Bad flickr.</p>
-
-<p><a href="http://www.flickr.com/services/api/request.rest.html">flickr states</a> that:</p>
-
-<blockquote>
-<p>The REST Endpoint URL is <a href="http://api.flickr.com/services/rest/">http://api.flickr.com/services/rest/</a></p>
-</blockquote>
-
-<p>This turns out to be completely against the whole RESTful principles. Lets try and explain. You can define most of what you want to do with an API with the use of nouns, verbs and content types. REST is based around limiting the set of verbs to those available in HTTP; for instance GET, POST, PUT and DELETE. For any given application or API you&rsquo;ll also specify a set of content types (representations); for instance HTML, JSON or XML. All you get to play around with are the nouns, in the case of the web these are our URLs.</p>
-
-<p>In a typical RPC style API you have one URL (like flickr does) which acts as the end point to which all calls are made. You then probably define a few functions which you can call. Lets look at a simple book example.</p>
-
-<pre><code>&lt;code&gt;getBook()
-deleteBook()
-createBook()
-editBook()&lt;/code&gt;
-</code></pre>
-
-<p>The RESTful way of designing this might look a little bit more like this:</p>
-
-<pre><code>&lt;code&gt;GET     /books/{book-id}
-DELETE  /books/{book-id}
-POST    /books
-PUT     /books/{book-id}&lt;/code&gt;
-</code></pre>
-
-<p>We mentioned content types or representations earlier. Lets say instead of the default response format we might want to get a JSON representation of a given book we might do something like the following.</p>
-
-<pre><code>&lt;code&gt;GET /books/{book-id}.json&lt;/code&gt;
-</code></pre>
-
-<p>The advantages of using URLs as the API nouns in this way include more than just sane URLs for the site or application in question. The web is based around many of these architectural principles and that seemed to scale pretty well. The idea is that fell envisaged RESTful applications have an advantage here too. For me one of the real benefits of RESTful APIs are in the simplicity they bring to documentation. I already know the available verbs, all I need to know are the set of resource URLs and I can probably use CURL to work out the REST (sorry, bad pun).</p>
-
-<p>This misunderstanding is pretty common. Even <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">WikiPedia</a> appreciates their is a problem:</p>
-
-<blockquote>
-<p>The difference between the uses of the term â€œRESTâ€ causes some confusion in technical discussions.</p>
-</blockquote>
-
-<p>This isn&rsquo;t just pedantry on my part, well not quite. I&rsquo;d recommend anyone involved in designing and architecting web sites read <a href="http://www.amazon.co.uk/RESTful-Web-Services-Leonard-Richardson/dp/0596529260">RESTful Web Services</a> as well as <a href="http://www.ics.uci.edu/~fielding/">Roy Fielding&rsquo;s</a> <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">Architectural Styles and the Design of Network-based Software Architectures</a>. But if you just want to <em>get</em> the general principles and don&rsquo;t fancy wading through technical documents then you have to read <a href="http://tomayko.com/articles/2004/12/12/rest-to-my-wife">How I Explained REST to My Wife</a> hilariously written by <a href="http://tomayko.com/">Ryan Tomayko</a>.</p>
-
-<p>And remember, just because an API makes use of HTTP doesn&rsquo;t make it RESTful. I&rsquo;m looking at you <a href="http://twitter.com">twitter</a>.</p>
 
       
     </div>

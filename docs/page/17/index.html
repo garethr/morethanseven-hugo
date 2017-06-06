@@ -63,6 +63,32 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/03/09/rewiredstate/">RewiredState</a>
+      </h1>
+      <span class="post-date">Mar 9, 2009 &middot; 2 minute read
+      </span>
+      
+      <p><a href="http://rewiredstate.org/">RewiredState</a> was awesome. 100 or so geeks plus a smattering of government types gathered in the shiny new Guardian offices in Kings Cross on Saturday to hack (the Government).</p>
+
+<p>Some events like this are more productive than others, and the end of day demos included some realy impressive stuff. See for your self on the <a href="http://projects.rewiredstate.org/">projects page</a></p>
+
+<p>My own little project even won a prize (an invisible bottle of Champagne no less). My complain was that if you want to report an issue about the over 7000 government websites you have to do it per site. All of the sites do their own thing, which might be a nice contact form, maybe an email address or in some cases a postal address hidden on a page that&rsquo;s not linked to from anywhere.</p>
+
+<p>My solution was pretty simple - a centralised issue reporting and navigating tool. So you go along to the site you have an issue with and hit a bookmarklet (or a badge on the site if the site in question have been nice enough to add one). You fill in a very simple form which appears before your eyes and everything is tracked on a nice shiny website.</p>
+
+<p>The advantage of all that is transparency. You can see which sites people have issue with, and also ideally which issues get addresses or at least acknowledged by the support staff for the site in question. The hack had comments so others could follow up on individual issues. It would be simple enough to have league tables and the like as well, or add tagging for a little bit of categorisation - I did only have a few hours though.</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cgwLEgVJbWFnZRi7Fww" alt="screenshot of FeedbackGov website"/></p>
+
+<p>After a few nice comments I&rsquo;m going to have to finish it off and get it up somewhere I think. All I really need to do is clean up the bookmarklet code (which was a hack in more ways than one) and add a bit of sanity checking to data entered into the system.</p>
+
+<p>A massive well done to everyone involved is in order as well, especially <a href="http://coupde.com/">James</a> who I remember talking to the idea about ages ago. Congratulations all - and hopefully be back next year.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/03/05/content-markup-ratio-bookmarklet/">Content to Markup ratio bookmarklet</a>
       </h1>
       <span class="post-date">Mar 5, 2009 &middot; 1 minute read
@@ -297,46 +323,6 @@ response = conn.request_get(&ldquo;/&rdquo;)</p>
 conn.request_delete(&lsquo;/items/11232344&rsquo;)</p>
 
 <p>As an added benefit it also comes with a Google App Engine compatible version.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/02/15/let-you-sys-admin-override-your-django-settings/">Let you Sys Admin Override your Django Settings</a>
-      </h1>
-      <span class="post-date">Feb 15, 2009 &middot; 2 minute read
-      </span>
-      
-      <p>The previous <a href="http://morethanseven.net/2009/02/11/django-settings-tip-setting-relative-paths/">Django settings tip</a> seemed to go down well so I thought I&rsquo;d jot down a few more over the next few weeks. Most of these have come out of working with a decent sized Django team at <a href="http://thisisglobal.com">Global</a> so I can&rsquo;t take credit for anything but writing them down for the most part. For this example I think <a href="http://alixandalex.com/obfuscated-signatures/">Alex Knowles</a> did the original version.</p>
-
-<p>I was talking with out friendly <a href="http://search.cpan.org/~rclamp/">sys</a> <a href="http://www.unixdaemon.net/">admins</a> on Friday about a new application and whether they were happy with some application specific logging (using the Python logging module) I&rsquo;d build in. Nothing fancy, just application logging to a rotated log file for system events. Their answer was yes, as long as they could control where the log files ended up and the maximum file size, ideally without having to play around in the code or to redeploy the application if they wanted to move the files elsewhere.</p>
-
-<p>These things were already specified in the settings file rather than hardcode into the application but that only gets us half way. The standard Linux way of setting this sort of thing is with a configuration file stored in the /etc directory. So we ended up with the following snippet of code in our settings.py file.</p>
-
-<p>pre. # we&rsquo;re going to allow overriding of settings via a yml file.</p>
-
-<ol>
-<li>This makes live nicer for anyone managing the box</li>
-<li>and means settings can be overloaded without redeploying the site
-SETTINGS_OVERIDE = &ldquo;/etc/application_name.yml&rdquo;
-try:
-file = open(SETTINGS_OVERIDE)
-for key, value in yaml.load(file).items():
-globals()[key]=value
-except:
-# we don&rsquo;t always have the file around or need the setting
-# defined so best to be quite if things go wrong
-pass</li>
-</ol>
-
-<p>Then in the yaml file you can simply clobber any of the settings using a simple name value pair approach.</p>
-
-<p>pre. LOG_FILE: &ldquo;/var/log/application_name.log&rdquo;</p>
-
-<p>It lets us keep production paths that might change out of the developers code, at the same time as giving the sys admins a familiar way of managing the production environment.</p>
-
-<p>It does have one downside, if you&rsquo;re not aware of it&rsquo;s presence then it can make debugging settings related issues a pain. With that in mind you could wrap it so as to only work this way when DEBUG is False, or take the approach here which is to leave extensive comments.</p>
 
       
     </div>
