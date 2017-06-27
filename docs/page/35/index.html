@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,65 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2006/05/13/python-at-microsoft/">Python at Microsoft</a>
+      </h1>
+      <span class="post-date">May 13, 2006 &middot; 2 minute read
+      </span>
+      
+      <p><p>
+At work we mainly use Microsoft technologies, .NET and such like, for our development. As I mentioned previously I’m playing with <a href="http://python.org">Python</a> at the moment, and getting on quite nicely. With .NET being a framework, aimed at allowing a variety of different languages to access the same class library, I though</p>
+
+<p></p>
+<blockquote>
+<p>
+I wonder if you can use Python with the .NET framework?</p>
+
+<p></p>
+</blockquote>
+<p>
+The rather large <a href="http://www.amazon.co.uk/exec/obidos/ASIN/0596000855/202-7885728-2282211">Programming Python</a> tome alludes to it being on the cards after the implementation of <a href="http://www.jython.org">Jython</a> but no more details than that.</p>
+
+<p></p>
+<p>
+I came across a few dated references indicating that it was possible but, and mentioning very slow reference implementations, all of which didn’t bode too well. Then up popped <a href="http://ironpython.com/">IronPython</a> from an <a href="http://www.python.org/pycon/dc2004/papers/9/">article</a> by <a href="http://hugunin.net/">Jim Hugunin</a>. This looked like what I was looking for. But it looked unmaintained, the page not having been updated for a couple of years!</p>
+
+<p></p>
+<p>
+But the story continued. Jim, having moved to Microsoft, was still working on IronPython and it looks like it’s moving forwards apace. The latest beta was released on the 20th of April and it looks like 4 more betas before a 1.0 release.</p>
+
+<p></p>
+<p>
+This discovery makes Python appear even more interesting. A nicely designed, cross platform scripting language with full access to the might of the .NET framework and it’s own good looking web development framework in <a href="http://djangoproject.com">Django</a>.</p>
+
+<p></p>
+<p>
+So, for anyone else looking around for similar details here’s a brief list of up to date information:</p>
+
+<p></p>
+<ul>
+<li>
+Video of <a href="http://msdn.microsoft.com/msdntv/episode.aspx?xml=episodes/en/20051110PythonJH/manifest.xml">Jim showing IronPython off</a></p>
+
+<p></li>
+<li>
+<a href="http://wiki.python.org/moin/IronPython">Python Wiki page about IronPython</a></p>
+
+<p></li>
+<li>
+Good <a href="http://en.wikipedia.org/wiki/IronPython">WikiPedia entry</a></p>
+
+<p></li>
+<li>
+The <a href="http://www.gotdotnet.com/workspaces/workspace.aspx?id=ad7acff7-ab1e-4bcb-99c0-57ac5a3a9742">official workspace</a></p>
+
+<p></li>
+</ul></p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -471,191 +530,443 @@ Come on everybody, get your markup out for the ladies.
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/04/02/pas-78/">PAS 78</a>
-      </h1>
-      <span class="post-date">Apr 2, 2006 &middot; 2 minute read
-      </span>
-      
-      <p>
-I dont often ramble about accessibility issues on here, something I’ve only just noticed. Quite suprising as it’s one of those things that I’m pretty interested in – and have been for a good long time.
+    
 
-</p>
-<p>
-Anyway, I’ve just finished reading through <a href="http://www.bsi-global.com/ICT/PAS78/index.xalter">PAS 78</a> or Publicly Available Specification 78, Guide to Good Practice in Commissioning Accessible Websites. It’s a document aimed at those buying websites, especially in the public sector, who probably know accessibility is <em>a good think</em> but could get easily hoodwinked by anyone with even a modicum of knowledge and evil intentions.
-
-</p>
-<p>
-Rather than just provide information about the what and why, considering the doc was launched a month ago, I’ll just point you to <a href="http://www.isolani.co.uk/blog/access/Pas78Launch">a good synopsis</a> from <a href="http://www.isolani.co.uk">Isolani</a>. A few other notables have posted good reads. <a href="http://joeclark.org/">Joe Clark</a>, as always, has <a href="http://blog.fawny.org/2006/03/21/pas78/">an opinion</a> which is both anally detailed and all true. <a href="http://www.brucelawson.co.uk">Bruce</a> also has a <a href="http://www.brucelawson.co.uk/pas78">run down</a> from a (some what) insiders point of view.
-
-</p>
-<p>
-My feeling was, overall, pretty positive. I’d love to see all the clients I deal with having read this. It’s a pretty good intro to the issues at hand, though it is maybe a little long and technical for some of its audience. One area in particular that got quite a bit of coverage, rightly so in my mind, was testing. Their still isn’t enough testing of any sorts for websites, even with all these <em>beta</em> tags going around. The testing area covers all sorts of bits and pieces, again not in enough detail for the implementor but certainly enough for any good procurement office to be able to separate the wheat from the chaff.
-
-</p>
-<p>
-A good series of mentions goes to <a href="http://www.usabilitynet.org/tools/13407stds.htm">ISO 13407</a> which covers Human centred design processes for interactive systems and as luck would have it the subject of a workshop I’m attending with <a href="http://osiris.sunderland.ac.uk/~cs0gco/">Gilbert</a> in Sunderland on monday. More on that after the fact.
-
-</p>
-<p>
-Anyhow. I’d recommend getting your bosses to pay the Ã‚Â£30 (or for bosses, stump up your selves) for the PAS 78 PDF. It’s a pretty good read anyhow, and hopefully more and more proper clients will be reading it soon. Forewarned is forearmed as they say.
-
-</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/34/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/34/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        class="active"><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/36/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/34/">34</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/35/">35</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/36/">36</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/36/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

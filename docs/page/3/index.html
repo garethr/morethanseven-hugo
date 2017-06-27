@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,89 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2015/05/09/acceptance-testing-mirageos/">Acceptance testing MirageOS installs</a>
+      </h1>
+      <span class="post-date">May 9, 2015 &middot; 2 minute read
+      </span>
+      
+      
+
+<p>I&rsquo;m pretty interested in <a href="http://openmirage.org/">MirageOS</a> at the
+moment. Partly because I find the idea behind unikernels interesting and
+partly because I keep bumping into the nice folks <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/">OCaml
+Labs</a> in Cambridge.</p>
+
+<p>In order to write and build your MirageOS unikernel application you need
+an OCaml development environment. Although this is
+<a href="http://openmirage.org/wiki/install">documented</a> I wanted something a
+little more repeatable. I also found and reported a few bugs in the
+documentation which got me thinking about acceptance testing. I&rsquo;m not
+(yet) an OCaml programmer, but infrastructure automation and testing I
+can do.</p>
+
+<h2 id="into-puppet">Into Puppet</h2>
+
+<p>I started out writing a Puppet module to install and manage everything,
+which is now available on
+<a href="https://github.com/garethr/garethr-mirageos">GitHub</a> and on the
+<a href="https://forge.puppetlabs.com/garethr/mirageos">Forge</a>.</p>
+
+<p>This lets you do something like the following, and have a fully working
+MirageOS setup on Ubuntu 12.04 or 14.04.</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">class</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;mirageos&#39;</span>:
+  <span style="color: #008800; font-weight: bold">user</span>      =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;vagrant&#39;</span>,
+  <span style="color: #336699">opam_root</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;/home/vagrant/.opam&#39;</span>,
+}
+</pre></div>
+
+<p>Given time, inclination or pull requests I&rsquo;ll add support for other
+operating systems in the future.</p>
+
+<h2 id="but-how-do-you-know-it-works">But how do you know it works?</h2>
+
+<p>The module has a small unit test suite, but it&rsquo;s nice to know test the
+actual running of Puppet and installation of the software. For this I&rsquo;ve
+used <a href="http://kitchen.ci/">Test Kitchen</a> and
+<a href="http://serverspec.org/">ServerSpec</a>. This allows for spinning up 2
+virtual machines (one for each supported operating system), applying the
+Puppet manifest and then making some assertions:</p>
+
+<script src="//gist.github.com/garethr/a8d090b5d7f7a190f7d9.js"></script>
+
+<p>The above is simply checking whether certain packages are installed, the
+PPA is setup correctly and whether <code>mirage</code> and <code>opam</code> can be executed
+cleanly.</p>
+
+<h2 id="can-it-produce-a-working-unikernel">Can it produce a working unikernel?</h2>
+
+<p>The above tells us whether the installation worked, but not whether the
+resulting software allows us to build MirageOS unikernels. For this I
+used <a href="https://github.com/sstephenson/bats">Bats</a> running in the same
+Test Kitchen setup.</p>
+
+<script src="//gist.github.com/garethr/191c4c0676b471f9b986.js"></script>
+
+<p>The above configures and builds a simple HTTP server unikernel, and then
+checks that when run it returns the expected response on the correct
+port.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I like the separation of concerns above. I can use the Puppet code
+without the test code, or even swap the Puppet code out for a shell
+script if I wanted. I could also run the serverspec tests anywhere I
+want to check state, which is the reason for separating those tests from
+the one&rsquo;s building and running a unikernel. Overall the tool chain for ad-hoc
+infrastructure testing (quick mention of
+<a href="http://infrataster.net/">Infrataster</a> too) is really quite powerful and
+approachable. I&rsquo;d love to see more software ship with a user-facing test
+suite for people to verify their installation works.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -809,242 +892,435 @@ or open an issue.</p>
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2014/01/25/code-coverage-for-puppet-modules/">Code coverage for Puppet modules</a>
-      </h1>
-      <span class="post-date">Jan 25, 2014 &middot; 2 minute read
-      </span>
-      
-      
+    
 
-<p>One of my favourite topics for a while now has been <em>infrastructure as
-code</em>. Part of that involves introducing well understood programming
-techniques to infrastructure - from test driven design, to refactoring
-and version control. One tool I&rsquo;m fond of (even with it&rsquo;s potential to
-be misused) is <a href="http://en.wikipedia.org/wiki/Code_coverage">code coverage</a>. I&rsquo;d been meaning
-to go code spelunking to see if this could be done for testing Puppet
-modules.</p>
-
-<p>The functionality is now in <a href="https://github.com/rodjek/rspec-puppet#producing-coverage-reports">master for rspec-puppet</a>
-and so anyone feeling brave can use it now, or if you must wait for the
-2.0.0 release. The actual implementation is inspired by the same functionality in
-<a href="https://github.com/sethvargo/chefspec#reporting">ChefSpec</a>
-written by <a href="https://sethvargo.com/">Seth Vargo</a>. Lots of the how came
-from here, and the usage is very similar.</p>
-
-<h2 id="how-to-use-it">How to use it?</h2>
-
-<p>First add (or hopefully change) your Gemfile line item for rspec-puppet
-to the following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>gem <span style="color: #dd2200; background-color: #fff0f0">&quot;rspec-puppet&quot;</span>, <span style="color: #aa6600; background-color: #fff0f0">:git</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;https://github.com/rodjek/rspec-puppet.git&#39;</span>
-</pre></div>
-
-<p>Then all you need to do is include the following line anywhere in a
-spec.rb file in your spec directory.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">at_exit</span> { <span style="color: #336699">RSpec</span>::<span style="color: #336699">Puppet</span>::<span style="color: #336699">Coverage</span><span style="color: #a61717; background-color: #e3d2d2">.</span><span style="color: #336699">report</span>! }
-</pre></div>
-
-<h2 id="what-do-i-get">What do I get?</h2>
-
-<p>Here&rsquo;s an <a href="https://github.com/garethr/garethr-nginx">example module</a>,
-including a file called
-<a href="https://github.com/garethr/garethr-nginx/blob/master/spec/classes/coverage_spec.rb">coverage_spec.rb</a>.
-When running the test suite with <code>rake spec</code> you now get coverage
-details like so:</p>
-
-<pre><code>Total resources:   24
-Touched resources: 8
-Resource coverage: 33.33%
-
-Untouched resources:
-  Class[Nginx]
-  File[preferences.d]
-  Anchor[apt::update]
-  Class[Apt::Params]
-  File[sources.list]
-  Exec[Required packages: 'debian-keyring debian-archive-keyring' for nginx]
-  Anchor[apt::source::nginx]
-  Class[Apt::Update]
-  File[configure-apt-proxy]
-  Apt::Key[Add key: 7BD9BF62 from Apt::Source nginx]
-  Anchor[apt::key/Add key: 7BD9BF62 from Apt::Source nginx]
-  Anchor[apt::key 7BD9BF62 present]
-  File[nginx.list]
-  Exec[apt_update]
-  File[sources.list.d]
-  Exec[e407f76c6e349fc397947a4a49260a9320196cb1]
-</code></pre>
-
-<p>Here&rsquo;s the output on <a href="https://travis-ci.org/garethr/garethr-nginx/jobs/17597307#L105">Travis CI</a> as
-well for a recent build.</p>
-
-<h2 id="why-is-this-useful">Why is this useful?</h2>
-
-<p>I&rsquo;ve already found coverage useful when writing tests for a few of my
-puppet modules. The information about the total number of resouces is
-interesting (and potentially an indicator of complexity) but the list of
-untouched resources is the main useful part. These represent both
-information about what your module is doing, and potential things you
-might want to test.</p>
-
-<p>I&rsquo;m hoping to find some more time to make this even better, providing
-more information about untouched resources, adding some configuration
-options and hopefully to integrate with the <a href="https://coveralls.io/docs/api">Coveralls API</a>.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        class="active"><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/4/">4</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

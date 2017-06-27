@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,66 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2016/11/12/the-end-of-the-general-purpose-operating-system-unikernels/">Unikernels and The End of the General Purpose Operating System</a>
+      </h1>
+      <span class="post-date">Nov 12, 2016 &middot; 2 minute read
+      </span>
+      
+      
+
+<p>The <a href="http://www.morethanseven.net/2016/11/05/the-end-of-the-general-purpose-operating-system-as-it-happens/">previous
+post</a>
+went into why I think the days of the general purpose operating system
+(for servers) are numbered. But one interesting area I didn&rsquo;t comment
+on (but did talk about in the talk of the same name) was Unikernels.</p>
+
+<h2 id="it-s-all-about-cost">It&rsquo;s all about cost</h2>
+
+<p>One of the topics I didn&rsquo;t really touch on in discussing the end of the
+generally purpose operating system was cost. Historically,
+maintaining a general purpose operating system has been a costly
+endeavour, something only the largest companies or communities could
+sustain by themselves. Think Red Hat, Oracle, Microsoft, Sun, IBM,
+Debian, etc. The result of that is the assumption when building software
+that you should target one or more of a small number of operating systems.
+In doing so you&rsquo;re ceding some ground, and likely some revenue, to another
+vendor. You&rsquo;re also stuck with any underlying limitations of that OS as
+well as its release cadence. And invariably you&rsquo;re also stuck with the
+multiplying support cost of supporting your software on multiple versions of
+that OS over time.</p>
+
+<p>I would posit that up until relatively recently the cost of that support
+burden was hugely outweighted by the cost of maintaining an actual operating
+system. But that&rsquo;s now changing, as I outlined in the previous post. Now a
+small or medium sized software company (be it CoreOS, Rancher, Docker,
+Pivotal, etc.) can build and maintain it&rsquo;s own operating system as well.
+This is very much about the rising level of abstraction - all of the
+above leverage the huge efforts that go into the Linux kernel and into
+other projects like systemd (CoreOS) or Alpine (Docker&rsquo;s Moby) for
+instance.</p>
+
+<h2 id="enter-unikernels">Enter Unikernels</h2>
+
+<p>But where do Unikernels fit into this narrative? I&rsquo;d argue that they
+represent the fulfilment of this democratization. If building and
+maintaining a traditional OS is only possible for the largest of
+companies, and building and maintaining a more special-purpose OS (say
+for running containers, or a storage device) is cost-effective for medium
+sized softare companies, then Unikernels will allow anyone to build their
+own single-purpose operating systems.</p>
+
+<p>There are other technical reasons for (and against) Unikernels as an
+approach but most focus on the technical. I think the economic side is
+worth some consideration too. And not just the typical development and
+support costs, but the ability to own the end-to-end unit of software
+has lots of benefits, and Unikernels may make those benefits available
+to everyone, including small organisations and individuals.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -1034,239 +1094,432 @@ and it&rsquo;s front line cyber researchers</li>
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2015/05/09/acceptance-testing-mirageos/">Acceptance testing MirageOS installs</a>
-      </h1>
-      <span class="post-date">May 9, 2015 &middot; 2 minute read
-      </span>
-      
-      
+    
 
-<p>I&rsquo;m pretty interested in <a href="http://openmirage.org/">MirageOS</a> at the
-moment. Partly because I find the idea behind unikernels interesting and
-partly because I keep bumping into the nice folks <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/">OCaml
-Labs</a> in Cambridge.</p>
-
-<p>In order to write and build your MirageOS unikernel application you need
-an OCaml development environment. Although this is
-<a href="http://openmirage.org/wiki/install">documented</a> I wanted something a
-little more repeatable. I also found and reported a few bugs in the
-documentation which got me thinking about acceptance testing. I&rsquo;m not
-(yet) an OCaml programmer, but infrastructure automation and testing I
-can do.</p>
-
-<h2 id="into-puppet">Into Puppet</h2>
-
-<p>I started out writing a Puppet module to install and manage everything,
-which is now available on
-<a href="https://github.com/garethr/garethr-mirageos">GitHub</a> and on the
-<a href="https://forge.puppetlabs.com/garethr/mirageos">Forge</a>.</p>
-
-<p>This lets you do something like the following, and have a fully working
-MirageOS setup on Ubuntu 12.04 or 14.04.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">class</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;mirageos&#39;</span>:
-  <span style="color: #008800; font-weight: bold">user</span>      =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;vagrant&#39;</span>,
-  <span style="color: #336699">opam_root</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;/home/vagrant/.opam&#39;</span>,
-}
-</pre></div>
-
-<p>Given time, inclination or pull requests I&rsquo;ll add support for other
-operating systems in the future.</p>
-
-<h2 id="but-how-do-you-know-it-works">But how do you know it works?</h2>
-
-<p>The module has a small unit test suite, but it&rsquo;s nice to know test the
-actual running of Puppet and installation of the software. For this I&rsquo;ve
-used <a href="http://kitchen.ci/">Test Kitchen</a> and
-<a href="http://serverspec.org/">ServerSpec</a>. This allows for spinning up 2
-virtual machines (one for each supported operating system), applying the
-Puppet manifest and then making some assertions:</p>
-
-<script src="//gist.github.com/garethr/a8d090b5d7f7a190f7d9.js"></script>
-
-<p>The above is simply checking whether certain packages are installed, the
-PPA is setup correctly and whether <code>mirage</code> and <code>opam</code> can be executed
-cleanly.</p>
-
-<h2 id="can-it-produce-a-working-unikernel">Can it produce a working unikernel?</h2>
-
-<p>The above tells us whether the installation worked, but not whether the
-resulting software allows us to build MirageOS unikernels. For this I
-used <a href="https://github.com/sstephenson/bats">Bats</a> running in the same
-Test Kitchen setup.</p>
-
-<script src="//gist.github.com/garethr/191c4c0676b471f9b986.js"></script>
-
-<p>The above configures and builds a simple HTTP server unikernel, and then
-checks that when run it returns the expected response on the correct
-port.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>I like the separation of concerns above. I can use the Puppet code
-without the test code, or even swap the Puppet code out for a shell
-script if I wanted. I could also run the serverspec tests anywhere I
-want to check state, which is the reason for separating those tests from
-the one&rsquo;s building and running a unikernel. Overall the tool chain for ad-hoc
-infrastructure testing (quick mention of
-<a href="http://infrataster.net/">Infrataster</a> too) is really quite powerful and
-approachable. I&rsquo;d love to see more software ship with a user-facing test
-suite for people to verify their installation works.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        class="active"><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

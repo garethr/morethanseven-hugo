@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,54 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2008/11/09/django-performance-tip-profile-your-filters/">Django Performance Tip - Profile Your Filters</a>
+      </h1>
+      <span class="post-date">Nov 9, 2008 &middot; 3 minute read
+      </span>
+      
+      <p>I&rsquo;ve been doing some performance profiling of this here blog. Not because I really need to due to huge amounts of traffic unfortunately, more because I&rsquo;m planning on releasing the code and wanted to give it a good once over before I do.</p>
+
+<p>pre. 69396 function calls (67324 primitive calls) in 0.479 CPU seconds
+Ordered by: internal time, call count
+ncalls tottime percall cumtime percall filename:lineno(function)
+123 0.138 0.001 0.154 0.001 build/bdist.macosx-10.5-i386/egg/textile.py:2478(qtags)
+6300 0.058 0.000 0.079 0.000 build/bdist.macosx-10.5-i386/egg/textile.py:453(preg_replace)
+15705 0.045 0.000 0.059 0.000 /System/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/re.py:219(_compile)
+20 0.025 0.001 0.026 0.001 /Users/gareth.rushgrove/Documents/www/django/django/db/backends/sqlite3/base.py:165(execute)
+1087 0.021 0.000 0.026 0.000 /System/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/re.py:136(sub)
+123 0.014 0.000 0.017 0.000 build/bdist.macosx-10.5-i386/egg/textile.py:2701(links)
+18 0.012 0.001 0.030 0.002 build/bdist.macosx-10.5-i386/egg/textile.py:892(split_text)
+12719 0.011 0.000 0.063 0.000 /System/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/re.py:178(compile)
+123 0.011 0.000 0.104 0.001 build/bdist.macosx-10.5-i386/egg/textile.py:2372(glyphs)
+123 0.009 0.000 0.009 0.000 /System/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/re.py:159(findall)
+191 0.008 0.000 0.008 0.000 /System/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/re.py:154(split)
+18 0.005 0.000 0.005 0.000 build/bdist.macosx-10.5-i386/egg/textile.py:803(grab_links)
+11 0.005 0.000 0.005 0.000 /Users/gareth.rushgrove/Documents/www/django/django/utils/text.py:52(truncate_html_words)</p>
+
+<p>The above profile is from the home page which seemed a good starting point. The majority of the other pages are more straightforward, generally displaying just one article with a few related bits and pieces.</p>
+
+<p>What jumped out was that the majority of the slow traces (the list is ordered with the slowest calls first) were to do with the use of the textile filter packaged with Django. Textile is a simple markup language which converts to HTML, I&rsquo;ve used it for all my writing activities since I used Textpattern on this blog many moons ago. It&rsquo;s not just the traces that explicitly mentioned textile either - the regular expression calls are also to do with template filters.</p>
+
+<p>I quickly added a hidden html field to my model and a custom save method. On saving an article I now automatically transform the textile version of the content and save it in the html field. In the template where I used to have <code>article.content|textile</code> I now have <code>article.html</code>. A quick check of the profile on the same page showed a dramatic increase in performance:</p>
+
+<p>pre. 15054 function calls (13248 primitive calls) in 0.081 CPU seconds
+Ordered by: internal time, call count
+ncalls tottime percall cumtime percall filename:lineno(function)
+20 0.017 0.001 0.018 0.001 /Users/gareth.rushgrove/Documents/www/django/django/db/backends/sqlite3/base.py:165(execute)
+<sup>978</sup>&frasl;<sub>54</sub> 0.003 0.000 0.006 0.000 /System/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/copy.py:144(deepcopy)
+<sup>82</sup>&frasl;<sub>1</sub> 0.003 0.000 0.069 0.069</p>
+
+<p>From nearly half a second (0.479 CPU seconds) to 0.081 CPU seconds - roughly a 500% improvement in performance!</p>
+
+<p>If you are using text transforming filters in Django that make use of regular expressions I would look to try and get rid of them and move the conversion into a save method. You might not see quite as much of a performance gain as I did here but I&rsquo;d be surprised if it&rsquo;s not taking an awful lot longer than you might thing.</p>
+
+<p>Their are a few tools that are handy to have around if you&rsquo;re wanting to profile your own applications. Django Snippets has a handy <a href="http://www.djangosnippets.org/snippets/70/">profiling middleware</a> and the really rather nice <a href="http://code.google.com/p/django-command-extensions/">Command Extensions</a> provides a few more tools including profile graph generation.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -381,290 +429,443 @@ date_hierarchy = &lsquo;publish_date&rsquo;</p>
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/09/14/using-python-and-stompserver-get-started-message-q/">Using Python and Stompserver to Get Started With Message Queues</a>
-      </h1>
-      <span class="post-date">Sep 14, 2008 &middot; 6 minute read
-      </span>
-      
-      <p>Message Queues are cool. It&rsquo;s official. Now, banks and financial institutions have been using big Enterprise Java message systems for years. But it&rsquo;s only really over the last year or two that the web community at large have got interested. Wonder what all the interest is in Erlang, Scala or Haskell? Distributed systems and a lack of shared state - hopefully leading to some sort of scalability nirvana - that&rsquo;s what.</p>
+    
 
-<p>Matt Biddulph of Dopplr has spoken at varying levels of technical detail on the subject over the last year or so. At <a href="http://adamcohenrose.blogspot.com/2007/11/messaging-scales-matt-biddulph.html">barcamps</a> and more recently at <a href="http://2008.dconstruct.org/">dconstruct</a>. But you still don&rsquo;t find that many people actually starting to use any of this stuff. Looking around the internet I couldn&rsquo;t find that many examples of how to get started. Their are some pretty mature standards, good libraries, server interoperability, but few tutorials aimed at people who don&rsquo;t know all about it.</p>
-
-<p>The first problem is looking for a simple use case that most developers will have experienced problems with. The example I like to give is sending email. If you have a simple form on your site that sends email you probably just submit the request to the backend, it sends the email and then renders the success page back to the user. The problem here comes with scale. How many connections can your mailserver sustain? How many emails can you send from it before you start looking like you&rsquo;ve been turned into a spam factory? At what point does the time taken for the mail server to respond to the web server cause the web server to time out or respond so slowly the user left or pressed refresh? If you&rsquo;re sending lots of emails you need to think about this sort of stuff. For your average site this might not be a problem, but for the newer breed of applications or social networks this might bite you sooner than you think. You can gain more control over this process by introducing a message queue. Submitting the form simply adds a work task to the queue. A listener reads from the queue and sends the email. The advantage comes when you realise by removing the rendering of the page form the same process as sending the email you can throttle the system without affecting page rendering time.</p>
-
-<p>So onto a simple working example. I&rsquo;ve decided to use Python as that&rsquo;s my language of choice at the moment. It&rsquo;s also easy to read in a <del>sudo</del><em>pseudo</em> code sort of way. Writing these examples using equivalent libraries in Ruby or PHP should be straightforward enough. As for the message queue itself I&rsquo;ve opted for <a href="http://stompserver.rubyforge.org/">stompserver</a> which is available as a Ruby gem. So assuming you have Ruby and gem installed (good instructions for this on the <a href="http://wiki.rubyonrails.com/rails/pages/GettingStartedWithRails">Rails wiki</a>) you can just run:</p>
-
-<pre><code>&lt;code&gt;sudo gem install stompserver&lt;/code&gt;
-</code></pre>
-
-<p>Starting the queue is as simple as running:</p>
-
-<pre><code>&lt;code&gt;stompserver&lt;/code&gt;
-</code></pre>
-
-<p>This will get you up and running quickly. Stompserver has a number of arguments you can pass in to use different ports or backends but for the purposes of getting started it&rsquo;s enough to just run it. This ease of use is the thing I love about stompserver. ApacheMQ is something of a tricky beast to setup, though you might want to use that in a production environment.</p>
-
-<p>So now we have the server up and running we can get on with talking to it. I used the Python <a href="http://www.briggs.net.nz/log/projects/stomppy/">stomp.py</a> library to deal with the heavy lifting. All the other modules are in the standard library. Their are equivalents for <a href="http://stomp.codehaus.org/PHP">PHP</a> and <a href="http://stomp.codehaus.org/Ruby+Client">Ruby</a> available as well.</p>
-
-<p>The first script is a listener. Its job is to listen for activity on the queue and then act upon it. You pass the script an argument of the name of the queue to listen to.</p>
-
-<pre><code>&lt;code&gt;./stomp_listen.py /queue/test&lt;/code&gt;
-</code></pre>
-
-<p>This example simply prints the messages from the queue to the console, but in reality the on_message handler would be were you act upon the message received. In our email example above it would be were you parse out the email address, subject line and message and actually send the email.</p>
-
-<p>Stompserver currently exposes a queue for monitoring the queue server at <em>/queue/monitor</em>. You can use this script to subscribe to that queue and get information about the current state of the server. It will tell you which queues currently have items in them and if these are currently being processed.</p>
-
-<p>You can run multiple instances of this script subscribing to a single queue. This is one of the real advantage of message based systems, two listeners should clear a queue in half the time. This sort of horizontal scaling is hugely useful as you grow a site or application.</p>
-
-<p>pre. #!/usr/bin/python
-import time
-import sys
-import logging
-import socket
-import stomp</p>
-
-<ol>
-<li>the stomp module uses logging so to stop it complaining</li>
-<li>we initialise the logger to log to the console
-logging.basicConfig()</li>
-<li>first argument is the que path
-queue = sys.argv[1]</li>
-<li>defaults for local stompserver instance
-hosts=[(&lsquo;localhost&rsquo;, 61613)]</li>
-<li>we want the script to keep running
-def run_server():
-while 1:
-time.sleep(20)
-class listener(object):
-&ldquo;&lsquo;define the event handlers&rdquo;&rsquo;
-# if we recieve an error from the server
-def on_error(self, headers, message):
-print &lsquo;received an error s&rsquo; message
-# if we retrieve a message from the server
-def on_message(self, headers, message):
-print &lsquo;received a message s&rsquo; message</li>
-<li>do we have a connection to the server?
-connected = False
-while not connected:
-# try and connect to the stomp server
-# sometimes this takes a few goes so we try until we succeed
-try:
-conn = stomp.Connection(host_and_ports=hosts)
-# register out event hander above
-conn.add_listener(listener())
-conn.start()
-conn.connect()
-# subscribe to the names que
-conn.subscribe(destination=queue, ack=&lsquo;auto&rsquo;)
-connected = True
-except socket.error:
-pass</li>
-<li>we have a connection so keep the script running
-if connected:
-run_server()</li>
-</ol>
-
-<p>The second script allows us to send messages to the queue:</p>
-
-<pre><code>&lt;code&gt;./stomp_send.py /queue/test &quot;test message 1&quot;&lt;/code&gt;
-</code></pre>
-
-<p>The script takes a couple of arguments, the first one is the name of the queue, the second is the message you want to send.</p>
-
-<p>pre. #!/usr/bin/python
-import time
-import sys
-import logging
-import socket
-import stomp</p>
-
-<ol>
-<li>the stomp module uses logging so to stop it complaining</li>
-<li>we initialise the logger to log to the console
-logging.basicConfig()</li>
-<li>first argument is the queue
-queue = sys.argv[1]</li>
-<li>second argument is the message to send
-message = sys.argv[2]</li>
-<li>defaults for local stompserver instance
-hosts=[(&lsquo;localhost&rsquo;, 61613)]</li>
-<li>do we have a connection to the server?
-connected = False
-while not connected:
-try:
-# connect to the stompserver
-conn = stomp.Connection(host_and_ports=hosts)
-conn.start()
-conn.connect()
-# send the message
-conn.send(message,destination=queue)
-# disconnect from the stomp server
-conn.disconnect()
-connected = True
-except socket.error:
-pass</li>
-</ol>
-
-<p>Both these scripts are pretty simple examples. In the real world you would probably want to make them a little more robust and user friendly. Both could probably do with checking they have the relevant arguments and providing help information if you run them without. I&rsquo;d also probably move the hosts into a config file as it&rsquo;s currently hardcoded into the scripts. I&rsquo;ve also not tested them with other stomp compatible servers like ApacheMQ. In theory they should work fine assuming stomp.py works as advertised.</p>
-
-<p>Overall, it&rsquo;s surprisingly easy to get started with message queues. If you&rsquo;ve been hearing about the advantages of distributed message based architectures but assumed you had to be <a href="http://www.hackdiary.com/">Matt Biddulph</a> to use them, think again.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/20/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/20/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        class="active"><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/22/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/20/">20</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/21/">21</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/22/">22</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/22/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

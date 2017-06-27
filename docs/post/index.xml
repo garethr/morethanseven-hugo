@@ -6,10 +6,20 @@
     <description>Recent content in Posts on More than seven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Mon, 29 May 2017 13:56:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Jun 2017 13:56:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Schemas for Kubernetes types</title>
+      <link>/2017/06/26/schemas-for-kubernetes-types/</link>
+      <pubDate>Mon, 26 Jun 2017 13:56:00 +0000</pubDate>
+      
+      <guid>/2017/06/26/schemas-for-kubernetes-types/</guid>
+      <description>I&amp;rsquo;ve been playing around building a few Kubernetes developer tools at the moment and a few of those led me to the question; how do I validate this Kubernetes resource definition? This simple question led me through a bunch of GitHub issues without resolution, conversations with folks who wanted something similar, the OpenAPI specification and finally to what I hope is a nice resolution.
+If you&amp;rsquo;re just after the schemas and don&amp;rsquo;t care for the details just head on over to the following GitHub repositories.</description>
+    </item>
     
     <item>
       <title>Replacing cron jobs with Lambda and Apex</title>

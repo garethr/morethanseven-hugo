@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,24 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2009/03/13/does-rails-encourage-soa-better-than-django/">Services Vs Applications: Does Rails Encourage SOA Better Than Django?</a>
+      </h1>
+      <span class="post-date">Mar 13, 2009 &middot; 1 minute read
+      </span>
+      
+      <p>Building larger applications tends to mean splitting your codebase up some how into manageable chunks. I&rsquo;m quite interested in what I see as different approaches in the Rails and Django communities:</p>
+
+<p>Django tends to recommend building <a href="http://www.b-list.org/weblog/2007/mar/27/reusable-django-apps/">Reusable Apps</a> and we have sites like <a href="http://djangoplugables.com/">Django Pluggables</a> to catalog what&rsquo;s available. You then grab a few of these applications from the web or write your own, add them run them all together as part of a single application. <a href="http://pinaxproject.com/">Pinax</a> is probabaly the poster child for this approach. The 0.5.1 release for instance appears to have 41 individual reusable apps, many written by other people and projects.</p>
+
+<p>The Rails community tends to <a href="http://gilesbowkett.blogspot.com/2007/08/activeresource-rails-scalability.html">talk more about RESTful service orientated architectures</a>, with things like <a href="http://api.rubyonrails.org/classes/ActiveResource/Base.html">ActiveResource</a> making this sort of thing easier. So rather than your manageable chunks being within your application they&rsquo;re separate instances in their own right.</p>
+
+<p>I&rsquo;d be interested in hearing from more people about their experiences, in particular if you&rsquo;ve gone against the grain so to speak.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -302,181 +320,443 @@ self.response.out.write(&lsquo;An error ocured, message not saved&rsquo;)</p>
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/02/18/python-rest-client/">Python REST Client</a>
-      </h1>
-      <span class="post-date">Feb 18, 2009 &middot; 1 minute read
-      </span>
-      
-      <p>I&rsquo;m working on a small project involving using RESTful APIs and wanted a simple HTTP client, something that sat a little higher in the stack than <a href="http://code.google.com/p/httplib2/">httplib2</a> or similar. I turned initially to the <a href="http://www.djangoproject.com/documentation/models/test_client/">Django Test Client</a> which now <a href="http://code.google.com/p/python-rest-client/">supports all the required methods</a> but it turned out that I&rsquo;d have to unpick it from django a little.</p>
+    
 
-<p>With a little bit of looking around I found the <a href="http://code.google.com/p/python-rest-client/">python-rest-client</a> which certainly sounded like it would do what I wanted. It lets you make HTTP requests in as straight forward a manner as possible and fitted the bill perfectly.</p>
-
-<p>pre. from restful_lib import Connection
-conn = Connection(&ldquo;<a href="http://morethanseven.net&quot;">http://morethanseven.net&quot;</a>)
-response = conn.request_get(&ldquo;/&rdquo;)</p>
-
-<p>It supports authentication, nice helper methods and gives you the response in a nice format.</p>
-
-<p>pre. conn = Connection(&ldquo;<a href="http://example.org&quot;">http://example.org&quot;</a>, username=&ldquo;XXX&rdquo;, password=&ldquo;XXX&rdquo;)
-conn.request_delete(&lsquo;/items/11232344&rsquo;)</p>
-
-<p>As an added benefit it also comes with a Google App Engine compatible version.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/16/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/16/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        class="active"><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/18/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/16/">16</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/17/">17</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/18/">18</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/18/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

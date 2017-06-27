@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,221 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2009/07/27/fabric-django-git-apache-mod-wsgi-virtualenv-and-p/">Fabric, Django, Git, Apache, mod_wsgi, virtualenv and pip deployment</a>
+      </h1>
+      <span class="post-date">Jul 27, 2009 &middot; 6 minute read
+      </span>
+      
+      <p>I&rsquo;ve been playing with automating Django deployments again, this time using <a href="http://fabfile.org/">Fabric</a>. I found a number of examples on the web but non of them quite fit the bill for me. I don&rsquo;t like serving directly from a repository, I like to have either a package or tar I can use to say &ldquo;that is what went to the server&rdquo;. I also like having a quick rollback command as well as being able to deploy a particular version of the code when the need arises. I also wanted to go from a clean ubuntu install (plus SSH) to a running Django application in one command from the local development machine. The Apache side of things is nicely documented in <a href="http://gist.github.com/106077">this Gist</a> which made a good starting point.</p>
+
+<p>I&rsquo;m still missing a few things in this setup mind and at the moment you still have to setup your local machine yourself. I&rsquo;m probably going to create a paster template and another fabfile to do that I think. The instructions are a little rough as well at the moment and I&rsquo;ve left the database out of it as everyone has there own preference.</p>
+
+<p>This particular fabric file makes setting up and deploying a django application much easier, but it does make a few assumptions. Namely that you&rsquo;re using Git, Apache and mod_wsgi and your using Debian or Ubuntu. Also you should have Django installed on your local machine and SSH installed on both the local machine and any servers you want to deploy to.</p>
+
+<p><em>note that I&rsquo;ve used the name project_name throughout this example. Replace this with whatever your project is called.</em></p>
+
+<p>First step is to create your project locally:</p>
+
+<p>pre. mkdir project_name
+cd project_name
+django-admin.py startproject project_name</p>
+
+<p>Now add a requirements file so pip knows to install Django. You&rsquo;ll probably add other required modules in here later. Creat a file called requirements.txt and save it at the top level with the following contents:</p>
+
+<p>pre. Django</p>
+
+<p>Then save this fabfile.py file in the top level directory which should give you:</p>
+
+<p>pre. project_name
+fabfile.py
+requirements.txt
+project_name
+<em>init</em>.py
+manage.py
+settings.py
+urls.py</p>
+
+<p>You&rsquo;ll need a WSGI file called project_name.wsgi, where project_name is the name you gave to your django project. It will probably look like the following, depending on your specific paths and the location of your settings module</p>
+
+<p>pre. import os
+import sys</p>
+
+<ol>
+<li>put the Django project on sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(<em>file</em>), &ldquo;../&rdquo;)))
+os.environ[&ldquo;DJANGO_SETTINGS_MODULE&rdquo;] = &ldquo;project_name.settings&rdquo;
+from django.core.handlers.wsgi import WSGIHandler
+application = WSGIHandler()</li>
+</ol>
+
+<p>Last but not least you&rsquo;ll want a virtualhost file for apache which looks something like the following. Save this as project_name in the inner directory. You&rsquo;ll want to change /path/to/project_name/ to the location on the remote server you intent to deploy to.</p>
+
+<p>pre. <VirtualHost *:80>
+WSGIDaemonProcess project_name-production user=project_name group=project_name threads=10 python-path=/path/to/project_name/lib/python2.6/site-packages
+WSGIProcessGroup project_name-production
+WSGIScriptAlias / /path/to/project_name/releases/current/project_name/project_name.wsgi
+<Directory /path/to/project_name/releases/current/project_name>
+Order deny,allow
+Allow from all
+</Directory>
+ErrorLog /var/log/apache2/error.log
+LogLevel warn
+CustomLog /var/log/apache2/access.log combined
+</VirtualHost></p>
+
+<p>Now create a file called .gitignore, containing the following. This prevents the compiled python code being included in the repository and the archive we use for deployment.</p>
+
+<p>pre. *.pyc</p>
+
+<p>You should now be ready to initialise a git repository in the top level project_name directory.</p>
+
+<p>pre. git init
+git add .gitignore project_name
+git commit -m &ldquo;Initial commit&rdquo;</p>
+
+<p>All of that should leave you with</p>
+
+<p>pre. project_name
+.git
+.gitignore
+requirements.txt
+fabfile.py
+project_name
+<em>init</em>.py
+project_name
+project_name.wsgi
+manage.py
+settings.py
+urls.py</p>
+
+<p>In reality you might prefer to keep your wsgi files and virtual host files elsewhere. The fabfile has a variable (config.virtualhost_path) for this case. You&rsquo;ll also want to set the hosts that you intend to deploy to (config.hosts) as well as the user (config.user).</p>
+
+<p>The first task we&rsquo;re interested in is called setup. It installs all the required software on the remote machine, then deploys your code and restarts the webserver.</p>
+
+<p>pre. fab local setup</p>
+
+<p>After you&rsquo;ve made a few changes and commit them to the master Git branch you can run to deply the changes.</p>
+
+<p>pre. fab local deploy</p>
+
+<p>If something is wrong then you can rollback to the previous version.</p>
+
+<p>pre. fab local rollback</p>
+
+<p>Note that this only allows you to rollback to the release immediately before the latest one. If you want to pick a arbitrary release then you can use the following, where 20090727170527 is a timestamp for an existing release.</p>
+
+<p>pre. fab local deploy_version:20090727170527</p>
+
+<p>If you want to ensure your tests run before you make a deployment then you can do the following.</p>
+
+<p>pre. fab local test deploy</p>
+
+<p>The actual fabfile looks like this. I&rsquo;ve uploaded a <a href="http://gist.github.com/156623">Gist of it</a>, along with the docs, so if you want to improve it please clone it.</p>
+
+<p>pre. # globals
+config.project_name = &lsquo;project_name&rsquo;</p>
+
+<ol>
+<li>environments
+def local():
+&ldquo;Use the local virtual server&rdquo;
+config.hosts = [&lsquo;172.16.142.130&rsquo;]
+config.path = &lsquo;/path/to/project_name&rsquo;
+config.user = &lsquo;garethr&rsquo;
+config.virtualhost_path = &ldquo;/&rdquo;</li>
+<li>tasks
+def test():
+&ldquo;Run the test suite and bail out if it fails&rdquo;
+local(&ldquo;cd $(project_name); python manage.py test&rdquo;, fail=&ldquo;abort&rdquo;)
+def setup():
+&ldquo;&rdquo;&rdquo;
+Setup a fresh virtualenv as well as a few useful directories, then run
+a full deployment
+&ldquo;&rdquo;&rdquo;
+require(&lsquo;hosts&rsquo;, provided_by=[local])
+require(&lsquo;path&rsquo;)
+sudo(&lsquo;aptitude install -y python-setuptools&rsquo;)
+sudo(&lsquo;easy_install pip&rsquo;)
+sudo(&lsquo;pip install virtualenv&rsquo;)
+sudo(&lsquo;aptitude install -y apache2&rsquo;)
+sudo(&lsquo;aptitude install -y libapache2-mod-wsgi&rsquo;)
+# we want rid of the defult apache config
+sudo(&lsquo;cd /etc/apache2/sites-available/; a2dissite default;&rsquo;)
+run(&lsquo;mkdir -p $(path); cd $(path); virtualenv .;&rsquo;)
+run(&lsquo;cd $(path); mkdir releases; mkdir shared; mkdir packages;&rsquo;, fail=&lsquo;ignore&rsquo;)
+deploy()
+def deploy():
+&ldquo;&rdquo;&rdquo;
+Deploy the latest version of the site to the servers, install any
+required third party modules, install the virtual host and
+then restart the webserver
+&ldquo;&rdquo;&rdquo;
+require(&lsquo;hosts&rsquo;, provided_by=[local])
+require(&lsquo;path&rsquo;)
+import time
+config.release = time.strftime(&lsquo;%Y%m%d%H%M%S&rsquo;)
+upload_tar_from_git()
+install_requirements()
+install_site()
+symlink_current_release()
+migrate()
+restart_webserver()
+def deploy_version(version):
+&ldquo;Specify a specific version to be made live&rdquo;
+require(&lsquo;hosts&rsquo;, provided_by=[local])
+require(&lsquo;path&rsquo;)
+config.version = version
+run(&lsquo;cd $(path); rm releases/previous; mv releases/current releases/previous;&rsquo;)
+run(&lsquo;cd $(path); ln -s $(version) releases/current&rsquo;)
+restart_webserver()
+def rollback():
+&ldquo;&rdquo;&rdquo;
+Limited rollback capability. Simple loads the previously current
+version of the code. Rolling back again will swap between the two.
+&ldquo;&rdquo;&rdquo;
+require(&lsquo;hosts&rsquo;, provided_by=[local])
+require(&lsquo;path&rsquo;)
+run(&lsquo;cd $(path); mv releases/current releases/_previous;&lsquo;)
+run(&lsquo;cd $(path); mv releases/previous releases/current;&rsquo;)
+run(&lsquo;cd $(path); mv releases/_previous releases/previous;&lsquo;)
+restart_webserver()</li>
+<li>Helpers. These are called by other functions rather than directly
+def upload_tar_from_git():
+require(&lsquo;release&rsquo;, provided_by=[deploy, setup])
+&ldquo;Create an archive from the current Git master branch and upload it&rdquo;
+local(&lsquo;git archive &ndash;format=tar master | gzip &gt; $(release).tar.gz&rsquo;)
+run(&lsquo;mkdir $(path)/releases/$(release)&rsquo;)
+put(&lsquo;$(release).tar.gz&rsquo;, &lsquo;$(path)/packages/&rsquo;)
+run(&lsquo;cd $(path)/releases/$(release) &amp;&amp; tar zxf ../../packages/$(release).tar.gz&rsquo;)
+local(&lsquo;rm $(release).tar.gz&rsquo;)
+def install_site():
+&ldquo;Add the virtualhost file to apache&rdquo;
+require(&lsquo;release&rsquo;, provided_by=[deploy, setup])
+sudo(&lsquo;cd $(path)/releases/$(release); cp $(project_name)$(virtualhost_path)$(project_name) /etc/apache2/sites-available/&lsquo;)
+sudo(&lsquo;cd /etc/apache2/sites-available/; a2ensite $(project_name)&lsquo;)
+def install_requirements():
+&ldquo;Install the required packages from the requirements file using pip&rdquo;
+require(&lsquo;release&rsquo;, provided_by=[deploy, setup])
+run(&lsquo;cd $(path); pip install -E . -r ./releases/$(release)/requirements.txt&rsquo;)
+def symlink_current_release():
+&ldquo;Symlink our current release&rdquo;
+require(&lsquo;release&rsquo;, provided_by=[deploy, setup])
+run(&lsquo;cd $(path); rm releases/previous; mv releases/current releases/previous;&rsquo;, fail=&lsquo;ignore&rsquo;)
+run(&lsquo;cd $(path); ln -s $(release) releases/current&rsquo;)
+def migrate():
+&ldquo;Update the database&rdquo;
+require(&lsquo;project_name&rsquo;)
+run(&lsquo;cd $(path)/releases/current/$(project_name); ../../../bin/python manage.py syncdb &ndash;noinput&rsquo;)
+def restart_webserver():
+&ldquo;Restart the web server&rdquo;
+sudo(&lsquo;/etc/init.d/apache2 restart&rsquo;)</li>
+</ol>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -452,175 +667,443 @@ color: #4D926F;
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/06/11/message-queues-cambridge-geek-night/">Message Queues at Cambridge Geek Night</a>
-      </h1>
-      <span class="post-date">Jun 11, 2009 &middot; 1 minute read
-      </span>
-      
-      <p>Last night was the first Cambridge Geek Night and saw 35 people or so fill a room above a pub to listen to a few short talks and converse with fellow geeks. I had the pleasure of giving the first talk, a short introduction to using message queues for web developers.</p>
+    
 
-<p><object style="margin:0px" width="425" height="355">
-<param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=messagequeues-090611064000-phpapp01&stripped_title=message-queues-for-web-applications" /><param name="allowFullScreen" value="true"/><param name="allowScriptAccess" value="always"/><embed src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=messagequeues-090611064000-phpapp01&stripped_title=message-queues-for-web-applications" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="355"></embed></object></p>
-
-<p>I got lots of good questions from interested people and by the sounds of things it had the desired effect - for people unfamiliar with using a message queue to go out and have a play with some of the cool software available to solve your problems.</p>
-
-<p>Overall the night was definitely a success. Suitably geeky conversations. A chance to meet new people as well as old friends. Good job <a href="http://www.thatcanadiangirl.co.uk/">Vero</a> and <a href="http://blog.fatbusinessman.com/">David</a> for organising the event and here&rsquo;s to the next one.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/13/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/13/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        class="active"><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/15/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/13/">13</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/14/">14</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/15/">15</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/15/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

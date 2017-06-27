@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,41 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2010/06/01/Very-simple-custom-ganglia-metrics/">Very Simple Custom Ganglia Metrics</a>
+      </h1>
+      <span class="post-date">Jun 1, 2010 &middot; 3 minute read
+      </span>
+      
+      <p>Logging useful information from running systems for monitoring purposes is pretty important if you want to see how your software is behaving in the real world. It&rsquo;s one thing to test something locally, another to test something under load on a testing environment and quite something else to watch production code while running.</p>
+
+<p>The numbers can be useful for checking newly released code isn&rsquo;t having a detrimental effect on performance, observing what changes in load are doing to systems over time and planning for future capacity growth.</p>
+
+<p>Creating log files, agregating files from multiple machines and then analysing the results is one approach. Another is using something like <a href="http://ganglia.sourceforge.net/">Ganglia</a>. Ganglia is great for trending data over time, and ties in nicely to Nagios for reporting. Installing the monitoring daemon on machines and generally getting the default checks (memory, disk, network, etc.) up and running is nice and easy. From there using the gmetric command line to create custom metrics (say checking some mysql statistics) is again straight forward.</p>
+
+<p>So far, so good. The only issue I&rsquo;ve run into was creating custom metrics on the fly from a machine outside the network. For bonus points these metrics were nothing to do with the machine on which they were collected, but to do with the system overall. More specifically the metrics were web site performance data gathered via some cucumber and <a href="http://celerity.rubyforge.org/">celerity</a> scripts.</p>
+
+<p>For this I knocked up a tiny web service wrapper around the gmetric command line. It&rsquo;s very feature light at the moment (I only needed it to collect time based stats at regular intervals) but it could be made more featureful and expose the rest of the gmetric API if needs be. It does it using a very simple URL scheme:</p>
+
+<p>&lt;% syntax_colorize :bash, type=:coderay do %&gt;
+/{metric-name}/{metric-value}/
+&lt;% end %&gt;</p>
+
+<p>So for example I can create metrics on the fly simply using an HTTP client or a web browser.</p>
+
+<p>&lt;% syntax_colorize :bash, type=:coderay do %&gt;
+/GarethsCommuteTime/3600/
+/ExternalPageLoad/2.005/
+&lt;% end %&gt;</p>
+
+<p>The <a href="http://github.com/garethr/gmetric-web">code is up on GitHub</a> and is completely self contained. I&rsquo;ve been running it mainly using spawning but any small WSGI server could surfice. I looked very briefly at the API for Ganglia but found the gmetric approach to be much simpler.</p>
+
+<p>And if you&rsquo;re a Ganglia expert and know a much better way of doing this then let me know. Ganglia is awesome, and collecting metrics is both useful and fun (for me at least) but it&rsquo;s not always obvious how to get into creating simple custom metrics which tell you something about your own appliction code.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -403,196 +438,443 @@ dumper -c people.ini dump
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2010/03/08/Piston-and-sanitising-json-callbacks/">Piston And Sanitising Json Callbacks</a>
-      </h1>
-      <span class="post-date">Mar 8, 2010 &middot; 2 minute read
-      </span>
-      
-      <p>I&rsquo;m a big fan of <a href="http://bitbucket.org/jespern/django-piston">Piston</a>, the django app for creating RESTful web services. As part of a project at work I ended up looking through the source code, mainly at some of the neat tricks of serialisation of objects. While poking around I came across something in my mind that wanted fixing. This being open source rather than just file a bug report I setup a <a href="http://bitbucket.org">bitbucket</a> account and got hacking.</p>
+    
 
-<p>&lt;% syntax_colorize :python, type=:coderay do %&gt;
-def render(self, request):
-    cb = request.GET.get(&lsquo;callback&rsquo;)
-        seria = simplejson.dumps(self.construct(),
-        cls=DateTimeAwareJSONEncoder,
-        ensure_ascii=False, indent=4)</p>
-
-<pre><code>    # Callback
-    if cb:
-        return '%s(%s)' % (cb, seria)
-
-    return seria
-</code></pre>
-
-<p>&lt;% end %&gt;</p>
-
-<p>Can you spot the problem? Note the use of the callback passed in the query string arguments and then used <em>without any checking</em> in the output.</p>
-
-<p>What we really want to do is something like this:</p>
-
-<p>&lt;% syntax_colorize :python, type=:coderay do %&gt;
-if is_valid_jsonp_callback_value(cb):
-&lt;% end %&gt;</p>
-
-<p>Which is exactly what has just <a href="http://bitbucket.org/jespern/django-piston/changeset/f558b2c66dcc/">gone into the code for Piston</a>. <a href="http://tav.espians.com/sanitising-jsonp-callback-identifiers-for-security.html">This article</a> contains lots of background information about why JSONP callbacks can be a security hole, and helpfully provides a <a href="http://github.com/tav/scripts/blob/master/validate_jsonp.py">nice Python module</a> to help with the sanitisation. Nice to be on the authors list for something I&rsquo;m using actively.</p>
-
-<p>Thanks to <a href="http://twitter.com/jespern">Jesper Noehr</a> for Piston, for some pointers on bitbucket and for quickly taking the patch. If you&rsquo;re accepting a callback on your site or application, especially if it&rsquo;s a public service, you really want to do something like this or you just might have an exploitable security hole.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/10/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/10/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        class="active"><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/12/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/10/">10</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/11/">11</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/12/">12</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/12/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

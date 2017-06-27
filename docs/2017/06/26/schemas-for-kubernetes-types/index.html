@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Schemas for Kubernetes types &middot; More than seven</title>
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/hyde.css">
+  <link rel="stylesheet" href="/css/poole-overrides.css">
+  <link rel="stylesheet" href="/css/hyde-overrides.css">
+  <link rel="stylesheet" href="/css/hyde-x.css">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link href="/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-435455-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body class="theme-base-08">
+<div class="sidebar">
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1><a href="/">More than seven</a></h1>
+      <p class="lead">Writing about code. Occasional other topics. Made by <a href="https://twitter.com/garethr">@garethr</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1 class="post-title">Schemas for Kubernetes types</h1>
+    <span class="post-date">Jun 26, 2017 &middot; 5 minute read
+    </span>
+    
+
+<p>I&rsquo;ve been playing around building a few Kubernetes developer tools at
+the moment and a few of those led me to the question; how do I validate
+this Kubernetes resource definition? This simple question led me through
+a bunch of GitHub issues without resolution, conversations with folks
+who wanted something similar, the OpenAPI specification and finally to
+what I hope is a nice resolution.</p>
+
+<p>If you&rsquo;re just after the schemas and don&rsquo;t care for the details just
+head on over to the following GitHub repositories.</p>
+
+<ul>
+<li><a href="https://github.com/garethr/kubernetes-json-schema">garethr/kubernetes-json-schema</a></li>
+<li><a href="https://github.com/garethr/openshift-json-schema">garethr/openshift-json-schema</a></li>
+</ul>
+
+<p>OpenShift gets a separate repository as it has an independent version
+scheme and adds a number of additional types into the mix.</p>
+
+<h2 id="but-why">But why?</h2>
+
+<p>It&rsquo;s worth asking the question <em>why</em> before delving too far into the
+how. Let&rsquo;s go back to the problem; I have a bunch of Kubernetes resource
+definitions, lets say in YAML, and I want to know if they are valid?</p>
+
+<p>Now you might be thinking I could just run them with <code>kubectl</code>? This
+raises a few issues which I don&rsquo;t care for in a developer tool:</p>
+
+<ul>
+<li>It requires <code>kubectl</code> to be installed and configured</li>
+<li>It requires <code>kubectl</code> to be pointed at a working Kubernetes cluster</li>
+</ul>
+
+<p>Here are a few knock-on effects of the above issues:</p>
+
+<ul>
+<li>Running what should be a simple validate step in a CI system now
+requires a Kubernetes cluster</li>
+<li>Why do I have to shell out to something and parse it&rsquo;s output to validate
+a document, for instance if I&rsquo;m doing it in the context of a unit test?</li>
+<li>If I want to validate the definition against multiple versions of
+Kubernetes I need multiple Kubernetes clusters</li>
+</ul>
+
+<p>Hopefully at this point it&rsquo;s clear why the above doesn&rsquo;t work. I don&rsquo;t
+want to have to run a boat load of Kubernetes infrastructure to validate
+the structure of a text file. Why can&rsquo;t I just have a schema in a
+standard format with widespread library support?</p>
+
+<h2 id="from-openapi-to-json-schema">From OpenAPI to JSON Schema</h2>
+
+<p>Under-the-hood Kubernetes is all about types. Pods,
+ReplicationControllers, Deployments, etc. It&rsquo;s these primatives that
+give Kubernetes it&rsquo;s power and shape. These are described in the
+Kubernetes source code and are used to generate an OpenAPI description of
+the Kubernetes HTTP API. I&rsquo;ve been spelunking here before with some work on
+<a href="https://github.com/garethr/garethr-kubernetes">generating Puppet types from this same specification</a>.</p>
+
+<p>The latest version of OpenAPI in fact already contains the type
+information we seek, encoded in a superset of <a href="http://json-schema.org">JSON
+Schema</a> in the <code>definitions</code> key. This is
+used by the various tools which generate clients from that definition.
+For instance the official python client doesn&rsquo;t know about these types
+directly, it all comes from the <a href="https://github.com/kubernetes-incubator/client-python/blob/master/scripts/update-client.sh">OpenAPI description of the
+API</a>. But how
+do we use those <code>definitions</code> separately for our own nefarious
+validation purposes? Here&rsquo;s a quick sample of what we see in the <a href="https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json">50,000
+line-long OpenAPI definition file</a></p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #a61717; background-color: #e3d2d2">-</span> <span style="color: #a61717; background-color: #e3d2d2">definitions:</span> {
+    <span style="color: #a61717; background-color: #e3d2d2">io.k8s.api.admissionregistration.v1alpha1.AdmissionHookClientConfig:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
+      <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;AdmissionHookClientConfig contains the information to make a TLS connection with the webhook&quot;</span>,
+      <span style="color: #a61717; background-color: #e3d2d2">required:</span> <span style="color: #a61717; background-color: #e3d2d2">[</span>
+        <span style="color: #bb0066; font-weight: bold">&quot;service&quot;</span>,
+        <span style="color: #bb0066; font-weight: bold">&quot;caBundle&quot;</span>
+      <span style="color: #a61717; background-color: #e3d2d2">]</span>,
+      <span style="color: #a61717; background-color: #e3d2d2">properties:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
+        <span style="color: #a61717; background-color: #e3d2d2">caBundle:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
+          <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;CABundle is a PEM encoded CA bundle which will be used to validate webhook&#39;s server certificate. Required&quot;</span>,
+          <span style="color: #a61717; background-color: #e3d2d2">type:</span> <span style="color: #bb0066; font-weight: bold">&quot;string&quot;</span>,
+          <span style="color: #a61717; background-color: #e3d2d2">format:</span> <span style="color: #bb0066; font-weight: bold">&quot;byte&quot;</span>
+        }<span style="color: #a61717; background-color: #e3d2d2">,</span>
+        <span style="color: #a61717; background-color: #e3d2d2">service:</span> {
+          <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;Service is a reference to the service for this webhook. If there is only one port open for the service, that port will be used. If there are multiple ports open, port 443 will be used if it is open, otherwise it is an error. Required&quot;</span>,
+          <span style="color: #a61717; background-color: #e3d2d2">$ref:</span> <span style="color: #bb0066; font-weight: bold">&quot;#/definitions/io.k8s.api.admissionregistration.v1alpha1.ServiceReference&quot;</span>
+        }
+      <span style="color: #a61717; background-color: #e3d2d2">}</span>
+    <span style="color: #a61717; background-color: #e3d2d2">},</span>
+</pre></div>
+
+<p>The discussion around wanting JSON Schemas for Kubernetes types has
+cropped up in a few places before, there are some useful comments on <a href="https://github.com/kubernetes/kubernetes/issues/14987">this
+issue</a> for
+instance. I didn&rsquo;t find a comprehensive solution however, so set out on
+a journey to build one.</p>
+
+<h2 id="openapi2jsonschema">OpenAPI2JsonSchema</h2>
+
+<p>The tooling I&rsquo;ve build for this purpose is called
+<a href="https://github.com/garethr/openapi2jsonschema">openapi2jsonschema</a>.
+It&rsquo;s not Kubernetes specific and should work with other OpenAPI
+specificied APIs too, although as yet I&rsquo;ve done only a little testing of
+that. Usage of <code>openapi2jsonschema</code> is fairly straightforward, just
+point it at the URL for an OpenAPI definition and watch it generate a
+whole bunch of files.</p>
+
+<pre><code>openapi2jsonschema https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json
+</code></pre>
+
+<p><code>openapi2jsonschema</code> can generate different flavours of output, useful
+for slightly different purposes. You probably only need to care about
+this if you&rsquo;re generating you&rsquo;re own schemas or you want to work
+completely offline.</p>
+
+<ul>
+<li>default - URL referenced based on the specified GitHub repository</li>
+<li>standalone - de-referenced schemas, more useful as standalone documents</li>
+<li>local - relative references, useful to avoid the network dependency</li>
+</ul>
+
+<p>The <a href="https://github.com/garethr/kubernetes-json-schema/blob/master/build.sh">build script</a>
+for the Kubernetes schemas is a simple way of seeing this in practice.</p>
+
+<h2 id="published-schemas">Published Schemas</h2>
+
+<p>Using the above tooling I&rsquo;m publishing Schemas for Kubernetes, and for
+OpenShift, which can be used directly from GitHub.</p>
+
+<ul>
+<li><a href="https://github.com/garethr/kubernetes-json-schema">garethr/kubernetes-json-schema</a></li>
+<li><a href="https://github.com/garethr/openshift-json-schema">garethr/openshift-json-schema</a></li>
+</ul>
+
+<p>As an example of what these look like, here are the links to the latest <code>deployment</code> schemas for
+1.6.1:</p>
+
+<ul>
+<li><a href="https://github.com/garethr/kubernetes-json-schema/tree/master/v1.6.1/deployment.json">v1.6.1/deployment.json</a></li>
+<li><a href="https://github.com/garethr/kubernetes-json-schema/tree/master/v1.6.1-standalone/deployment.json">v1.6.1-standalone/deployment.json</a></li>
+<li><a href="https://github.com/garethr/kubernetes-json-schema/tree/master/v1.6.1-local/deployment.json">v1.6.1-local/deployment.json</a></li>
+</ul>
+
+<h2 id="a-simple-example">A simple example</h2>
+
+<p>There are lots of use cases for these schemas, although they are primarily
+useful as a low-level part of other developer workflow tools. But at a most
+basic level you can validate a Kubernetes config file.</p>
+
+<p>Here is a quick example using the Python <a href="https://github.com/Julian/jsonschema">jsonschema
+client</a> and an invalid deployment
+file:</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ jsonschema -F <span style="color: #dd2200; background-color: #fff0f0">&quot;{error.message}&quot;</span> -i hello-nginx.json
+1.5.1-standalone/deployment.json
+u<span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span> is a required property
+</pre></div>
+
+<h2 id="what-to-do-with-all-those-schema">What to do with all those schema?</h2>
+
+<p>As noted these schemas have lots of potential uses for development
+tools. Here are a few ideas, some of which I&rsquo;ve already been hacking on:</p>
+
+<ul>
+<li>Demonstrating using with the more common YAML serialisation</li>
+<li>Testing tools to show your Kubernetes configuration files are valid,
+and against which versions of Kubernetes</li>
+<li>Migration tools to check your config files are still valid against
+master or beta releases</li>
+<li>Integration with code editors, for instance via something like <a href="http://schemastore.org/json/">Schema
+Store</a></li>
+<li>Validation of Kubernetes configs generated by higher-level tools, like
+Helm, Ksonnet or Puppet</li>
+<li>Visual tools for crafting Kubernetes configurations</li>
+<li>Tools to show changes between Kubernetes versions</li>
+</ul>
+
+<p>If you do use these schemas for anything please let me know, and I&rsquo;ll
+try and keep them updated with releases of Kubernetes and OpenShift. I
+plan on polishing the <code>openapi2jsonschema</code> tool when I get some time,
+and I&rsquo;d love to know if anyone uses that with other OpenAPI compatible
+APIs. And if all you want to do is validate your Kubernetes
+configuration and don&rsquo;t care too much about what&rsquo;s happening under the
+hood then stick around for the next blog post.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+
+</body>
+</html>
+

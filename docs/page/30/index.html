@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,28 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2007/02/25/people-i-met-in-london/">People I met in London</a>
+      </h1>
+      <span class="post-date">Feb 25, 2007 &middot; 2 minute read
+      </span>
+      
+      <p>Meeting likeminded people is always good fun and the UK web conference scene provides lots of good opportunities for that. Sometimes it&rsquo;s meeting up with past <em>aquaintances</em> or <em>friends</em> and other times mainly about making new <em>contacts</em>. Oh, and their are always a few <em>co-worker&rsquo;s</em> in tow.</p>
+
+<p>Mainly as a reminder but also as a &ldquo;hello&rdquo; to some of those I met down in London for <a href="http://barcamp.org/barcamplondon2">BarCamp</a> (BarcampLondon2) and <a href="http://futureofwebapps.com">Future of Web Apps</a> (FOWALondon07) here goes with a list of some of the people, mainly <em>colleague</em> and a few <em>neighbor</em> I met on my travels:</p>
+
+<p><a href="http://www.kid666.com/blog">Tom Croucher</a>, <a href="http://blogs.opml.org/tommorris">Tom Morris</a>, <a href="http://www.garethrodger.com/">Gareth Rogers</a>, <a href="http://ben-ward.co.uk">Ben Ward</a>, <a href="http://adactio.com">Jeremy Keith</a>, <a href="http://kapowaz.net">Ben Darlow</a>, <a href="http://cackhanded.net">Norm</a>, <a href="http://www.cubicgarden.com/">Ian Forrester</a>, <a href="http://muffinresearch.co.uk/">Stuart Colville</a>, <a href="http://thedredge.org/">Andy Hume</a>, <a href="http://www.donotremove.co.uk/">Mike Stenhouse</a>, <a href="http://pixelicious.co.uk/">Pete Lambert</a>, Lisa Price, <a href="http://blog.meriwilliams.com/">Meri Williams</a>, <a href="http://www.ellythompson.co.uk/blog/">Elly Williams</a>, <a href="http://nascentguruism.com/">Steve Marshall</a>, <a href="http://niquimerret.com/">Niqui Merret</a>, <a href="http://notes.natbat.net/">Natalie Downe</a>, <a href="http://www.agm.me.uk/blog/">Alistair MacDonald</a>.</p>
+
+<p>Between them they now have me interested in doing more with mobile messaging (SMS, MMS, Jabber), finding our more about eRDF, playing with Pipes, organising a Barcamp, getting some Moo cards, playing more with the flickr machine tags api and, oh, about a hundred and one other things including drinking beer (ok, that one was Ben). Consider that a partial list of the sorts of things I&rsquo;m likely to post on over the next month or so.</p>
+
+<p>If their is anyone I have yet to add to <a href="http://flickr.com">Flickr</a>, <a href="http://upcoming.org">Upcoming</a> or <a href="http://twitter.com">Twitter</a> hopefully I&rsquo;ll find you soon or feel free to drop me a line. If I missed someone sorry, probably all the sleep I&rsquo;ve been trying to catch up on.</p>
+
+<p>This post brought to you by some of XFN.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -606,215 +628,443 @@ I have a feeling that some days I’ll wake up and regret this experiment and ot
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/01/16/opml-feeds-using-radiant/">OPML Feeds using Radiant</a>
-      </h1>
-      <span class="post-date">Jan 16, 2007 &middot; 2 minute read
-      </span>
-      
-      <p>
-As mentioned when I moved the site over to Radiant I promised a few tutorials and behind the scenes footage of goings on. So here goes with a quick look at how I added a nice <a href="http://morethanseven.net/friends.opml">OPML feed</a> to my site.
+    
 
-</p>
-<p>
-For those not familiar with <a href="http://www.opml.org/">OPML</a> it’s an XML format for outlines, often used for storing blog rolls and the like.
-
-</p>
-<p>
-What I wanted was a friends parent and the ability to add friends to it and for them to appear in a dynamic OPML feed. The following screenshot shows what I ended up with:
-
-</p>
-<p>
-<img src="http://morethanseven.net/_assets/media/imgFriendsFeed.png" alt="Tree showing Friends feed in Radiant" />
-
-</p>
-<p>
-To accomplish this within Radiant I needed a custom layout, one which would simply render the content but also had the relevant header and footer markup. Note the mime type setting as well.
-
-</p>
-<p>
-<img src="http://morethanseven.net/_assets/media/imgOpmlLayout.png" alt="Layout for OPML in Radiant" />
-
-</p>
-<p>
-Next up is the page which actually uses the OPML layout to render the page.
-
-</p>
-<p>
-<img src="http://morethanseven.net/_assets/media/imgFriendsFeedCode.png" alt="friends feed from Radiant" />
-
-</p>
-<p>
-Note that I set the status of all the friends records to hidden, and then set the status of the r:children:each loop to search for hidden children. This way the individual friends records dont show up as seperate pages.
-
-</p>
-<p>
-All I need to do then is add children to the parent, friends-feed in my case. I added a few page parts to each friend page to make management a little easier; a <em>link</em>, a <em>feed</em> and for a little added spice <em>xfn</em>.
-
-</p>
-<p>
-<img src="http://morethanseven.net/_assets/media/imgEditFriend.png" alt="Edit friend view from Radiant" />
-
-</p>
-<p>
-All in all it makes adding and updating friends easy, and the general approach will work with pretty much any content where you want to compose a single page based on it’s children.
-
-</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/29/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/29/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        class="active"><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/31/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/29/">29</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/30/">30</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/31/">31</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/31/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

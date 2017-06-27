@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,90 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2008/04/11/dsls-for-html-and-css-the-future-or-just-plain-wro/">DSLs for HTML and CSS - The Future, or Just Plain Wrong? </a>
+      </h1>
+      <span class="post-date">Apr 11, 2008 &middot; 4 minute read
+      </span>
+      
+      <p>After my previous post about <a href="http://morethanseven.net/posts/why-the-webstandards-world-appears-to-be-choosing-django/">Django and the web standards community</a> a number of the comments picked up on the fact I mentioned <a href="http://haml.hamptoncatlin.com/">haml</a> under the title <em>Other Craziness</em>. Ok, so I was being a little over-poetic but I decided this warranted a closer look.</p>
+
+<p>Haml is a markup language that&rsquo;s used to cleanly and simply describe the XHTML of any web document without the use of inline code. Haml functions as a replacement for inline page templating systems such as PHP, ASP, and ERB, the templating language used in most Ruby on Rails applications.</p>
+
+<p>A quick example should help. The following haml code&hellip;</p>
+
+<pre><code>&lt;code&gt;%div.special#primary Hello, World!&lt;/code&gt;
+</code></pre>
+
+<p>&hellip;is compiled to the following HTML:</p>
+
+<pre><code>&lt;code&gt;&lt;div class=&quot;special&quot; id=&quot;primary&quot;&gt;
+  Hello, World!
+&lt;/div&gt;&lt;/code&gt;
+</code></pre>
+
+<p>Depending on your application this could be at runtime or as part of a build step. Although primarily associated with Rails because haml is also available as a command line utility you could in theory use it with any framework or language.</p>
+
+<p>My initial take on this was to call haml an abstraction of HTML but <a href="http://nex-3.com/">Nathan Weizenbaum</a>, one of haml&rsquo;s developers, put me straight:</p>
+
+<blockquote>
+<p>Haml doesn&rsquo;t really abstract HTML. Not in the same sense that, say, Rails helpers do. Since Haml has a one-to-one mapping to HTML, I view it more as an alternate syntax for HTML than an abstraction.</p>
+</blockquote>
+
+<p>Lots more examples for anyone interested can be found on <a href="http://haml.hamptoncatlin.com/docs/">the haml documentation site</a>.</p>
+
+<p>After some research and some playing around with the command line version of the haml engine I decided to see what Twitter thought about the situation. Little did I realise what I was letting myself in for:</p>
+
+<p><a href="http://tommorris.org/">Tom Morris</a> kicked things off:</p>
+
+<p>bq.:<a href="http://twitter.com/tommorris/statuses/784959480">http://twitter.com/tommorris/statuses/784959480</a> I&rsquo;m not sure why everyone insists on clumsily reinventing HTML every few weeks (eg. wiki syntaxes, of which there are hundreds)</p>
+
+<p><a href="http://intranation.com/">Brad Wright</a> thought:</p>
+
+<p>bq.:<a href="http://twitter.com/intranation/statuses/784963589">http://twitter.com/intranation/statuses/784963589</a> Sass is just stupid, since you&rsquo;re basically writing <strong>exactly</strong> the same CSS just in shitty YAML style.</p>
+
+<p>And followed with:</p>
+
+<blockquote>
+<p>What&rsquo;s the point of abstracting HTML? It&rsquo;s not that hard</p>
+</blockquote>
+
+<p>And <a href="http://cackhanded.net">Mark Norman Francis</a> chipped in with:</p>
+
+<blockquote>
+<p>EVIL. And not in a good, kittenish way.</p>
+</blockquote>
+
+<p>A few people echoed <a href="http://thecssdiv.co.uk/">Ross Bruniges</a> sentiment that haml and sass are just:</p>
+
+<p>bq.:<a href="http://twitter.com/rossbruniges/statuses/784954916">http://twitter.com/rossbruniges/statuses/784954916</a> front-end code for those who don&rsquo;t really care all that much about it and would rather create databases</p>
+
+<p>I have to admit to this being my initial reaction on hearing about and looking at haml, hence the remark from the previous post. But that&rsquo;s not to say everyone was negative.</p>
+
+<p><a href="http://donotremove.co.uk/">Mike Stenhouse</a> stepped in and said:</p>
+
+<p>bq.:<a href="http://twitter.com/mikesten/statuses/784952890">http://twitter.com/mikesten/statuses/784952890</a> Love haml - it&rsquo;s all I use these days. More readable, dynamic and hackable. Took me a while to come around to it though&hellip;</p>
+
+<p>Some of the comments were about how the use of haml might alter the dynamic of a team, to either positive or negative effect - depending on your point of view.</p>
+
+<p><a href="http://www.markng.co.uk/">Mark Ng</a> saw it as a cunning way of getting rid of the front-end guy.</p>
+
+<p>bq.:<a href="http://twitter.com/markng/statuses/784952935">http://twitter.com/markng/statuses/784952935</a> at first, they look elegant. Then it becomes obvious how they remove designers from the process of making markup.</p>
+
+<p>Where as <a href="http://thinkdrastic.net/">Olly Hodgson</a> say it maybe as a route to get the dyed in the wool back-end writing decent markup.</p>
+
+<p>bq.:<a href="http://twitter.com/OllyHodgson/statuses/784957324">http://twitter.com/OllyHodgson/statuses/784957324</a> They look interesting. With proper training it might be a good way to get back-end programmers creating decent HTML (shock horror!)</p>
+
+<p>At present haml is very much pitched at the Rails community from whence it came. Many of the examples demonstrate benefits compared to ERB, and haml is of course written in Ruby and available as a Rails plugin. Being perceived as part of that community has obvious benefits but also some subtle costs, in particular regarding those people that don&rsquo;t like Rails very much.</p>
+
+<p>I&rsquo;m not really convinced of the benefits in all fairness. The <em>something else to learn</em> barrier only gets magnified when working within a team environment. You now have to train new recruits of whatever skill level in another syntax. One that they might be able to write quickly enough but can they understand from the briefest of glances at a template? HTML might not be great here but it is familiar to everyone. Their is also the programmers abstraction. What if I can&rsquo;t get the markup I want out the other side of the black box? Yes it&rsquo;s open source so I can hack the box open but that causes even more problems. And while I quite like meaningful whitespace (for instance in Python), in templates which fail if it&rsquo;s not quite right I see a major problem for those whom a text editor is not their best friend.</p>
+
+<p>I am however interested to see whether the problems people have with haml are with haml in particular or with the overall approach of alternative syntax&rsquo;s for HTML and CSS. Are DSLs (Domain Specific Languages) needed for CSS and HTML? and if so is this a possible avenue for innovation on top of slow moving standards?</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -483,178 +567,443 @@ I prefer to use the table header element to mark up the table row and the origin
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/02/24/thinking-digital/">Thinking Digital</a>
-      </h1>
-      <span class="post-date">Feb 24, 2008 &middot; 3 minute read
-      </span>
-      
-      <p>I&rsquo;m starting to get excited about <a href="http://thinkingdigital.co.uk">Thinking Digital</a>. But first a bit of back-story.</p>
+    
 
-<p>I started out making the trip to <a href="http://atmedia2005.co.uk/">@media 2005</a> and since then have been a regular attendee of more conferences than I can shake a stick at. Lets say I caught the conference bug. But most of those have been within the web standards community niche and more recently I&rsquo;ve been looking further afield for conference kicks, party due to the eclectic nature of <a href="http://barcamp.org">BarCamp</a> style events. Anyone in that positions inevitably takes a fancy to going along to <a href="http://www.ted.com/">TED</a>. The <em>only</em> problem is the fact it&rsquo;s already booked up until 2010, costs $6,000 just to for a standard membership and is invite only.</p>
-
-<p>This year the folks over at <a href="http://codeworks.net">Codeworks</a>, which is a regional body set up to help us North East digital folk develop an industry, are organising their very own full size conference. The <a href="http://thinkandadrink.com">Think and a Drink</a> events have been running for a number of years and I&rsquo;ve spoken a few times on web related bits and pieces. But these are purposely local events mainly for members and tend to crop up at the rate of once a month. <a href="http://thinkingdigital.co.uk">Thinking Digital</a> is a full size, 400 person, conference being held in Newcastle between the 21st and 23rd of May this year covering a similar set of wide ranging themes to TED; technology, design, mobile plus a bit of philosophy and futurism thrown in for good measure.</p>
-
-<p>Now this is good for a few reasons. Only one of which is I can see the venue out of my apartment window. Costing only Â£475 and being in the UK would be a couple of other reasons to get excited. As an aside; I&rsquo;m helping out as a board member along with the likes of <a href="http://www.cubicgarden.com/">Ian Forrester</a> but I&rsquo;d gladly pay my way if I wasn&rsquo;t.</p>
-
-<p>The real reason for the excitement though is the calibre of some of the speakers. Ray Kurzweil, Greg Dyke, Dan Lyons (a.k.a. Fake Steve Jobs), Matt Locke, Aubrey De Grey and Tara Hunt to name a few I&rsquo;m particularly interested in. And remember folks, this is in Newcastle. Which for the few Londoners reading is a couple of hours North of you. On a train with free wifi even.</p>
-
-<p>Now this might not be a web conference but I&rsquo;m pretty interested in the take of the likes of Ray Kurzweil on the web and what will happen in the near future. I&rsquo;m also interested in the types of people who will make the trip - which is really the reason for this post. As everyone knows, one of the best parts of any conference is the chance to chat with like-minded (and not so like-minded) folks. So, who fancies coming along?</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/22/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/22/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        ><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        class="active"><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/24/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/22/">22</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/23/">23</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/24/">24</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/24/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

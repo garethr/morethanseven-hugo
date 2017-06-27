@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21-DEV" />
+	<meta name="generator" content="Hugo 0.21" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,47 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2009/02/01/sinatra-simple-example/">Sinatra Simple Example</a>
+      </h1>
+      <span class="post-date">Feb 1, 2009 &middot; 3 minute read
+      </span>
+      
+      <p>I&rsquo;ve been playing around with the <a href="http://www.sinatrarb.com/">Sinarta</a> Ruby web development framework recently and building a <a href="http://github.com/garethr/sinatra-hello-world">larger than usual Hello World Example</a>. It&rsquo;s describes itself as <em>a DSL for quickly creating web-applications in Ruby with minimal effort</em> (what is it about Ruby people and their obsession with calling everything a DSL?). In reality it&rsquo;s a great little web framework. It deals with a minimal set of the things you really need to do as part of any application - URL handling and routing, HTTP request and response handling, etc. It reminds me of <a href="http://webpy.org/">web.py</a> in it&rsquo;s minimalist approach which is definitely a good thing.</p>
+
+<p>The following example is the hello world given on the site</p>
+
+<p>pre. require &lsquo;rubygems&rsquo;
+require &lsquo;sinatra&rsquo;
+get &lsquo;/&rsquo; do
+&lsquo;Hello world!&rsquo;
+end</p>
+
+<p>Which isn&rsquo;t a million miles away from a web.py example:</p>
+
+<p>pre. import web
+urls = (
+&lsquo;/&rsquo;, &lsquo;hello&rsquo;
+)
+app = web.application(urls, globals())
+class hello:
+def GET (self, name):
+return &lsquo;Hello World&rsquo;
+if <em>name</em> == &ldquo;<em>main</em>&ldquo;:
+app.run()</p>
+
+<p>The only real difference is the separate mapping of URLs to views in web.py, which is closer to how Rails or Django do things.</p>
+
+<p>Their is quite a bit of <a href="http://www.sinatrarb.com/documentation.html">documentation</a> already for Sinatra, including the start of a <a href="http://www.sinatrarb.com/book.html">book</a>. The code (as with all good code these days) is on <a href="http://github.com/sinatra/sinatra/tree/master">github</a> for your forking pleasure.</p>
+
+<p>As for what I&rsquo;ve been up to I have a more advanced <a href="http://github.com/garethr/sinatra-hello-world">Hello World</a> example up on GitHub. I&rsquo;m wanting to get a running application that demonstrates all the basic features (except <a href="http://morethanseven.net/2008/04/11/dsls-for-html-and-css-the-future-or-just-plain-wro/">HAML and SASS</a> support). So far I&rsquo;ve got a simple bit of Rack middleware, several views demonstrating different url handling techniques, basic erb templates, before methods, configuration settings, error handling, decent unit test coverage, a rake file with a tasks for documentation, code coverage, etc. I&rsquo;ve also got configuration files for running the application with <a href="http://code.macournoyer.com/thin/">Thin</a> and using <a href="http://god.rubyforge.org/">God</a>. I&rsquo;m going to add some simple database connectivity in at some point (either <a href="http://datamapper.org">DataMapper</a> or <a href="http://sequel.rubyforge.org/">Sequel</a>, I haven&rsquo;t decided yet) and play around with writing spec tests and a capistrano recipe file. All in it&rsquo;s a nice way of learning something new at the same time as producing something that might be useful. Once I have the rest of the bits and pieces I might even right a full tutorial.</p>
+
+<p>I think the sweet spot for these sorts of mini frameworks are small services or little applications that just sit their are run. Both <a href="http://integrityapp.com/">Integrity</a> and <a href="http://irclogger.com">IRCLogger</a> both use Sinatra for instance and I think it&rsquo;s used for the <a href="http://github.com/guides/post-receive-hooks">GitHub WebHooks</a> as well. It&rsquo;s exactly the sort of thing Google AppEngine is useful for in fact and Sinatra would likely be a closer fit that Rails if Google ever feel like adding Ruby support. Although it does depress me a little that the <a href="http://code.google.com/p/googleappengine/issues/list">top four items in the public issue tracker</a> are <em>I want my own language</em>.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -360,187 +401,443 @@ next: get details about the next track in the list</p>
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/12/28/local-continuous-integration-integrity/">Local Continuous Integration with Integrity</a>
-      </h1>
-      <span class="post-date">Dec 28, 2008 &middot; 2 minute read
-      </span>
-      
-      <p><a href="http://integrityapp.com/">Integrity</a> is ace. I&rsquo;m a huge fan of working under the ever watchful eye of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> server. I&rsquo;m also becoming more and more of a fan of Git, and <a href="http://github.com">GitHub</a>, for my <a href="http://github.com/garethr">personal projects</a>. At work we run <a href="http://cruisecontrol.sourceforge.net/">CruiseControl</a> and it does it&rsquo;s job well, but locally I only use it for larger projects. It comes with a little overhead and if I&rsquo;m just hacking on the train I rarely check on it&rsquo;s status.</p>
+    
 
-<p>Integrity is an unashamedly lightweight and straightforward continuous integration server written in Ruby. It comes with Git integration as well as a nifty notifications framework. There are already notification plugins available for jabber, IRC and email. If I get time and inclination I&rsquo;d love to hack together a webhooks plugin too. It&rsquo;s a simple app to get up and running with and you can always <a href="http://github.com/foca/integrity/tree/master">browse the code</a> if something isn&rsquo;t clear. All in all it&rsquo;s perfect for my type of smaller project.</p>
-
-<p>So, with a local <em>CI</em> server up and running you&rsquo;re left with one problem; having to click the _Manual Build&rdquo; button whenever you want a build. Now Integrity comes with a mechanism to allow pushes to GitHub to trigger a build. But this only works when you have an internet connection and are using GitHub and are pushing frequently. Personally I often make lots of local commits and then push at a later date. Also not all of my projects are on GitHub for various reasons.</p>
-
-<p>Well it turns out that all the build button does is sent an empty HTTPpost request to a URL of the following format:</p>
-
-<pre><code>http://{integrity-url}:8910/{project-name}/builds
-</code></pre>
-
-<p>That means with a little bit of Git magic we can have our integration server run a new build whenever we commit our code. All we need to do is write a very simple post-commit git hook script. I&rsquo;ve written the script in Python but you could write it in anything. This script is from a real project so adjust the server address and path as needed.</p>
-
-<pre><code>#! /usr/bin/env python
-import httplib
-conn = httplib.HTTPConnection(&quot;localhost:8910&quot;)
-conn.request(&quot;POST&quot;, &quot;/appengine-books/builds&quot;)
-</code></pre>
-
-<p>All you need to do is drop this script in your .git/hooks folder as <em>post-commit</em>. Make sure you set the executable bit with <em>chmod +x</em> as well, otherwise you&rsquo;ll be wondering why it&rsquo;s not working and probably blaming me.</p>
-
-      
-    </div>
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/page/18/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/18/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        ><a href="/page/4/">4</a></li>
-        
-        <li
-        ><a href="/page/5/">5</a></li>
-        
-        <li
-        ><a href="/page/6/">6</a></li>
-        
-        <li
-        ><a href="/page/7/">7</a></li>
-        
-        <li
-        ><a href="/page/8/">8</a></li>
-        
-        <li
-        ><a href="/page/9/">9</a></li>
-        
-        <li
-        ><a href="/page/10/">10</a></li>
-        
-        <li
-        ><a href="/page/11/">11</a></li>
-        
-        <li
-        ><a href="/page/12/">12</a></li>
-        
-        <li
-        ><a href="/page/13/">13</a></li>
-        
-        <li
-        ><a href="/page/14/">14</a></li>
-        
-        <li
-        ><a href="/page/15/">15</a></li>
-        
-        <li
-        ><a href="/page/16/">16</a></li>
-        
-        <li
-        ><a href="/page/17/">17</a></li>
-        
-        <li
-        ><a href="/page/18/">18</a></li>
-        
-        <li
-        class="active"><a href="/page/19/">19</a></li>
-        
-        <li
-        ><a href="/page/20/">20</a></li>
-        
-        <li
-        ><a href="/page/21/">21</a></li>
-        
-        <li
-        ><a href="/page/22/">22</a></li>
-        
-        <li
-        ><a href="/page/23/">23</a></li>
-        
-        <li
-        ><a href="/page/24/">24</a></li>
-        
-        <li
-        ><a href="/page/25/">25</a></li>
-        
-        <li
-        ><a href="/page/26/">26</a></li>
-        
-        <li
-        ><a href="/page/27/">27</a></li>
-        
-        <li
-        ><a href="/page/28/">28</a></li>
-        
-        <li
-        ><a href="/page/29/">29</a></li>
-        
-        <li
-        ><a href="/page/30/">30</a></li>
-        
-        <li
-        ><a href="/page/31/">31</a></li>
-        
-        <li
-        ><a href="/page/32/">32</a></li>
-        
-        <li
-        ><a href="/page/33/">33</a></li>
-        
-        <li
-        ><a href="/page/34/">34</a></li>
-        
-        <li
-        ><a href="/page/35/">35</a></li>
-        
-        <li
-        ><a href="/page/36/">36</a></li>
-        
-        <li
-        ><a href="/page/37/">37</a></li>
-        
-        <li
-        ><a href="/page/38/">38</a></li>
-        
-        <li
-        ><a href="/page/39/">39</a></li>
-        
-        <li
-        ><a href="/page/40/">40</a></li>
-        
-        <li
-        ><a href="/page/41/">41</a></li>
-        
-        <li
-        ><a href="/page/42/">42</a></li>
-        
-        <li
-        >
-        <a href="/page/20/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/42/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/18/">18</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/19/">19</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/20/">20</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/43/">43</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/20/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 
