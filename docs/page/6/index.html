@@ -63,6 +63,29 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2012/06/05/Static-sites-with-nginx-on-heroku/">Static Sites With Nginx On Heroku</a>
+      </h1>
+      <span class="post-date">Jun 5, 2012 &middot; 2 minute read
+      </span>
+      
+      <p>I have a few static sites on Heroku but in one case in particular I already had quite an involved nginx configuration - mainly 410s for some previous content and a series of redirects from older versions of the site. The common way of having static sites on Heroku appears to be to use a simple Rack middleware, but that would have meant reimplementing lots of boring redirect logic.</p>
+
+<p>Heroku <a href="https://devcenter.heroku.com/articles/buildpacks">buildpacks</a> are great. The newer cedar stack is no longer tied to a particular language or framework, instead all of the discovery and knowledge about particular software is put into a buildpack. As well as the Heroku provided list it&rsquo;s possible to write you&rsquo;re own. Or in this case use one someone has <a href="https://github.com/essh/heroku-buildpack-nginx">created earlier</a>.</p>
+
+<p>I&rsquo;ve just moved <a href="http://www.vagrantbox.es/">Vagrantbox.es</a> over to Heroku due to the closure of a previous service. In doing that, instead of the simple database backed app, I&rsquo;ve simply thrown all the content onto <a href="https://github.com/garethr/vagrantboxes-heroku">GitHub</a>. This means anyone can fork the content and send pull requests. Hopefully this should mean I pay a bit more attention to suggestions and new boxes.</p>
+
+<p>The repository is a nice simple example of using the mentioned Heroku Nginx buildpack too. You just run the following command to create a new Heroku application.</p>
+
+<pre><code>heroku create --stack cedar --buildpack http://github.com/essh/heroku-buildpack-nginx.git
+</code></pre>
+
+<p>And then in typical Heroku fashion use a git remote to deploy changes and updates. The repository is split into a <em>www</em> folder with the site content and a <em>conf</em> folder with the nginx configuration. The only clever parts involve the use of an ERB template for the nginx configuration file so we can pickup the correct port. We also use 1 worker process and don&rsquo;t automatically daemonize the process - Heroku deals with this itself.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2012/04/06/Self-contained-jruby-web-applications/">Self Contained Jruby Web Applications</a>
       </h1>
       <span class="post-date">Apr 6, 2012 &middot; 4 minute read
@@ -436,24 +459,6 @@ default: { include base }
 <p>Combine all this together and it&rsquo;s simple to have a per project continuous integration build running a test suite, kicking off a standard set of downsteam jobs for deploying to a test environment (by passing th relevant parameters), running some basic smoke tests and allowing someone to click a button to deploy to production. Or going the whole continuous deployment, I trust my test suite route, and deploying automatically. All within Jenkins. Getting this working requires a bit of planning. You want all of your projects to be deployed the same way but you probably want this to be the case anyway.</p>
 
 <p>Providing flexible push button builds/deploys and reducing the number of nearly identical jobs in Jenkins are just two advantages to using parameterized builds. Most of the tricks come from thinking about Jenkins as much more than a continuous integration tool and more of an automation framework - I know at least one large organisation who have pretty much replaced cron for many tasks with Jenkins for instance. Running tests automatically, and in a central environment as close to production as possible, is important. But it&rsquo;s just a sanity check if you&rsquo;re doing everything right already. Centralising activity on a build pipeline requires you to be doing all that anyway, but in my opinion gives way more useful and rapid feedback about the state of the code your team is writing.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2011/11/02/Exposing-puppet-and-facter-information-on-the-web/">Exposing Puppet And Facter Information On The Web</a>
-      </h1>
-      <span class="post-date">Nov 2, 2011 &middot; 2 minute read
-      </span>
-      
-      <p>I don&rsquo;t appear to have been in a writing mood recently but I&rsquo;ve been getting back into hacking on a couple of pet projects. The first fruits of this coding (mainly backwards and forwards on the train) I&rsquo;ve just made available to anyone interested.</p>
-
-<p><a href="https://github.com/garethr/web-puppet">Web Facter</a> is a gem which takes the output from <a href="https://github.com/puppetlabs/facter">Facter</a> and exposes this as JSON over HTTP. In theory you could run this on a configurable port on each of your machines and have a URL you can hit to get information on uptime, networking setup, hostnames or anything else exposed by Facter. It comes with a simple built-in web server and optional http basic authentication if you&rsquo;re not going to do this via a proxy. The JSON display should be both human and machine readable, and I have a few ideas for projects which needed this information.</p>
-
-<p>The other project is very similar, and even has a similar name, <a href="https://github.com/garethr/web-facter">Web Puppet</a>. You can run this on your puppet master and it exposes the node information (currently including the facts and tags) again as JSON over HTTP. I&rsquo;m still working on this to make it a little more usable. At the moment it just shows you all nodes and all information, if you&rsquo;re working with a larger cluster this isn&rsquo;t really sensible. Recent versions of Puppet do have an <a href="http://docs.puppetlabs.com/guides/rest_api.html">HTTP based API</a> but it requires some hoops to be jumped through and I&rsquo;m not quite sure from the docs it lets me do what I want (I have a specific usecase, of which more soon all being well).</p>
-
-<p>Both projects have had me reading the source code of Puppet and Facter, which for the most part has been enjoyable and informative. Puppet in particular has some great comments lying around :) Both of the above projects are available as gems for anyone else to play around with and build on, but my main aim is a little more high level. All being well I&rsquo;ll have a couple of projects built atop these APIs shortly.</p>
 
       
     </div>

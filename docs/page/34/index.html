@@ -63,6 +63,56 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/07/25/yui-lovin/">YUI lovin</a>
+      </h1>
+      <span class="post-date">Jul 25, 2006 &middot; 2 minute read
+      </span>
+      
+      <p>
+I’m working on some redesign work for one of my under maintained sites at the moment, with something of a redesign in the works. It seemed a good opportunity to play more with <a href="http://developer.yahoo.com/yui/">YUI</a>, the Yahoo User Interface Library, which I’d had a peak at before and heard nice things about (sorry, I like the long namespaces).
+
+</p>
+<p>
+I’ve nothing finished yet past a proof of concept, but I thought a couple of lines of javascript wouldn’t go a miss. Nothing fancy mind, just some nice bits I like so far.
+
+</p>
+<p>
+The case in point was wanting to add event handlers to an unknown number of links within an unordered list.
+
+</p>
+<p>
+First off a quick, clever, one liner. <em>onAvailable</em> checks for the availability of the object (if you remove the quotes) or an object with a specified id in this case. It executes the callback function, <em>init</em> in this case, when the condition is true.
+
+</p>
+<div>
+<code>YAHOO.util.Event.onAvailable("iList", init);</code>
+
+</div>
+<p>
+Moments later we have events added to all the links.
+
+</p>
+<div>
+<code>
+
+    function init() {
+       var links = document.getElementById("iList").getElementsByTagName("A");
+       YAHOO.util.Event.addListener(links, "click", clickCallback);
+    }
+
+</code>
+
+</div>
+<p>
+Again you just throw in whatever you happen to be working with (in this case an array returned by <em>getElementsByTagName</em>) and everything just gets dealt with. I originally had a <em>for</em> loop, iterating over the links and adding events, then I worked out YUI just did it all for me if I let it. I like that. I <strong>could</strong> have done it myself. YUI would have let me and not complained. But if I want to delve a bit I can find cool, quick, clean ways of doing the same thing. I refactored my code, with the help of YUI in ten minutes. I like that, but I think I said that.
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2006/07/19/more-dconstruct-craziness/">More dConstruct craziness</a>
       </h1>
       <span class="post-date">Jul 19, 2006 &middot; 2 minute read
@@ -456,41 +506,6 @@ I have to say I haven’t used DabbleDB yet. I haven’t signed up for a one mon
 </p>
 <p>
 Pretty much all your common desktop apps are <a href="http://www.basecamphq.com/">now</a> <a href="http://www.campfirenow.com/">available</a> <a href="http://www.writely.com">through</a> <a href="http://calendar.google.com">a</a> <a href="http://gmail.com">browser</a>, except crazy things like image editing. Oh and the browser itself. Now their’s an idea. A meta browser. Within your browser window open up several smaller windows, maybe using different rendering engines or setups running remotely?
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/05/18/anyone-fancy-a-pint/">Anyone fancy a pint?</a>
-      </h1>
-      <span class="post-date">May 18, 2006 &middot; 1 minute read
-      </span>
-      
-      <p>
-Tis about time for another meet up in sunny Newcastle. Pretty short notice but hey, the mailing list has called.
-
-</p>
-<p>
-<strong>Thursday 25th of May</strong> it is
-
-</p>
-<p>
-We are aiming for <a href="http://maps.google.co.uk/maps?f=q&#38;hl=en&#38;q=Pubs+in+NE1&#38;om=1&#38;latlng=54972784,-1612320,18338178544157676465">Tilly’s on Westgate road</a>. More info over on <a href="http://upcoming.org/event/78803/">Upcoming.org</a>
-
-</p>
-<p>
-Already a good few people coming along so, if your in the general area, why not join us? If last time is anything to go by expect lots of people who either dont know each other or only know people by domain name discussing anything vaguely (and I do mean vaguely) related to the web.
-
-</p>
-<p>
-The way of recognising everyone, as always, is the carrying of a recognisable web related book. Extra points for something really geeky, or really large.
-
-</p>
-<p>
-I’m hoping for some good banter and some ideas for the future. Hey maybe even making these a regular shindig? It would save us taking ages to decide when and where to meet. Though on the where bit I pretty impressed. Their seems to be a strong correlation between web people in Newcastle and proper beer. Speaking of beer, I heard a rumour that <a href="http://swoo.co.uk">Steve</a> was buying a round to celebrate his new design.
 
 </p>
 

@@ -63,6 +63,39 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/06/17/less-css/">Less CSS</a>
+      </h1>
+      <span class="post-date">Jun 17, 2009 &middot; 1 minute read
+      </span>
+      
+      <p>Ruby people <em>really</em> don&rsquo;t like CSS do they? But <a href="http://lesscss.org/">Less</a> is actually pretty cool. It&rsquo;s basically an attempt to bootstrap features, specifically Variables, Mixins, Operations and Nested Rules, into CSS. The best part about this is it uses CSS syntax and a simple one step compiler. I&rsquo;d be interested to know what the folks at the W3C think about this.</p>
+
+<p>So for instance you can do:</p>
+
+<p>pre. /* LESS */
+<code>brand_color: #4D926F;
+#header {
+  color:</code>brand_color;
+}
+h2 {
+color: @brand_color;
+}</p>
+
+<p>and compile it down to:</p>
+
+<p>pre. /* CSS */
+#header {
+color: #4D926F;
+}
+h2 {
+color: #4D926F;
+}</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/06/11/message-queues-cambridge-geek-night/">Message Queues at Cambridge Geek Night</a>
       </h1>
       <span class="post-date">Jun 11, 2009 &middot; 1 minute read
@@ -335,25 +368,6 @@ application = TokenBasedApplication(routes)</p>
 <p>An honorable mention goes to Johnny Lee Chung as well for showing off drag and drop between a laptop and a table. Oh, and everything else has been pretty interesting as well and it&rsquo;s not even the end of day one yet.</p>
 
 <p>I&rsquo;m around until next week too, which means I should be able to get along to barcamp - assuming my mind hasn&rsquo;t melted with all the stuff to take in.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/04/27/keeping-zeldmans-self-education-web-professionals/">Keeping Up With The Zeldmans - (Self) Education for Web Professionals</a>
-      </h1>
-      <span class="post-date">Apr 27, 2009 &middot; 1 minute read
-      </span>
-      
-      <p>So, it was the <a href="http://www.bamboojuice.co.uk/">Bamboo Juice</a> conference last Friday at the rather impressive Eden project in Cornwall. Along with <a href="http://adactio.com">Jeremy</a>, <a href="http://www.thehodge.co.uk/">Dom</a>, <a href="http://boagworld.com/">Paul</a> and <a href="http://www.scatteredpoppies.com/">Relly</a> I presented to the crowd of mainly local first time web conference goers.</p>
-
-<p><object style="margin:0px" width="425" height="355">
-<param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=selfeducationforwebprofessionals-090427034436-phpapp02&stripped_title=self-education-for-web-professionals" /><param name="allowFullScreen" value="true"/><param name="allowScriptAccess" value="always"/><embed src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=selfeducationforwebprofessionals-090427034436-phpapp02&stripped_title=self-education-for-web-professionals" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="355"></embed></object></p>
-
-<p>It was a great event, and felt a lot like the first Highland Fling in that it was the first big event in an area that&rsquo;s actually quite a distance from the bright lights of London (it took 8 hours to get back to Cambridge). The party afterwards, held in one of the biomes at the Eden project itself, was also pretty impressive.</p>
-
-<p>I&rsquo;ll hopefully right up some of my notes from the presentation soon, but for the moment I&rsquo;ve <a href="http://www.slideshare.net/garethr/self-education-for-web-professionals">uploaded the slides to Slideshare</a>. The whole thing was video&rsquo;d as well so look out for those in the future.</p>
 
       
     </div>

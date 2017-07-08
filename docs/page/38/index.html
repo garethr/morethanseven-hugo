@@ -63,6 +63,101 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/01/02/commented-on-follow-up/">@Commented-on Follow up</a>
+      </h1>
+      <span class="post-date">Jan 2, 2006 &middot; 3 minute read
+      </span>
+      
+      <p>
+Since the <a href="http://morethanseven.net/posts/commented-on">brief discussion</a> based around <a href="http://www.ben-ward.co.uk">ben’s</a> original idea for using <a href="http://del.icio.us">del.icio.us</a> to track comments you have made on other blogs I’ve been having a play.
+
+</p>
+<p>
+The main issue that people saw was simplicity, which I see falling under two headings:
+
+</p>
+<ul>
+<li>
+Ideally it should just happen. If you comment somewhere (and opt in, obviously) you browser or online service should keep a track and give you access to this data. This would require changes to existing blogs and in particular the common software like <a href="http://www.textpattern.com">textpattern</a> or <a href="http://wordpress.org">the other one</a>
+
+</li>
+<li>
+Saving that for later, a simple one click service which does not get in the way and achieves the same thing should be suitable.
+
+</li>
+</ul>
+<p>
+It’s the later that I’ve been playing with and thought I’d present here in it’s early stages. The plan is as follows:
+
+</p>
+<ul>
+<li>
+A <a href="http://en.wikipedia.org/wiki/Bookmarklet">bookmarklet</a> collects the data from the page (title and url) and sends it to an intermediary page, rather than del.icio.us.
+
+</li>
+<li>
+The intermediary page prompts for a username and password (HTTP authentication) and adds the post to del.icio.us automatically.
+
+</li>
+<li>
+The page is then either closed or redirected back to the page from whence the request came.
+
+</li>
+</ul>
+<h3>
+The bookmarklet
+
+</h3>
+<p>
+The bookmarklet section is simple enought modifications of the existing del.icio.us bookmarklets. See the download at the end of this post for details.
+
+</p>
+<h3>
+Intermediary
+
+</h3>
+<p>
+The intermediary page uses HTTP authentication to ask for a del.icio.us username and password (note that I’m not storing these at all, or for that matter at present checking if they are correct.) This needs only happen the first time you use the page if you use your browser to store the details or once per browser session otherwise.
+
+</p>
+<p>
+The page then makes a request to the <a href="http://del.icio.us/help/api/">del.icio.us API</a> using the lovely PHP library from <a href="http://dietrich.ganx4.com/delicious/">dietrich.ganx4.com/delicious/</a>
+
+</p>
+<h3>
+Return
+
+</h3>
+<p>
+On a failed request the page reports that an error has occured (I’ll expand on this with more pertinent error messages as time permits.)
+
+</p>
+<p>
+On success however we have two options, depending on the bookmarklet used. The default is to close the page down, with an alternative beiong to redirect back to the refering page. We do however run into a slight problem here with Firefox. Our favourite browser will only allow windows to be closed via javascript if they where opening by a script (NOT including our bookmarket). Internet Explorer has a similar set up where it prompts the user for an action, although a <a href="http://www.guyfromchennai.com/?p=18">simple fudge</a> get’s us around that one. At the moment therefore the close window bookmarklet is of limited usage for Firefox users.
+
+</p>
+<h3>
+Future
+
+</h3>
+<p>
+This could quite easily be expanded for use on a blog as the requests are simple HTTP requests with query string parameters. However the security implications of giving out your username and password would likely limit this approach. I’m going to look into the sending of bookmarks to others that ben mentioned and see if that can be used here – as hopefully that may only require you to give out your username. A service like <a href="http://www.gravatar.com/">gravatar</a> could then be used to do lookups between email addresses and del.icio.us usernames and away we go.
+
+</p>
+<p>
+Any thoughts, comments or suggestions welcome. And feel free to try out the bookmarklets. I’ve included a handy download below including a quick readme and the bookmarklets.
+
+</p>
+<p>
+<a href="http://morethanseven.net/commented-on/commented-on.zip">download @Commented-on pack</a>
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2005/12/27/obligatory-next-year-post/">Obligatory next year post</a>
       </h1>
       <span class="post-date">Dec 27, 2005 &middot; 2 minute read
@@ -446,37 +541,6 @@ I like knowing that it’s not just me!
 </p>
 <p>
 Just to say as well that anyone reading this and going along to the <a href="http://www.accessify.com">Accessify</a> <a href="http://www.accessifyforum.com/viewtopic.php?t=3770&#38;postdays=0&#38;postorder=asc&#38;highlight=meetup&#38;start=120">Meetup</a> in Manchester this weekend let me know. Leave a comment. Be good to put names and faces to email addresses and web sites!
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2005/11/12/dconstruct/">d.Construct?</a>
-      </h1>
-      <span class="post-date">Nov 12, 2005 &middot; 1 minute read
-      </span>
-      
-      <p>
-Right. I wasn’t at <a href="http://www.dconstruct.org">d.Construct</a> I’m still a bit gutted really as it sounded like a hoot and lots of it was up my street and would have been good to meet up with ‘people’. But hey, I can still watch the feeds pour in right?
-
-</p>
-<p>
-With that in mind, to again make my life easier and hopefully be of some use I’ve set up another (the first one was for <a href="http://www.atmedia2005.co.uk">@media</a>) feed syndicator.
-
-</p>
-<p>
-<a href="http://morethanseven.net/dconstruct">morethanseven.net/dconstruct</a>
-
-</p>
-<p>
-All I’m doing is parsing, storing and displaying all the feeds. On first run I picked up 27 and hopefully by the time you read this more will have been said. The collection of feeds are a combination of people I’ve met and people who where blogging about `media. If you have a feed and want it adding just leave a comment on here or drop me an <a href="mailto:gareth`morethanseven.net"&gt;email</a> and I’ll add it to the rest.
-
-</p>
-<p>
-I’ll just say a big shout for everyone at <a href="http://www.clearleft.com">Clearleft</a> for organising it on such short notice. I’d rather thinks like this happen and me not be there than they not happen at all because of problems with size or cost or admin. Maybe next year?
 
 </p>
 

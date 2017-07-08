@@ -63,6 +63,32 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/08/15/your-own-pypi-server/">Your Own PyPi server</a>
+      </h1>
+      <span class="post-date">Aug 15, 2009 &middot; 2 minute read
+      </span>
+      
+      <p>So one of the problems with using pip or easy_install as part of an automated deployment process is they rely on an internet connection. More than that, they rely on PyPi being up as it&rsquo;s a centralised system, unlike all the apt package mirrors.</p>
+
+<p>The best solution seems to be to host your own PyPi compliant server. Not only can you load all the third party modules you use onto it, but you could also upload any internal applications or libraries that you like. By running this on your local network you ensure your not dependent on pypi or an internet connection.</p>
+
+<p>At the moment I&rsquo;m playing with <a href="http://github.com/ask/chishop/tree/master">Chishop</a> which is a django application for maintaining a PyPi compatible server. Another alternative if that doesn&rsquo;t work out is <a href="http://pypi.python.org/pypi/EggBasket/">EggBasket</a></p>
+
+<p>To install from your own PyPi server you can specify the location of your Chishop instance with the -i flag.</p>
+
+<p>pre. easy_install -i <a href="http://localhost:8000/">http://localhost:8000/</a> PACKAGE_NAME</p>
+
+<p>This will fall back to the PyPi server if it doesn&rsquo;t find the relevant package. If you want to stop that behaviour and make sure you have a local package then you can limit the hosts with the -H flag like so.</p>
+
+<p>pre. easy_install -H localhost:8000 -i http::/localhost:8000/ PACKAGE_NAME</p>
+
+<p>I&rsquo;m not yet sure how to do this with pip, if someone wants to enlighten me in the comments then I&rsquo;d be most grateful.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/07/27/fabric-django-git-apache-mod-wsgi-virtualenv-and-p/">Fabric, Django, Git, Apache, mod_wsgi, virtualenv and pip deployment</a>
       </h1>
       <span class="post-date">Jul 27, 2009 &middot; 6 minute read
@@ -630,39 +656,6 @@ python setup.py bdist_egg upload</p>
 <scp file="${username}@${host}:/etc/apache2/apache2.conf" todir="." password="${password}"/>
 </target>
 </project></p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/06/17/less-css/">Less CSS</a>
-      </h1>
-      <span class="post-date">Jun 17, 2009 &middot; 1 minute read
-      </span>
-      
-      <p>Ruby people <em>really</em> don&rsquo;t like CSS do they? But <a href="http://lesscss.org/">Less</a> is actually pretty cool. It&rsquo;s basically an attempt to bootstrap features, specifically Variables, Mixins, Operations and Nested Rules, into CSS. The best part about this is it uses CSS syntax and a simple one step compiler. I&rsquo;d be interested to know what the folks at the W3C think about this.</p>
-
-<p>So for instance you can do:</p>
-
-<p>pre. /* LESS */
-<code>brand_color: #4D926F;
-#header {
-  color:</code>brand_color;
-}
-h2 {
-color: @brand_color;
-}</p>
-
-<p>and compile it down to:</p>
-
-<p>pre. /* CSS */
-#header {
-color: #4D926F;
-}
-h2 {
-color: #4D926F;
-}</p>
 
       
     </div>

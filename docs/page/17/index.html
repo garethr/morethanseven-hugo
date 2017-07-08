@@ -63,6 +63,18 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/03/13/app-engine-remote-api-calls/">App Engine Remote API calls</a>
+      </h1>
+      <span class="post-date">Mar 13, 2009 &middot; 1 minute read
+      </span>
+      
+      <p>Not sure how I missed this but apparently App Engine (as of 1.1.9) supports <a href="http://code.google.com/appengine/articles/remote_api.html">remote access to your live data store</a>. This means you can create administration applications more easily by running them locally, rather than within the limitations of the live platform. You can even run a local python prompt with access to your live datastore which is pretty neat.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/03/13/does-rails-encourage-soa-better-than-django/">Services Vs Applications: Does Rails Encourage SOA Better Than Django?</a>
       </h1>
       <span class="post-date">Mar 13, 2009 &middot; 1 minute read
@@ -270,52 +282,6 @@
 </exec>
 </target>
 </project></p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/02/21/example-using-xmpp-app-engine-imified/">Example of using XMPP on App Engine (via IMified)</a>
-      </h1>
-      <span class="post-date">Feb 21, 2009 &middot; 3 minute read
-      </span>
-      
-      <p>As I <a href="http://morethanseven.net/2009/02/07/xmpp-and-offline-processing-coming-google-app-engi/">mentioned before</a>, App Engine is getting an XMPP API at some point soon. But if you just can&rsquo;t wait to start adding IM interfaces to your applications then you <em>can</em> do it now, by using a nifty third party in <a href="http://imified.com/">IMified</a>.</p>
-
-<p>IMified provide an incredibly simple HTTP API for interacting with your own IM bot. If we want to be buzz word compliant we might even call it a <a href="http://webhooks.pbwiki.com">webhook</a>. It&rsquo;s also currently a free service while they work through the beta. The <a href="http://new.imified.com/developers/api">documentation</a> is short and to the point but only contains examples in PHP. It supports multiple step <em>conversations</em> as well as authentication.</p>
-
-<p>So, armed with a little time on the train over the last few days I got to work knocking together a quick demo application as a proof of concept. You can find the site on <a href="http://imified-demo.appspot.com/">imified-demo.appspot.com</a> and if you want to chat with the bot you can add <em>appengineimified@bot.im</em> to your contacts. The bot uses the Jabber protocol so is available over Jabber or GTalk. IMified make it easy to use MSN or Yahoo IM accounts as well, which is something the App Engine API might very well not do I would imagine.</p>
-
-<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cgwLEgVJbWFnZRjRDww" alt="Screengrab of the IMified App Engine site"/></p>
-
-<p>As always you can find the code on <a href="http://github.com/garethr/appengine-imified/tree/master">GitHub</a>. Most of the code is actually just the site itself or settings to make local development easier. The following is a slightly edited version of the live code (logging and caching removed to make it easier to follow). All we need to do is accept a HTTP Post request with a list of arguments and return a plain text response. All being well the response is sent as a IM message to the sender.</p>
-
-<p>pre. class IMified(webapp.RequestHandler):
-&ldquo;This is the endpoint for the message from IMified&rdquo;
-def post(self):
-&ldquo;We recieve post data from IMified&rdquo;
-userkey = self.request.get(&lsquo;userkey&rsquo;)
-network = self.request.get(&lsquo;network&rsquo;)
-msg = self.request.get(&lsquo;msg&rsquo;)
-step = self.request.get(&lsquo;step&rsquo;)
-try:
-# we try and create the message
-message = Message(
-userkey = userkey,
-network = network,
-msg = msg,
-step = int(step)
-)
-message.put()
-# the response is send as an IM message to the sender
-self.response.out.write(&lsquo;Message saved&rsquo;)
-except:
-self.response.out.write(&lsquo;An error ocured, message not saved&rsquo;)</p>
-
-<p>IMified can obviously be used outside App Engine as well, and in fact it&rsquo;s not just about working around limitations in existing systems. Running the long running processes required for bots, and potentially even running your own XMPP server, is fiddly at times and requires at least some setup, monitoring and configuration to get working. Not having that as a barrier for entry for simple experiments or applications is a good thing.</p>
-
-<p><a href="http://aralbalkan.com/">Aral</a> spoke at the last <a href="http://groups.google.com/group/django-london">DJUGL</a> about App Engine and mentioned a wide range of third party services that you can use to get around current limitations. IMified definitely fits into this group of support services very nicely indeed. I&rsquo;d love to see them do really well as it really makes it much easier to get started with XMPP applications, even if what you can do is limited to a few simple APIs. I&rsquo;d love to hear about other services that people are using in this way to build these distributed applications.</p>
 
       
     </div>

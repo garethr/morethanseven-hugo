@@ -63,6 +63,18 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2008/09/14/imified/">Imified</a>
+      </h1>
+      <span class="post-date">Sep 14, 2008 &middot; 1 minute read
+      </span>
+      
+      <p><a href="http://new.imified.com/developers">Imified</a> looks like an interesting way of getting started with using instant messaging bots in your applications. (<a href="http://digg.com/programming">Via</a>)</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2008/09/14/using-python-and-stompserver-get-started-message-q/">Using Python and Stompserver to Get Started With Message Queues</a>
       </h1>
       <span class="post-date">Sep 14, 2008 &middot; 6 minute read
@@ -386,58 +398,6 @@ end&lt;/code&gt;
 <p>Of course for most projects you would want to expand this basic recipe. Maybe you have database updates to run or need to deploy to multiple machines at once? You&rsquo;ll might have machine specific configuration files which aren&rsquo;t in the source control system. You will also probably want to be able to revert back if something goes wrong and you might want to only change files that have been altered. Capistrano has lots of powerful features built in that will let you do just that, and once you get started with this sort of build scripting you&rsquo;ll find lots of areas to improve. And you&rsquo;ll find lots of good tutorials online that will take you further.</p>
 
 <p>The difficult part with project automation and build scripts is often the <em>getting started</em> in the first place; especially if you&rsquo;re not the server admin type. Unfortunately the documentation and articles written on the subject tend to be somewhat arcane and aimed at the more hardcore developer. Hopefully this simple, usable, example convinces someone else to give it a try.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/04/18/resourceful-vs-hackable-search-urls/">Resourceful Vs Hackable Search URLs</a>
-      </h1>
-      <span class="post-date">Apr 18, 2008 &middot; 3 minute read
-      </span>
-      
-      <p>I often end up pondering URL design given a moment and something that keeps coming up is hackable search queries. But first a very quick primer on the idea of resourceful design.</p>
-
-<p><a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a> is a series of architectural principals more than a defined architecture. The <a href="http://en.wikipedia.org/wiki/Resource_oriented_architecture">Resource Orientated Architecture</a> builds on those ideas with a series of concrete guidelines put down by <a href="http://intertwingly.net">Sam Ruby</a> for designing RESTful systems. The simple version is that you try to design your system around <a href="http://en.wikipedia.org/wiki/Resource_%28Web%29">resources</a> represented by URLs.</p>
-
-<p>I&rsquo;d thoroughly recommend reading <a href="http://www.amazon.co.uk/RESTful-Web-Services-Leonard-Richardson/dp/0596529260">RESTful web services</a> whenever you get a moment as this subject is covered in detail.</p>
-
-<p>Flickr isn&rsquo;t a truly resourceful design but it does have many of the hallmarks. For example the URL that describes me is at:</p>
-
-<pre><code>&lt;code&gt;http://flickr.com/people/garethr&lt;/code&gt;
-</code></pre>
-
-<p>When it comes to searching on flickr we have:</p>
-
-<pre><code>&lt;code&gt;http://flickr.com/search/?w=all&amp;q=pubstandards&amp;m=text&lt;/code&gt;
-</code></pre>
-
-<p>The pattern of using a query string argument named <em>q</em> to pass a search string is pretty common. One of the guidelines mentioned as part of the ROA discussed query strings:</p>
-
-<blockquote>
-<p>Query string parameters are appropriate if they are inputs to a Resource which is an algorithm. Otherwise, these values should be moved into the URI.</p>
-</blockquote>
-
-<p>Search is definitely algorithmic. Now you could maybe argue that a global search should be done on the root of a site, with specific resource searches on the resource in questions. eg. <em>/people/?q=</em>. This would likely work fine but require some behind the scenes complexity as well as probably not being as obvious to the end user. Global searches are in many cases much more common that restricted searches and even in resourceful designs the root of the site (ie. the home page) might not act as a list of available site resources. A notable exception might would have to be the excellent <a href="http://www.bbc.co.uk/programmes">BBC Programmes</a> site which is basically one big semantic catalogue.</p>
-
-<p>But we have another kind of URL that&rsquo;s cropping up for search results, one that treats the URL much more like a fundamental part of the user interface for search. An example from a site I use all the time is <a href="http://traintimes.org.uk/">The Accessible UK Train Timetable</a> which allows for URLs like the following:</p>
-
-<pre><code>&lt;code&gt;http://traintimes.org.uk/newcastle/london&lt;/code&gt;
-</code></pre>
-
-<p>You can basically squash all the search parameters from the form into the URL, meaning you can easily bookmark search results. Note however the actual content is likely to change. The above example for instance would use the current time to get a list of trains from Newcastle to London. In an hours time the results will be different.</p>
-
-<p>Another good example would be the new Yahoo! UK TV listings which has URLs like these:</p>
-
-<pre><code>&lt;code&gt;http://uk.tv.yahoo.com/listings/bbc-two/2008-04-17/&lt;/code&gt;
-
-&lt;code&gt;http://uk.tv.yahoo.com/listings/itv1/2008-04-17/21-00/&lt;/code&gt;
-</code></pre>
-
-<p>Again this is really a search query, or at least specifying the time and date is. In some ways it&rsquo;s the return of the command line - allowing searches to be run very quickly from a textual interface.</p>
-
-<p>Now, both these approaches treat URLs with the respect they deserve. But they do have the potential to clash somewhere in the middle if care isn&rsquo;t taken. The Accessible Train Times site is a single purpose site which just does searches while BBC Programmes does feature a search engine but it&rsquo;s just the global BBC search which takes you off site. And if that wasn&rsquo;t enough potential competition then a question raised by <a href="http://simonwillison.net">Simon</a> at The Highland Fling regarding URL design and the search engine optimisation crowd go me thinking too. From being a somewhat niche area of interest URLs might just become a sort after part of a good website design - fought over by the varying disciplines of modern web design and development.</p>
 
       
     </div>

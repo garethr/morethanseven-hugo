@@ -6,10 +6,20 @@
     <description>Recent content in Posts on More than seven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Mon, 26 Jun 2017 13:56:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Jul 2017 13:56:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Predictions for the direction of serverless platforms</title>
+      <link>/2017/06/26/predictions-for-the-direction-of-serverless-platforms/</link>
+      <pubDate>Fri, 07 Jul 2017 13:56:00 +0000</pubDate>
+      
+      <guid>/2017/06/26/predictions-for-the-direction-of-serverless-platforms/</guid>
+      <description>While at JeffConf I had a particularly interesting conversation with Anne, James and Guy. Inspired by that, and the fact James is currently writing a blog post a day, I thought I&amp;rsquo;d have a go at writing up some of my thoughts.
+I want to focus on a couple of things relevant to the evolution of Serverless as a platform and the resulting commercial ecosystem, namely the importance of Open Service Broker and a bet on OpenWhisk.</description>
+    </item>
     
     <item>
       <title>Schemas for Kubernetes types</title>

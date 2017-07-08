@@ -63,6 +63,24 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2007/12/08/writing-elsewhere/">Writing Elsewhere</a>
+      </h1>
+      <span class="post-date">Dec 8, 2007 &middot; 1 minute read
+      </span>
+      
+      <p>As well as the eclectic ramblings on this blog I&rsquo;ve taken to writing longer bits and pieces for some other nice folk, two of which went up over the last few days.</p>
+
+<p>&ldquo;Drew&rdquo; and <a href="http://suda.co.uk">Brian</a> are doing a great job of gathering together some really good articles in a silly time-scale over on <a href="http://24ways.org">24ways.org</a> at the moment. <a href="http://24ways.org/2007/minification-a-christmas-diet">My little ditty on minification</a> was day 6.</p>
+
+<p><a href="http://my.opera.com/chrismills/blog/">Chris Mills</a>, in his new position as Opera mascot, has also rapidly started to build up a great collection of articles over on <a href="http://dev.opera.com">dev.opera</a>. My contribution to what is looking like a great new resource is a piece on <a href="http://dev.opera.com/articles/view/json-configuration-for-javascript/">using JSON for configuration in your Javascript applications</a>.</p>
+
+<p>Writing for other people is different to just posting interesting stuff on your blog. And it wouldn&rsquo;t work at all without some pretty dedicated people editing, compiling and chasing to get us all those high quality articles for sites such as <a href="http://alistapart.com">alistapart</a>, <a href="http://digital-web.com">Digital Web</a> and <a href="http://sitepoint.com">Sitepoint</a>. So if you meet any of these people on your travels then pat them on the back and <a href="http://foamee.com">buy them a beer</a>. Without the information sharing community we probably wouldn&rsquo;t be doing all this for a living.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2007/12/03/debug-web-pages-with-jquery-and-jash/">Debug web pages with Jquery and Jash</a>
       </h1>
       <span class="post-date">Dec 3, 2007 &middot; 1 minute read
@@ -333,62 +351,6 @@ print &lsquo;Archived &rsquo; + str(tweets) + &lsquo; of &rsquo; + username + <b
 <p>The <a href="http://open.bbc.co.uk/labs/2008_the_brief.php">briefs</a> are already up that will form the core of the submission process in order to get on one of the labs. I&rsquo;d recommend having a good read, picking a few you think are interesting and tie in with whatever your interests are at the moment and go from their.</p>
 
 <p>With all that in mind I&rsquo;m looking for people who fancy partnering up to brainstorm ideas, put together a few submissions and see if we get anywhere. I&rsquo;m now working full time on freelance and consultancy gigs but the nature of the labs was that you need a team of at least two people. And anyway, ideas flow more freely with a few smart people sat around. So, if anyone fancies sitting around talking through a few of the briefs (and who knows, maybe drinking a glass of wine?) at some point over the next few months before the deadline let me know.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/10/28/php-asset-packager/">PHP Asset Packager</a>
-      </h1>
-      <span class="post-date">Oct 28, 2007 &middot; 3 minute read
-      </span>
-      
-      <p>Performance used to be something other people thought about. If you were working on a high traffic site for a large company, chances are they would throw inordinate amounts of expensive hardware at the problem. If you had a personal site only if you got really popular would you need more than a shared host. But the number of web applications being launched by small companies or individuals from their bedrooms is raising the awareness of the importance of performant websites.</p>
-
-<p>Credit to YAHOO! here. Google and Amazon might be the first companies that spring to mine when it comes to thinking about infrastructure but YAHOO! have been publishing lots of useful, practical and interesting information in this area. <a href="http://stevesouders.com/">Steve Souders</a>, the Chief Performance YAHOO! has a <a href="http://www.amazon.co.uk/o/ASIN/0596529309/">new book</a> going into detail about <a href="http://developer.yahoo.com/performance/rules.html">YAHOO!s performance rules</a>. The recent release of the <a href="http://developer.yahoo.com/yslow/">YSlow</a> extension and another <a href="http://website-performance.org/">upcoming book</a> from <a href="http://muffinresearch.co.uk/archives/2007/09/27/css-sprite-generator-tool/">Stuart Colville</a> and <a href="http://www.ejeliot.com/">Ed Eliot</a> cap things off nicely.</p>
-
-<p>According to <a href="http://developer.yahoo.com/performance/rules.html#num_http">YAHOO!</a></p>
-
-<blockquote>
-<p>Combined files are a way to reduce the number of HTTP requests by combining all scripts into a single script, and similarly combining all stylesheets into a single stylesheet. It&rsquo;s a simple idea that hasn&rsquo;t seen wide adoption. The ten top U.S. web sites average 7 scripts and 2 stylesheets per page. Combining files is more challenging when the scripts and stylesheets vary from page to page, but making this part of your release process improves response times.</p>
-</blockquote>
-
-<p>While all that has been going on I&rsquo;ve been working with a <a href="http://rbd.shiftnetwork.co.uk/">few</a> <a href="http://www.bofh.org.uk/">people</a> on a Rails project and come across a great plugin; <a href="http://synthesis.sbecker.net/pages/asset_packager">asset_packager</a> from <a href="http://synthesis.sbecker.net/">Scott Becker</a>. Inspired by the <a href="http://www.thinkvitamin.com/features/webapps/serving-javascript-fast">Vitamin article</a> by <a href="http://www.iamcal.com/">Cal Henderson</a> (of Flickr and <a href="http://www.amazon.co.uk/Building-Scalable-Web-Sites-Henderson/dp/0596102356">another good book</a> fame), asset_packager compresses and merges CSS and Javascript based on a prescribed configuration.</p>
-
-<p>I&rsquo;m also working on a few PHP projects and wanted the same experience in these as well, so I&rsquo;ve gone a put together a quick release of <a href="http://code.google.com/p/php-asset-packager/">php asset packager</a>. At the moment this is a CSS only release, with Javascript features coming later, along with all the rest of the features of the Rails plugin and anything else I can think of or need.</p>
-
-<p>First off you define your stylesheet setup. I used <a href="http://www.yaml.org/">YAML</a> as my goal was to stick as close as possible to the Rails plugin.</p>
-
-<p><code></p>
-
-<pre><code>stylesheets:
-- base:
-  - screen
-  - header
-- secondary:
-  - foo
-  - bar
-</code></pre>
-
-<p></code></p>
-
-<p>The above simply states that you want to merge screen and header CSS files together to form a base stylesheet, and merge foo and bar together to create a secondary CSS file.</p>
-
-<p>All you then have to do is include the following:</p>
-
-<p><code></p>
-
-<pre><code>// define(&quot;ENVIRONMENT&quot;, &quot;production&quot;);
-
-echo Asset_packager::stylesheet_link_merged();
-</code></pre>
-
-<p></code></p>
-
-<p>If the ENVIRONMENT constant is set to <em>production</em> the line includes the merged stylesheet links, otherwise each file is included seperately. This again mirrors the behaviour of the Rails plugin. A command line script is also included in the <a href="http://code.google.com/p/php-asset-packager/source">source</a> to actually merge (and <a href="http://csstidy.sourceforge.net/">tidy</a>) the CSS files.</p>
-
-<p>The vague plan is to add the rest of the features and then maybe package up as a plugin for whatever software or frameworks I&rsquo;m working with at the time. At the moment that probably means wordpress, <a href="http://www.symfony-project.com/">symfony</a> and <a href="http://codeigniter.com/">code igniter</a>. Everything is open source and available from svn over on the <a href="http://code.google.com/p/php-asset-packager">Google Code site</a>. Contributions, in the way of code, bugs, documentation or thoughts welcome.</p>
 
       
     </div>

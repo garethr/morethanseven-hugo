@@ -63,6 +63,149 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2016/11/23/the-coming-of-the-kubernetes-distributions/">The coming of the Kubernetes distributions</a>
+      </h1>
+      <span class="post-date">Nov 23, 2016 &middot; 5 minute read
+      </span>
+      
+      
+
+<p>Very few people today start using Linux by downloading the linux kernel
+and starting from scratch. Most people start with a Linux distribution;
+for instance Debian, Ubuntu or CentOS. These distributions provide some
+opinions, some central infrastructure, a brand, strong versioning for
+the entire ecosystem and a bunch of other things. I posit that we&rsquo;ll see
+the same pattern emerge with Kubernetes.</p>
+
+<h2 id="what-even-is-kubernetes">What even is Kubernetes?</h2>
+
+<p>I&rsquo;ve seen Kubernetes described as all of the following:</p>
+
+<ul>
+<li>An operating system for your datacenter</li>
+<li>The distributed systems toolkit</li>
+<li>The Linux kernel for distributed systems</li>
+</ul>
+
+<p>I think all of these descriptions point to the developers intent that
+Kubernetes is something to build upon, rather than a simple out-of-the-box
+experience. It&rsquo;s predominantly about building agreement on the
+primitives/APIs of distributed systems.</p>
+
+<h2 id="a-name-for-a-thing">A name for a thing</h2>
+
+<p>I&rsquo;ve not seen much discussion of this in general yet, I think because
+it&rsquo;s early days and many of the people looking at Kubernetes today are
+either developers or early adopter types. These people have been
+&ldquo;downloading the kernel and starting from scratch&rdquo;, even until recently
+most likely running from source downloaded directly from GitHub. If the
+Kubernetes ecosystem is to grow then that&rsquo;s not how more mainstream IT
+will adopt Kubernetes.</p>
+
+<p>The reason for discussing this now is that I think a name is useful.
+That way we can talk about Kubernetes (singular, the software) separate
+from distrubutions of Kubernetes (many of them, from different vendors
+and communities). I&rsquo;d be happy to see a different name, but I think
+distribution probably fits best.</p>
+
+<h2 id="any-evidence">Any evidence?</h2>
+
+<p>Absolutely. A range of software vendors are providing what I&rsquo;m calling
+Kubernetes distributions. Here is a sample, I&rsquo;m sure there are and will
+be more. I&rsquo;m also sure over time some will disappear or maintain only a
+niche audience.</p>
+
+<ul>
+<li>OpenShift from Red Hat</li>
+<li>Tectonic from CoreOS</li>
+<li>Kismatic from Apprenda</li>
+<li>Rancher</li>
+<li>Canonical Distribution of Kubernetes</li>
+<li>GKE from Google</li>
+<li>Azure Container Service from Microsoft</li>
+<li>Photon Platform from VMware</li>
+<li>Navops from Univa</li>
+</ul>
+
+<p>Note that Canonical are already using the term <em>distribution</em> in the
+name. I&rsquo;ve seen it used in passing in CoreOS, OpenShift and Apprenda
+press materials too.</p>
+
+<h2 id="what-can-we-expect-from-kubernetes-distributions">What can we expect from Kubernetes distributions?</h2>
+
+<p>Running with the analogy that Kubernetes is &ldquo;an operating system for
+your datacenter&rdquo; and that we&rsquo;ll have a range of competing Kubernetes
+distributions, what else can we expect over the next few years?</p>
+
+<h3 id="package-repositories-aka-app-stores">Package repositories (aka. app stores)</h3>
+
+<p>One of the things provided by the traditional Linux distributions has
+been a central package repository. Most of the packages you&rsquo;re
+installing from <code>apt</code> or <code>yum</code> are coming from that currated set of
+available packages. Not to mention community efforts like EPEL. We
+already have two package concepts within the Kubernetes ecosystem -
+container images (often from Docker Hub today, or from internal
+repositories) and Charts, part of the Helm package management tool
+(now a CNCF project).</p>
+
+<p>In the short term expect the shared public Charts repository and Docker
+Hub to dominate. But over time different vendors will launch there own
+repositories. Partly this will be about building a trusted ecosystem,
+partly about limiting permutations for support and testing, and partly
+about control. The prize here is to be &ldquo;the enterprise app store&rdquo; and
+no vendor in this space isn&rsquo;t going to at least try to own that as part
+of their platform.</p>
+
+<h3 id="kubernetes-standards-and-compliance">Kubernetes standards and compliance</h3>
+
+<p>In an environment with many distributors of core software, it&rsquo;s
+common for people to emphasise portability. As vendors extend their
+distribution (to provide higher level, but potentially proprietary
+features) this can become muddier. Some level of certification is
+often the answer. See CloudFoundry or OpenStack for recent examples.
+Kubernetes is already part of the CNCF, part of the Linux Foundation.
+I&rsquo;d expect to see the works standards and certification eventually
+float around, but my guess is not in the short term.</p>
+
+<h3 id="a-fight-over-who-is-the-most-open">A fight over who is the most open</h3>
+
+<p>Much of the container conversation recently has centered around a
+<em>weaponisation</em> of <em>open</em>. I think as the different distributions try and
+take the community with them at the same time as trying to scale sales this
+will continue. This will be an irritation and is probably best avoided.</p>
+
+<h3 id="pressure-for-aws-to-offer-kubernetes-as-a-service">Pressure for AWS to offer Kubernetes as a service</h3>
+
+<p>I would presume AWS has a very good idea of how many people are actually
+using Kubernetes on it&rsquo;s platform. I think as that grows, and as other
+vendors efforts mature, they will come under pressure to offer the
+Kubernetes API as a service. I&rsquo;m still split on whether that will
+actually happen but that&rsquo;s a longer blog post about economics.</p>
+
+<h3 id="differentiating-features">Differentiating features</h3>
+
+<p>Ultimately vendors will try and differentiate themselves in this new
+market. To begin with the majority of business will be targetting the
+container-curious and mainly talking up the benefits of containers and
+Kubernetes. But some potentialy customers are going to insist on
+comparing Kubernetes distributions and winning there is going to be about
+clear differentiation. Do you want to be the budget offering or the
+provider with the unique selling point?</p>
+
+<h2 id="interesting-questions">Interesting questions</h2>
+
+<p>An observation at the moment is that all the current Kubernetes
+distributions I&rsquo;m aware of are vendor-owned. Whether Open Source or not,
+they are driven by a single vendor (CoreOS, Red Hat, Apprenda, etc.)
+It&rsquo;s interesting to see whether, in the current climate, we see a
+genuinely free and open source Kubernetes distribution emerge, similar
+to the role Debian plays in the Linux distribution world.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2016/11/12/the-end-of-the-general-purpose-operating-system-unikernels/">Unikernels and The End of the General Purpose Operating System</a>
       </h1>
       <span class="post-date">Nov 12, 2016 &middot; 2 minute read
@@ -994,102 +1137,6 @@ patterns worth adopting for most module developers I think.</p>
 
 <p>If anyone has any suggestions for extra tools, or changes to the
 skeleton itself, let me know.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2015/05/19/information-security-reading-list/">Information Security Reading List</a>
-      </h1>
-      <span class="post-date">May 19, 2015 &middot; 3 minute read
-      </span>
-      
-      
-
-<p>I read quite a bit (probably a book a week or so) and one of the topics
-I&rsquo;ve been reading on for a while is information security. In a recent
-conversation someone asked for some book suggestions, so I thought I&rsquo;d
-write that up in a blog post rather than an email.</p>
-
-<p>Most of this list isn&rsquo;t particularly technical. It&rsquo;s not a developers
-list of software engineering tomes. If you&rsquo;re a developer or operator
-then I&rsquo;d recommend reading some of the more policy or journalistic
-pieces as well for context. And if you&rsquo;re just interested in the topic
-but nor particularly technical I&rsquo;d skip the security engineering
-suggestions.</p>
-
-<p>Note that I make no claims about this being a particularly balanced
-list, it&rsquo;s biased towards what I find interesting to read. Hopefully
-you&rsquo;ll find it interesting too.</p>
-
-<h2 id="journalism">Journalism</h2>
-
-<p>Understanding why Information Security is important tends to require
-some context. The following books provide that, with detailed real-world
-stories of criminal and government activities.</p>
-
-<ul>
-<li><a href="http://www.amazon.co.uk/The-Dark-Net-Jamie-Bartlett/dp/0434023159">The Dark Net</a> - Jamie Bartlett - an excellent personal tale of
-investigating the hidden side of the internet.</li>
-<li><a href="http://www.amazon.co.uk/Spam-Nation-Organized-Cybercrime-Epidemic-ebook/dp/B00L5QGBL0">Spam Nation</a> - Brian Krebs - everything you wanted to know about how
-and why Spam works.</li>
-<li><a href="http://www.amazon.co.uk/Countdown-Zero-Day-Stuxnet-Digital/dp/077043617X">Countdown to Zero Day</a> - Kim Zetter - a detailed and fast paced
-description of the Stuxnet attack, and it&rsquo;s implications.</li>
-<li><a href="http://www.amazon.co.uk/Future-Crimes-Everything-Connected-Vulnerable/dp/0385539002">Future Crimes</a> - Marc Goodman - a focus on the criminal
-possibilities of the modern internet and the internet of things.</li>
-<li><a href="http://www.amazon.co.uk/Worm-The-First-Digital-World/dp/1611855845">Worm</a> - Mark Bowden - similar to the excellent tale of Stuxnet
-above, this is the story of Conficker and how it was discovered</li>
-</ul>
-
-<h1 id="policy-and-context">Policy and context</h1>
-
-<p>These books are focused more on government policy and nation state
-threats, and the debate about the rules of war and the internet.</p>
-
-<ul>
-<li><a href="http://www.amazon.co.uk/Cyber-War-Threat-National-Security/dp/0061962244">Cyber War</a> - Richard Clarke - probably the best description of what
-cyber war is and isn&rsquo;t, and some of the geopolitical problems
-emerging.</li>
-<li><a href="http://www.amazon.co.uk/Cyber-War-Will-Take-Place/dp/1849042802">Cyber War Will Not Take Place</a> - Thomas Rid - a good counter to the
-above book, with lots more detailed discussion of policy and definition.</li>
-<li><a href="http://www.amazon.co.uk/Inside-Cyber-Warfare-Mapping-Underworld/dp/1449310044">Inside Cyber Warfare</a> - Jeffrey Carr - really just a run through of
-current threats, especially organised crime.</li>
-</ul>
-
-<h1 id="security-engineering">Security engineering</h1>
-
-<ul>
-<li><a href="http://www.cl.cam.ac.uk/~rja14/book.html">Security Engineering</a> - Ross Anderson - highly technical and quite
-epic, but definitely the best security engineering book around.</li>
-<li><a href="http://www.amazon.co.uk/Threat-Modeling-Designing-Adam-Shostack/dp/1118809998">Threat Modelling</a> - Adam Shostack - details descriptions of how and
-why to conduct threat moddelling, with lots of examples.</li>
-<li><a href="http://www.amazon.co.uk/Data-Driven-Security-Visualization-Dashboards/dp/1118793722">Data Driven Security</a> - Jay Jacobs and Bob Rudis - nice examples,
-including code samples, of applying data and statistics tools and
-practices to security problems.</li>
-<li><a href="http://www.amazon.co.uk/Cloud-Security-Privacy-Enterprise-Perspective/dp/0596802765">Cloud Security and Privacy</a> - Tim Mather, Subra Kumaraswamy, Shahed
-Latif - a good book to read for anyone working in AWS, Azure or similar.
-Good discussion of concerns and compliance approaches in third party
-environments.</li>
-<li><a href="http://www.amazon.co.uk/The-Tangled-Web-Securing-Applications/dp/1593273886">The Tangled Web</a> - Michal Zalewski - everything you ever wanted to
-know about the browser security model</li>
-<li><a href="http://www.amazon.co.uk/Silence-Wire-Passive-Reconnaissance-Indirect/dp/1593270461">Silence on the Wire</a> - Michal Zalewski - described as a field guide
-to passive reconnaissance and indirect attacks. Good for starting to
-think about non-obvious security threats</li>
-</ul>
-
-<h1 id="on-my-reading-list">On my reading list</h1>
-
-<p>I&rsquo;ve not read these books yet so can&rsquo;t recommend them as such, but they
-both look good additions to the list above.</p>
-
-<ul>
-<li><a href="http://www.amazon.co.uk/Data-Goliath-Bruce-Schneier/dp/0393244814">Data and Goliath</a> - Bruce Schneier - a look at the large scale data
-collection programmes of governments and their implications for
-everyone.</li>
-<li><a href="http://www.amazon.co.uk/Black-Code-Ronald-J-Deibert/dp/0771025351">Black Code</a> - Ronald J. Deibert - the story of the Citizen Lab
-and it&rsquo;s front line cyber researchers</li>
-</ul>
 
       
     </div>

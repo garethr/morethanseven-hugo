@@ -63,6 +63,132 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2017/06/26/predictions-for-the-direction-of-serverless-platforms/">Predictions for the direction of serverless platforms</a>
+      </h1>
+      <span class="post-date">Jul 7, 2017 &middot; 5 minute read
+      </span>
+      
+      
+
+<p>While at <a href="http://www.jeffconf.com">JeffConf</a> I had a particularly
+interesting conversation with <a href="https://twitter.com/anne_e_currie">Anne</a>,
+<a href="https://twitter.com/monkchips">James</a> and
+<a href="https://twitter.com/guypod">Guy</a>. Inspired by that, and
+the fact James is currently writing a blog post a day, I thought I&rsquo;d
+have a go at writing up some of my thoughts.</p>
+
+<p>I want to focus on a couple of things relevant to the evolution of
+Serverless as a platform and the resulting commercial ecosystem,
+namely the importance of <a href="https://openservicebrokerapi.org/">Open Service Broker</a>
+and a bet on <a href="https://openwhisk.incubator.apache.org/">OpenWhisk</a>.</p>
+
+<p><img src="/public/predictions.png" alt="" /></p>
+
+<p>The above is a pretty high-level picture of how I think Serverless
+platforms are playing out. I&rsquo;ve skipped a few things from the diagram
+that I&rsquo;ll come back to, and I&rsquo;m not trying to detail all options, just
+the majority by usage, but the main points are probably:</p>
+
+<h2 id="openwhisk">OpenWhisk</h2>
+
+<p>OpenWhisk is one of a number of run-your-own-serverless platforms <a href="http://redmonk.com/fryan/2017/03/02/serverless-redefining-devops/">vying
+for
+attention</a>.
+My guess is it&rsquo;s the one that will see actual market adoption over time.</p>
+
+<p>One of the reasons for that is that <a href="https://developers.redhat.com/blog/2017/06/07/red-hat-and-apache-openwhisk/">Red Hat recently announced they are supporting
+OpenWhisk</a>.
+Specifically they are working to run OpenWhisk on top of Kubernetes
+which I see as being something that will tap into the growing number of
+people and companies adopting Kubernetes in one form or another.
+Kubernetes provides a powerful platform to build higher-level user
+interfaces on, and I see it ending up as the default here.</p>
+
+<p>There are a few things that could make this prediction much messier. One
+of those is that OpenWhisk is currently in the incubator for the Apache
+Foundation. CNCF has been building up a product portfolio across tools
+in this space, and has a <a href="https://github.com/cncf/wg-serverless">Serverless working
+group</a>. It would be a shame if
+this somehow ends up with a perceived need to <em>bless</em> something else.
+The other might be say an aquisition of Serverless Framework by Docker
+Inc, or a new entrant completely.</p>
+
+<h2 id="open-service-broker">Open Service Broker</h2>
+
+<p>Without supporting services to bind to, Serverless computing doesn&rsquo;t look as
+interesting. Although you&rsquo;ll see some standalone Lambda usage it&rsquo;s much
+more common to see it combined with API Gateway, DynamoDB, S3, Kinesis,
+etc. The catch is that these are AWS services. Azure (with Azure
+Functions) and Google Cloud (with Cloud Functions) are busy building
+similar ecosystems. This makes the barrier to entry for a pure
+technology play (like OpenWhisk or something else) incredibly high.</p>
+
+<p>AWS Services work together because they are built by the same
+organisation, and integrated together via the shared AWS fabric. How can
+you build that sort of level of agreement between a large number of
+totally unconnected third parties? What about exposing internal services
+(for instance your large Oracle on-premise cluster) to your serverless
+functions? Enter Open Service Broker.</p>
+
+<p>Open Service Broker has <a href="https://www.cloudfoundry.org/open-service-broker-api-launches-as-industry-standard/">been around since the end of last
+year</a>.
+It defines an API for provisioning, deprovisioning and binding services
+for use by other platforms, for instance by Cloud Foundry or Kubernetes or
+similar. Here&rsquo;s a quick <a href="https://github.com/cloudfoundry-samples/github-service-broker-ruby">example
+broker</a>.
+I think we&rsquo;ll see Open Service Broker powering some powerful
+higher-level user interfaces in other platforms eventually which aim to
+compete directly with, for instance, the ease of binding an API Gateway
+to a Lambda function in AWS. Especially if you&rsquo;re a service provider I&rsquo;d
+get a march on the competition and start looking at this now. This is
+also a potential avenue for the other cloud providers to expand on there
+claims of openness. I&rsquo;d wager on us seeing Azure services available over
+Open Service Broker for instance.</p>
+
+<h2 id="a-few-extra-observations">A few extra observations</h2>
+
+<ul>
+<li>Anyone but Amazon will be real - on both the buyer side (a little) and
+the vendor side (a lot) you&rsquo;ll see a number of unlikely
+collaborations between competitors at the technology level.</li>
+<li>Open Source is a fundamental part of any AWS competition. AWS hired
+some great open source community focused people recently so expect to
+see them try to head that threat off if it gets serious</li>
+<li>The fact Amazon provides the entire stack AND runs a chunk of the
+infrastructure for the other options help explains why people (again
+especially other vendors) fear AWS.</li>
+<li>Both Pivotal and Red Hat will be in the mix when it comes to hosted
+serverless platforms, with CloudFoundry and OpenShift (powered by
+OpenWhisk) respectively.</li>
+<li>The stack in the middle of some OS, some provisioning, Kubernetes and
+OpenWhisk will have lots of variants, including from a range of
+vendors. Eventually some might focus on serverless, but for others
+it will be simply another user interface atop a lower-level
+infrastructure play.</li>
+<li>If you&rsquo;re thinking &ldquo;But Cloud Foundry isn&rsquo;t serverless?&rdquo; then you&rsquo;re
+not paying attention to things like the recent release of <a href="https://spring.io/blog/2017/07/05/introducing-spring-cloud-function">Spring Functions</a>.</li>
+<li>In theory Azure and Google Cloud could end up playing in the same place
+as AWS. But with the lead AWS Lambda has in the community that is going
+to take something more than just building a parallel ecosystem. I could
+totally see Azure embracing OpenWhisk as an option in Azure Functions,
+in the way Azure Container Service is happy to provide multiple
+options.</li>
+</ul>
+
+<p>Overall I&rsquo;ll be interested to see how this plays out, and whether my
+guesses above turn out to be anywhere near right. There will be a lot of
+intermediary state, with companies large and small, existing and new,
+shipping software. And like anything else it will take time to stablise,
+whether to something like the above or something else entirely.
+I feel like the alternative to the above is simply near total domination
+by 1 or maybe 2 of the main cloud providers, which would be less
+interesting to guess about and made for a shorter blog post.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2017/06/26/schemas-for-kubernetes-types/">Schemas for Kubernetes types</a>
       </h1>
       <span class="post-date">Jun 26, 2017 &middot; 5 minute read
@@ -2112,149 +2238,6 @@ work at other vendors) but from the outside it&rsquo;s worth an appreciation
 of some of the differences I think and a bit of empathy for the
 decisions made. And if the above makes you think this all sounds rather
 interesting then you&rsquo;d be right.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2016/11/23/the-coming-of-the-kubernetes-distributions/">The coming of the Kubernetes distributions</a>
-      </h1>
-      <span class="post-date">Nov 23, 2016 &middot; 5 minute read
-      </span>
-      
-      
-
-<p>Very few people today start using Linux by downloading the linux kernel
-and starting from scratch. Most people start with a Linux distribution;
-for instance Debian, Ubuntu or CentOS. These distributions provide some
-opinions, some central infrastructure, a brand, strong versioning for
-the entire ecosystem and a bunch of other things. I posit that we&rsquo;ll see
-the same pattern emerge with Kubernetes.</p>
-
-<h2 id="what-even-is-kubernetes">What even is Kubernetes?</h2>
-
-<p>I&rsquo;ve seen Kubernetes described as all of the following:</p>
-
-<ul>
-<li>An operating system for your datacenter</li>
-<li>The distributed systems toolkit</li>
-<li>The Linux kernel for distributed systems</li>
-</ul>
-
-<p>I think all of these descriptions point to the developers intent that
-Kubernetes is something to build upon, rather than a simple out-of-the-box
-experience. It&rsquo;s predominantly about building agreement on the
-primitives/APIs of distributed systems.</p>
-
-<h2 id="a-name-for-a-thing">A name for a thing</h2>
-
-<p>I&rsquo;ve not seen much discussion of this in general yet, I think because
-it&rsquo;s early days and many of the people looking at Kubernetes today are
-either developers or early adopter types. These people have been
-&ldquo;downloading the kernel and starting from scratch&rdquo;, even until recently
-most likely running from source downloaded directly from GitHub. If the
-Kubernetes ecosystem is to grow then that&rsquo;s not how more mainstream IT
-will adopt Kubernetes.</p>
-
-<p>The reason for discussing this now is that I think a name is useful.
-That way we can talk about Kubernetes (singular, the software) separate
-from distrubutions of Kubernetes (many of them, from different vendors
-and communities). I&rsquo;d be happy to see a different name, but I think
-distribution probably fits best.</p>
-
-<h2 id="any-evidence">Any evidence?</h2>
-
-<p>Absolutely. A range of software vendors are providing what I&rsquo;m calling
-Kubernetes distributions. Here is a sample, I&rsquo;m sure there are and will
-be more. I&rsquo;m also sure over time some will disappear or maintain only a
-niche audience.</p>
-
-<ul>
-<li>OpenShift from Red Hat</li>
-<li>Tectonic from CoreOS</li>
-<li>Kismatic from Apprenda</li>
-<li>Rancher</li>
-<li>Canonical Distribution of Kubernetes</li>
-<li>GKE from Google</li>
-<li>Azure Container Service from Microsoft</li>
-<li>Photon Platform from VMware</li>
-<li>Navops from Univa</li>
-</ul>
-
-<p>Note that Canonical are already using the term <em>distribution</em> in the
-name. I&rsquo;ve seen it used in passing in CoreOS, OpenShift and Apprenda
-press materials too.</p>
-
-<h2 id="what-can-we-expect-from-kubernetes-distributions">What can we expect from Kubernetes distributions?</h2>
-
-<p>Running with the analogy that Kubernetes is &ldquo;an operating system for
-your datacenter&rdquo; and that we&rsquo;ll have a range of competing Kubernetes
-distributions, what else can we expect over the next few years?</p>
-
-<h3 id="package-repositories-aka-app-stores">Package repositories (aka. app stores)</h3>
-
-<p>One of the things provided by the traditional Linux distributions has
-been a central package repository. Most of the packages you&rsquo;re
-installing from <code>apt</code> or <code>yum</code> are coming from that currated set of
-available packages. Not to mention community efforts like EPEL. We
-already have two package concepts within the Kubernetes ecosystem -
-container images (often from Docker Hub today, or from internal
-repositories) and Charts, part of the Helm package management tool
-(now a CNCF project).</p>
-
-<p>In the short term expect the shared public Charts repository and Docker
-Hub to dominate. But over time different vendors will launch there own
-repositories. Partly this will be about building a trusted ecosystem,
-partly about limiting permutations for support and testing, and partly
-about control. The prize here is to be &ldquo;the enterprise app store&rdquo; and
-no vendor in this space isn&rsquo;t going to at least try to own that as part
-of their platform.</p>
-
-<h3 id="kubernetes-standards-and-compliance">Kubernetes standards and compliance</h3>
-
-<p>In an environment with many distributors of core software, it&rsquo;s
-common for people to emphasise portability. As vendors extend their
-distribution (to provide higher level, but potentially proprietary
-features) this can become muddier. Some level of certification is
-often the answer. See CloudFoundry or OpenStack for recent examples.
-Kubernetes is already part of the CNCF, part of the Linux Foundation.
-I&rsquo;d expect to see the works standards and certification eventually
-float around, but my guess is not in the short term.</p>
-
-<h3 id="a-fight-over-who-is-the-most-open">A fight over who is the most open</h3>
-
-<p>Much of the container conversation recently has centered around a
-<em>weaponisation</em> of <em>open</em>. I think as the different distributions try and
-take the community with them at the same time as trying to scale sales this
-will continue. This will be an irritation and is probably best avoided.</p>
-
-<h3 id="pressure-for-aws-to-offer-kubernetes-as-a-service">Pressure for AWS to offer Kubernetes as a service</h3>
-
-<p>I would presume AWS has a very good idea of how many people are actually
-using Kubernetes on it&rsquo;s platform. I think as that grows, and as other
-vendors efforts mature, they will come under pressure to offer the
-Kubernetes API as a service. I&rsquo;m still split on whether that will
-actually happen but that&rsquo;s a longer blog post about economics.</p>
-
-<h3 id="differentiating-features">Differentiating features</h3>
-
-<p>Ultimately vendors will try and differentiate themselves in this new
-market. To begin with the majority of business will be targetting the
-container-curious and mainly talking up the benefits of containers and
-Kubernetes. But some potentialy customers are going to insist on
-comparing Kubernetes distributions and winning there is going to be about
-clear differentiation. Do you want to be the budget offering or the
-provider with the unique selling point?</p>
-
-<h2 id="interesting-questions">Interesting questions</h2>
-
-<p>An observation at the moment is that all the current Kubernetes
-distributions I&rsquo;m aware of are vendor-owned. Whether Open Source or not,
-they are driven by a single vendor (CoreOS, Red Hat, Apprenda, etc.)
-It&rsquo;s interesting to see whether, in the current climate, we see a
-genuinely free and open source Kubernetes distribution emerge, similar
-to the role Debian plays in the Linux distribution world.</p>
 
       
     </div>

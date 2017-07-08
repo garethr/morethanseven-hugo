@@ -63,6 +63,38 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/01/02/apis-2009-xmpp-and-webhooks/">APIs in 2009 - XMPP and WebHooks</a>
+      </h1>
+      <span class="post-date">Jan 2, 2009 &middot; 4 minute read
+      </span>
+      
+      
+
+<p>Everyone has to have a post with a year in the title at the start of the year so I thought I better write something. Rather than one of those personal retrospective emails I thought I&rsquo;d go for something different - a look at what I&rsquo;d like to see in APIs in the coming year.</p>
+
+<h2 id="webhooks">Webhooks</h2>
+
+<p>I&rsquo;m pretty interested in the idea of applications exposing <a href="http://webhooks.pbwiki.com/">Webhooks</a> at the moment. It&rsquo;s a pretty simple idea. As a user of a service you can register your own HTTP end points to receive information whenever events occur in the service. Both <a href="http://wiki.shopify.com/WebHook">Shopify</a> and <a href="http://github.com/guides/post-receive-hooks">GiHub</a> have pretty nifty hooks for extending their capabilities for instance. When someone pushes code to a git repository you could send a ping to trigger a process to update the documentation for example.</p>
+
+<p>With the rise of hosted application development environments like <a href="http://code.google.com/appengine/">AppEngine</a> writing small, nearly throwaway, apps to subscribe to these hooks could become incredibly powerful. It&rsquo;s a lot like how unix programmers think, by piping lots of small applications together to get to the expected end result. It&rsquo;s not a replacement for the more standard read/write API, but it&rsquo;s a potential solution to the need to constantly poll that API for some types of applications.</p>
+
+<p>The idea of public webhooks would be hugely powerful, but would also likely be a scalability nightmare. Imagine if Flickr exposed a hook that you could subscribe to whenever anyone added a public photo. Or Twitter added a hook for when anyone tweeted. These sorts of hooks would quickly be swamped with subscribers. The number of HTTP requests being sent by a service like Flickr under these circumstances would be <em>rather large</em> to say the least. Which is where another technology that&rsquo;s designed for this sort of problem becomes useful.</p>
+
+<h2 id="xmpp-interfaces">XMPP Interfaces</h2>
+
+<p><a href="http://xmpp.org/">XMPP</a> or the Extensible Messaging and Presence Protocol has been around for a while, although originally under the name Jabber. It&rsquo;s predominantly being used at the moment as a instant messaging protocol, but in reality it&rsquo;s far more general purpose than that. Or rather, IM is generally considered to be between two or more people. But their is no reason that either or all the participants in an XMPP session can&rsquo;t be programs.</p>
+
+<p>On my local machine I&rsquo;m a big fan of the command line for all sorts of simple, and sometimes complex, tasks. If applications expose their APIs via an XMPP bot then you basically have a ready made command line interface to online services via your IM client of choice. Combined with a solution to the public webhook problem mentioned above and you can hopefully see why I find XMPP pretty interesting.</p>
+
+<p>I&rsquo;ve been playing with writing XMPP bots recently, both at our internal hackday and at the recent <a href="http://github.com/garethr/lastbot/tree/master">Last.fm event</a>. Their are various libraries and code examples lying around the internet that make getting started easy enough. With services like <a href="http://imified.com/">Imified</a> getting setup last year I&rsquo;d imagine it will get easier still this year.</p>
+
+<p>As for what I&rsquo;m going to be up to along these lines, we&rsquo;ll have to wait and see. I have a few pet projects that I&rsquo;d like to get off the ground which might be good test beds for this sort of thing. Apart from that I&rsquo;d like to write some <em>getting started</em> style tutorials on some of the technologies involved or maybe a full blown article on the theory if I can find somewhere to publish it. A barcamp presentation or two might also fall off the back if I do get the time to play around a little more. But that&rsquo;s just me. If you&rsquo;re building, or planning on developing, an API for a product at the moment I&rsquo;d suggest having a look at these two areas. They might turn out to just be potential extensions to what you had planned. Or they might turn out to be just the right approach to the problems you&rsquo;ll face getting people to use your API.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2008/12/28/local-continuous-integration-integrity/">Local Continuous Integration with Integrity</a>
       </h1>
       <span class="post-date">Dec 28, 2008 &middot; 2 minute read
@@ -245,22 +277,6 @@ crawler.run(URL)</p>
 <p>Talk of emerging programming languages often shifts to the need for a killer application. I want to learn more about Git so I can do more with GitHub. For me, that makes GitHub a likely driving force behind a sea of Git adoption in the coming year or so. I&rsquo;m also interested to see what comes out of a reasonable sized network of like-minded people absentmindedly hacking away. Already I&rsquo;m seeing people branch other peoples code within my network of contacts. Often just small tweaks and changes - like a code fairy cleaning up a few rough edges or adding an extra line here.</p>
 
 <p>So, if you write code head over to GitHub and signup. Create a few repositories of the things you&rsquo;re hacking on at the moment and jump through the pre-portable-social-network dance just one more time. I promise it&rsquo;s worth it this time.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/11/11/cssdoc/">CSSDoc</a>
-      </h1>
-      <span class="post-date">Nov 11, 2008 &middot; 1 minute read
-      </span>
-      
-      <p><a href="http://cssdoc.net/">CSSDOC</a> looks like a good idea. I&rsquo;m sure a few people mentioned this last year at @media after the talk by the people from The Guardian but nothing came from it. Hopefully tools will start to come about soon.</p>
-
-<blockquote>
-<p>CSSDOC is a convention to comment Cascading Style Sheets (CSS) to help individuals and teams to improve writing/coding/styling/managing CSS files. It is an adoption of the well known JavaDoc / DocBlock based way of commenting source-code. That&rsquo;s putting style, docblocks and tags together.</p>
-</blockquote>
 
       
     </div>

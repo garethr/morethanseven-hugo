@@ -63,6 +63,93 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2011/03/20/A-continuous-deployment-example-setup/">A Continuous Deployment Example Setup</a>
+      </h1>
+      <span class="post-date">Mar 20, 2011 &middot; 5 minute read
+      </span>
+      
+      
+
+<p>One of the reasons behind getting around to building <a href="http://www.vagrantbox.es">Vagrantbox.es</a> recently was I was giving a talk to a group of startups on <a href="http://thedifferenceengine.eu/">The Difference Engine</a> programme and I wanted to have an example project to demonstrate various things. I wanted to demonstrate everything from sensible version control habbits, configuration management, basic orcestration and most importantly a solid deployment process. I&rsquo;ve decided to write up what I&rsquo;m doing for deployment because I think it&rsquo;s pretty nice, and for all the talk about Continuous Deployment I haven&rsquo;t seen many examples of code and configuration to make it happen.</p>
+
+<p>Most of what I&rsquo;ll cover is pretty easy to map to whatever technologies your using. For this project I&rsquo;d gone for Git, Django, Gunicorn, Nginx, Fabric, Mysql and Jenkins and I&rsquo;m deploying to Ubuntu running on <a href="http://www.brightbox.co.uk/">Brightbox Cloud</a>. Apart from the Jenkins instance in the middle you could follow the instructions and swap things out easily.</p>
+
+<h2 id="jenkins">Jenkins</h2>
+
+<p>First up lets install <a href="http://jenkins-ci.org/">Jenkins</a>. I setup a separate cloud instance just to run the Continuous Integration server. I find this approach easier to manage but you could always run this locally if you prefer. The Jenkins folk provide very up to date <a href="http://pkg.jenkins-ci.org/debian/">packages for Debian</a> so I chose to use those.</p>
+
+<h3 id="plugins">Plugins</h3>
+
+<p>Jenkins provides a huge number of optional plugins which enable various additional features. Plugins are installed via the web interface at /pluginManager. I&rsquo;ve installed:</p>
+
+<ul>
+<li><a href="http://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin">Jenkins Cobertura Plugin</a></li>
+<li><a href="http://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin">Jenkins GIT plugin</a></li>
+<li><a href="http://wiki.jenkins-ci.org/display/JENKINS/Github+Plugin">GitHub plugin</a></li>
+<li><a href="http://wiki.hudson-ci.org/display/HUDSON/Green+Balls">Green Balls</a></li>
+<li><a href="http://wiki.hudson-ci.org/display/HUDSON/Violations">Hudson Violations plugin</a></li>
+</ul>
+
+<p>Only the Git plugin is really required for what I&rsquo;m doing with deployment. Cobertura and Violations are code quality metrics tools that I use to record output from pylint and code coverage for my test suite.</p>
+
+<h2 id="the-source">The Source</h2>
+
+<p>My finished project was already on GitHub in a private repository. I&rsquo;m using a requirements.txt file to record python dependencies so I can use pip to install them automatically and I&rsquo;m using Virtualenv to sandbox this installation. I&rsquo;m also using South to manage my database schema changes. I won&rsquo;t go into that here as it&rsquo;s pretty Python specific, Rails for instance has Active Record migrations, RVM and Bundler which do pretty much the same job. PHP has PEAR and some of the frameworks offer a migration tool.</p>
+
+<p>I then created two projects in Jenkins:</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRiRywEM" alt="Jenkins dashboard"/></p>
+
+<h3 id="project-1-vagrantboxes">Project 1: Vagrantboxes</h3>
+
+<p>This is the main build of my master branch in Git. As well as setting up the Git repo as shown below I&rsquo;ve set a polling schedule to <strong>/5</strong> * * * (that&rsquo;s every 5 minutes) and also set Trigger builds remotely so I can have a task in my fabfile which triggers a build immediately.</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRjh2gEM" alt="Git config for Jenkins"/></p>
+
+<p>I then have two build steps, both of which execute shell commands. The first installs any new requirements via pip:</p>
+
+<pre><code>bash -l -c &quot;source bin/activate; pip install -r requirements.txt&quot;
+</code></pre>
+
+<p>The second runs my test suite and generates the XML output required to show the test results in Jenkins:</p>
+
+<pre><code>bash -l -c &quot;source bin/activate; cd vagrantboxes/configs/common; python manage.py jenkins boxes&quot;
+</code></pre>
+
+<p>I&rsquo;m using the rather handy <a href="https://github.com/kmmbvnr/django-jenkins">Django Jenkins</a> application for this.</p>
+
+<p>So far so good. This gives us a project that, when we push some changes to GitHub, will pull those changes down to the CI server and run our test suite, giving us feedback as to whether the tests pass or fail.</p>
+
+<p>Now for the trick, in Post-build Actions tick Build other projects and specify the name of another project that we&rsquo;ll setup next. Mine is called Vagrantboxes-deploy.</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRirwwEM" alt="Post build action in Jenkins"/></p>
+
+<h3 id="project-2-vagrantboxes-deploy">Project 2: Vagrantboxes-deploy</h3>
+
+<p>This project is triggered only when the previous project runs successfully. And all it&rsquo;s going to do is run the deployment script on the project we just built. The setup for this project is very simply, it has one build step which just executes the following:</p>
+
+<pre><code>bash -l -c &quot;cd /var/lib/jenkins/jobs/Vagrantboxes/workspace; source bin/activate; fab appserver deploy&quot;
+</code></pre>
+
+<p>The specifics of the Fabric script here aren&rsquo;t that important but I&rsquo;m doing something not too disimilar to <a href="http://morethanseven.net/2009/07/27/fabric-django-git-apache-mod_wsgi-virtualenv-and-p.html">what I described here</a>.</p>
+
+<p>The reason I&rsquo;ve setup a separate project for these is so I can, if I choose, trigger a deployment separately to the full build, and also so I can very easily disable deployments even if the main build is still running.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>With this setup whenever I push code to master it triggers a build. If the test suite passes it runs the deployment script and pushes out the code to the live web servers. This suites me and this project but you might find it easier to start by pushing all successfull builds out to a staging environment. And maybe then moving on to having a new project which is only triggered manually for deploying to production.</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRiqwwEM" alt="project view in Jenkins"/></p>
+
+<p>This setup has other advantages too. The Jenkins dashboard becomes a handy tool for recording deployment events. You can easily setup emails or IM messages or Campfire posts to alert other team members whenever a deployment happens. And it really really makes sure your delployment scripts work without hand holding.</p>
+
+<p>This is a simple project that I&rsquo;m working on on my own, but in a team environment you&rsquo;d likely have a more complex branching strategy and more Jenkins projects. You might also introduce some gateways for manual testing but the starting point is the same. Jenkins makes archiving successful build artifacts relatively easy as well, this setup has a few race condition possibilities that you can fix by building artifacts from successful builds. Jenkins also supports building from different branches and having different branches trigger different projects, all handy if you want to grow this kind of setup.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2011/03/12/Site-for-vagrant-base-boxes/">Site For Vagrant Base Boxes</a>
       </h1>
       <span class="post-date">Mar 12, 2011 &middot; 1 minute read
@@ -650,18 +737,6 @@ vagrant config chef.recipe_url=http://cloud.github.com/downloads/garethr/chef-re
 <p>I&rsquo;m also not talking here about just sharing individual cookbooks like <a href="http://cookbooks.opscode.com/">cookbooks.opscode.com</a>, but rather a packaged collection of individual recipes designed for a specific purpose. A fully working solr instance, a django application server using apache/mod_wsgi, etc.</p>
 
 <p>Many of the points about baseboxes above would work here too I think. Having a good community resource which points to lots of cookbook tar files. Allowing people to feed back about what works for them. I&rsquo;ve mainly taked about Chef here as that&rsquo;s what vagrant initially shipped with, with the puppet provisioner now ready to go with would stand for puppet manifests too.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2010/12/20/Smoke-testing-with-cucumber-on-sysadvent/">Smoke Testing With Cucumber On Sysadvent</a>
-      </h1>
-      <span class="post-date">Dec 20, 2010 &middot; 1 minute read
-      </span>
-      
-      <p>I wrote a quick article last week for the excellent <a href="http://sysadvent.blogspot.com">sysadvent</a> advent calendar, <a href="http://sysadvent.blogspot.com/2010/12/day-17-smoke-testing-deployments-using.html">Smoke Testing Deployments with Cucumber</a> talks a bit more about using a few of my favourite tools to check whether a deployment just broke anything important.</p>
 
       
     </div>

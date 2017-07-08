@@ -63,6 +63,41 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2007/07/18/nabaztag-rest-api/">Nabaztag REST API</a>
+      </h1>
+      <span class="post-date">Jul 18, 2007 &middot; 2 minute read
+      </span>
+      
+      <p>I&rsquo;m having quite a bit of fun with my rabbit, <em>cambridge</em>, at the moment. Their were a number of projects at <a href="http://hackday.org">Hackday</a> involving the ever so cute <a href="http://nabaztag.com">Nabaztag</a> and I had a feeling I&rsquo;d probably go home and adopt one. The idea of a rabbit with APIs was simple too much fun.</p>
+
+<p><img src="http://morethanseven.net/_assets/media/imgNabaztag.jpg" alt="Nabaztag" title="Nabaztag" /></p>
+
+<p>The Nabaztag API docs can be found in two places (the rest of the site unfortunately has a number of issues when it comes to finding information easily); in the <a href="http://help.nabaztag.com/fiche.php?langue=3&amp;fiche=29#none">help section</a> and on the <a href="http://api.nabaztag.com/docs/home.html">API site</a>. The latter are much better than the former by the way.</p>
+
+<p>Lots of people have already been hacking on the wireless rabbit. Their are some good tools over on the <a href="http://nabaztools.sourceforge.net/">Nabaztag Sourceforge project</a>, a handy <a href="http://rubyforge.org/projects/nabaztag/">Ruby module</a> and a <a href="http://pear.php.net/pepr/pepr-proposal-show.php?id=463">prospective</a> <a href="http://tmp.lfms.nl/nabaztag/">PEAR module</a> for PHP.</p>
+
+<p>I&rsquo;ve been getting more and more into the ideas behind <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a> recently and one thing that disappointed me a litte was the HTTP RPC style Nabaztag API (note to anyone thinking REST simply means using a GET request rather than something like SOAP or XML-RPC, it doesn&rsquo;t). I couldn&rsquo;t help seeing PUTs to ears and POSTs to the mouth.</p>
+
+<p>Inspired a little by <a href="http://www.aralbalkan.com/">Arals</a> <a href="http://aralbalkan.com/994">Bunny Talk</a> I&rsquo;ve started implementing parts of the API in a RESTful manner, and used my API abstraction layer to build a similar application.</p>
+
+<p>Head over to <a href="http://morethanseven.net/presents/nabaztag/">morethanseven.net/presents/nabaztag/</a> and send me a message (via my rabbit obviously) or, er, play with <em>cambridges</em> ears (he likes that). At the moment the API is configured only for my rabbit, although you can download the source code and run it yourself if you like. It requires PHP5 at the moment as one of the required modules is PHP5 only. But you are using <a href="http://gophp5.org/">PHP5 now</a> aren&rsquo;t you?</p>
+
+<p>If you don&rsquo;t want to use the form you can access the API directly. Here are a couple of examples using curl:</p>
+
+<pre><code>&lt;code&gt;curl http://morethanseven.net/presents/nabaztag/ears/left&lt;/code&gt;
+
+&lt;code&gt;curl -X 'PUT' http://morethanseven.net/presents/nabaztag/ears/left/13&lt;/code&gt;
+
+&lt;code&gt;curl -X 'POST' -d &quot;message&quot; http://morethanseven.net/presents/nabaztag/mouth&lt;/code&gt;
+</code></pre>
+
+<p>Their&rsquo;s a litte documentation in the source. I&rsquo;ll add more methods, more documentation and maybe make an API anyone with a Nabaztag can use by authenticating either as I need it or if people actually want it. Let me know what you think (via the rabbit obviously!)</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2007/07/15/ruby-on-rails-on-nokia-n800/">Ruby on Rails on Nokia N800</a>
       </h1>
       <span class="post-date">Jul 15, 2007 &middot; 3 minute read
@@ -378,54 +413,6 @@
 <p>What we need is a commercial company with lots of smart people and lots of cash - with a track record of working with standards. A member of the W3C would be a plus. Ideally they should have something invested in the web as a platform, maybe even in a smarter, cleverer, semantic web.</p>
 
 <p>Google to the rescue maybe? If you&rsquo;re really cynical you could see Silverlight as an end run around Google&rsquo;s apparent dominance of the web as a platform. Lock content away in proprietary silos and traditional search becomes less appealing? And surely Google has lots to gain from the long term adoption of anything that increases the semantic nature of the web. If CSS is a battleground then maybe they need to come out and make a stand(ard)?</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/04/28/if-computer-scientists-managed-birth-certificates/">If computer scientists managed birth certificates</a>
-      </h1>
-      <span class="post-date">Apr 28, 2007 &middot; 2 minute read
-      </span>
-      
-      <p>I&rsquo;ve been pondering <a href="http://morethanseven.net/posts/authoritative-hcards-authority-in-microformats/">authority in microformats</a> and as a result been taking a closer look at <a href="http://microid.org">microID</a>.</p>
-
-<p>The situation I want to find a solution for is; If their are lots of published hcards for a given person they might be different, either out of date or more sinisterly fraudulent. If I do a search for contact details, lets say using the <a href="http://kitchen.technorati.com/contact/search/">technorati hcard search engine</a>, how do I know which one is to be trusted?</p>
-
-<p>If I publish an hcard on <a href="http://morethanseven.net">my site</a> using the following markup, including a microID using the included email and url details to form the hash.</p>
-
-<pre><code>&lt;code&gt;&lt;div 
-   class=&quot;vcard microid-mailto+http:sha1:a52b4f86cfa4190b53634d99198c0f56970c8d83&quot;&gt;
-   &lt;h2 class=&quot;fn&quot;&gt;gareth rushgrove&lt;/h2&gt;
-   &lt;a href=&quot;http://morethanseven.net&quot; class=&quot;url&quot; rel=&quot;me&quot;&gt;
-      morethanseven.net
-   &lt;/a&gt;
-   &lt;a href=&quot;mailto:gareth@morethanseven.net&quot; class=&quot;email&quot;&gt;
-      gareth@morethanseven.net
-   &lt;/a&gt;
-&lt;/div&gt;&lt;/code&gt;
-</code></pre>
-
-<p>If the hcard search engine reads that hcard on the morethanseven.net domain it could check the hash in the vcard against doings it&rsquo;s own hash with the specified email address and url (checking the url is the same as the one on which the vcard lives). &ldquo;Ah ha&rdquo;. It can say. This looks like an authoritive hcard.</p>
-
-<p>This does however raise a couple of issues. In order for the search engine or external reader to be able to create its hash you have to include the email in your hcard. I&rsquo;m also not sure it does solve the issue of evil me:</p>
-
-<pre><code>&lt;code&gt;&lt;div 
-   class=&quot;vcard microid-mailto+http:sha1:40b46e5c349453bddd0dbd022fb33488494699cb&quot;&gt;
-   &lt;h2 class=&quot;fn&quot;&gt;evil gareth rushgrove&lt;/h2&gt;
-   &lt;a href=&quot;http://spammer.com&quot; class=&quot;url&quot; rel=&quot;me&quot;&gt;
-      spammer.com
-   &lt;/a&gt;
-   &lt;a href=&quot;mailto:gareth@spammer.com&quot; class=&quot;email&quot;&gt;
-      gareth@spammer.com
-   &lt;/a&gt;
-&lt;/div&gt;&lt;/code&gt;
-</code></pre>
-
-<p>Assuming the above is published on spammer.com then I&rsquo;m sunk. It&rsquo;s another authorative hcard with the same name, in this case <em>my</em> name. Of course therein lies another problem, when we name our children we tend to just do it on a whim, we even copy names we like from other people! And we change or subvert these names when we dont like them with nick names and the like. Domain names are unique so we avoid this problem.</p>
-
-<p>So, a possible solution does present itself; using the uniqueness of domain names combined with the fact that most people aren&rsquo;t evil spammers. Lets postulate a search engine finds lots of hcards for a given name. Most of these hcards probably point back to the url of the entity they are describing (so most hcards on the web describing me point back to this site). We can then check if one of the hcards is from that domain, and if it has a valid microID. In other words we use the lazy web to identify the most likely location of an authorative hcard.</p>
 
       
     </div>

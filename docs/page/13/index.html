@@ -63,6 +63,34 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/11/28/dreque/">Dreque</a>
+      </h1>
+      <span class="post-date">Nov 28, 2009 &middot; 1 minute read
+      </span>
+      
+      <p>I&rsquo;ve just found <a href="http://github.com/samuel/dreque">Dreque</a> from <a href="http://samuelks.com/">Samuel Stauffer</a> on GitHub. It&rsquo;s yet another take on the whole messaging things which is definitely seeing a lot of activity at the back end of this year. It&rsquo;s using <a href="http://code.google.com/p/redis/">Redis</a> on the backend and looks really rather nice:</p>
+
+<p>Submitting jobs:</p>
+
+<pre><code>&lt;code&gt;from dreque import Dreque
+def some_job(argument):
+    pass
+dreque = Dreque(&quot;127.0.0.1&quot;)
+dreque.enqueue(&quot;queue&quot;, some_job, argument=&quot;foo&quot;)&lt;/code&gt;
+</code></pre>
+
+<p>Worker:</p>
+
+<pre><code>&lt;code&gt;from dreque import DrequeWorker
+worker = DrequeWorker([&quot;queue&quot;], &quot;127.0.0.1&quot;)
+worker.work()&lt;/code&gt;
+</code></pre>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/11/05/djugl-december/">DJUGL December</a>
       </h1>
       <span class="post-date">Nov 5, 2009 &middot; 1 minute read
@@ -317,32 +345,6 @@ svcadm enable memcached
 </ul>
 
 <p>I&rsquo;m not a Solaris admin. I&rsquo;m not really a sysadmin at all, I just end up pretending to be one of late. Any experienced Solaris people with experience of these tools reading this I&rsquo;d be grateful for any hints and tips. Hopefully this saves a few people from the head scratching I&rsquo;ve been doing for the last few days.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/08/15/your-own-pypi-server/">Your Own PyPi server</a>
-      </h1>
-      <span class="post-date">Aug 15, 2009 &middot; 2 minute read
-      </span>
-      
-      <p>So one of the problems with using pip or easy_install as part of an automated deployment process is they rely on an internet connection. More than that, they rely on PyPi being up as it&rsquo;s a centralised system, unlike all the apt package mirrors.</p>
-
-<p>The best solution seems to be to host your own PyPi compliant server. Not only can you load all the third party modules you use onto it, but you could also upload any internal applications or libraries that you like. By running this on your local network you ensure your not dependent on pypi or an internet connection.</p>
-
-<p>At the moment I&rsquo;m playing with <a href="http://github.com/ask/chishop/tree/master">Chishop</a> which is a django application for maintaining a PyPi compatible server. Another alternative if that doesn&rsquo;t work out is <a href="http://pypi.python.org/pypi/EggBasket/">EggBasket</a></p>
-
-<p>To install from your own PyPi server you can specify the location of your Chishop instance with the -i flag.</p>
-
-<p>pre. easy_install -i <a href="http://localhost:8000/">http://localhost:8000/</a> PACKAGE_NAME</p>
-
-<p>This will fall back to the PyPi server if it doesn&rsquo;t find the relevant package. If you want to stop that behaviour and make sure you have a local package then you can limit the hosts with the -H flag like so.</p>
-
-<p>pre. easy_install -H localhost:8000 -i http::/localhost:8000/ PACKAGE_NAME</p>
-
-<p>I&rsquo;m not yet sure how to do this with pip, if someone wants to enlighten me in the comments then I&rsquo;d be most grateful.</p>
 
       
     </div>
