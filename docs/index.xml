@@ -180,7 +180,7 @@ But what do we mean by Software Company? To be software company you&amp;rsquo;re
       <guid>/2015/12/04/provisioning-droplets-with-puppet/</guid>
       <description>I love DigitalOcean for quickly spinning up machines. I also like managing my infrastructure using Puppet. Enter the garethr-digitalocean module. This currently provides a single Puppet type; droplet.
 Lets show a quick example of that, by launching two droplets, called test-digitalocean and test-digitalocean-1.
-droplet { [&amp;#39;test-digitalocean&amp;#39;, &amp;#39;test-digitalocean-1&amp;#39;]: ensure =&amp;gt; present, region =&amp;gt; &amp;#39;lon1&amp;#39;, size =&amp;gt; &amp;#39;512mb&amp;#39;, image =&amp;gt; 14169855, }  With the above manifest saved as droplets.pp we can run it with:</description>
+droplet { [&amp;#39;test-digitalocean&amp;#39;, &amp;#39;test-digitalocean-1&amp;#39;]: ensure =&amp;gt; present, region =&amp;gt; &amp;#39;lon1&amp;#39;, size =&amp;gt; &amp;#39;512mb&amp;#39;, image =&amp;gt; 14169855,} With the above manifest saved as droplets.pp we can run it with:</description>
     </item>
     
     <item>
@@ -302,7 +302,7 @@ One of the features I&amp;rsquo;m particularly fond of is the aforementioned pro
       <guid>/2014/03/15/testing-vagrant-runs-with-cucumber/</guid>
       <description>I&amp;rsquo;ve been a big fan of Vagrant since it&amp;rsquo;s initial release and still find myself using it for various tasks.
 Recently I&amp;rsquo;ve been using it to test collections of Puppet modules. For a single host vagrant-serverspec is excellent. Simply install the plugin, add a provisioner and write your serverspec tests. The serverspec provisioner looks like the following:
-config.vm.provision :serverspec do |spec| spec.pattern = &amp;#39;*_spec.rb&amp;#39; end  But I also found myself wanting to test behaviour from the host (serverspec tests are run on the guest), and also wanted to write tests that checked the behaviour of a multi-box setup.</description>
+config.vm.provision :serverspec do |spec| spec.pattern = &amp;#39;*_spec.rb&amp;#39; end But I also found myself wanting to test behaviour from the host (serverspec tests are run on the guest), and also wanted to write tests that checked the behaviour of a multi-box setup.</description>
     </item>
     
     <item>

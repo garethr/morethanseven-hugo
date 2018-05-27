@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21" />
+	<meta name="generator" content="Hugo 0.37" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -46,7 +46,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -101,16 +101,12 @@ or copying files from previous modules and changing names.</p>
 <p>Simple. The following will install the module skeleton to
 <code>~/.puppet/var/puppet-module/skeleton</code>. This turns out to be picked up
 by the Puppet module tool.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git clone https://github.com/garethr/puppet-module-skeleton 
-<span style="color: #003388">cd</span> puppet-module-skeleton
-find skeleton -type f | git checkout-index --stdin --force --prefix=<span style="color: #dd2200; background-color: #fff0f0">&quot;</span><span style="color: #336699">$HOME</span><span style="color: #dd2200; background-color: #fff0f0">/.puppet/var/puppet-module/&quot;</span> --
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/garethr/puppet-module-skeleton 
+<span style="color:#038">cd</span> puppet-module-skeleton
+find skeleton -type f | git checkout-index --stdin --force --prefix=<span style="color:#d20;background-color:#fff0f0">&#34;</span><span style="color:#369">$HOME</span><span style="color:#d20;background-color:#fff0f0">/.puppet/var/puppet-module/&#34;</span> --</code></pre></div>
 <p>With that in place you can then just run the following to create a new
 module, where puppet-ntp is the name of our new module.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>puppet module generate puppet-ntp
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">puppet module generate puppet-ntp</code></pre></div>
 <p>We use <code>puppet module</code> like this rather than just copying the files
 because otherwise you would have to rename everything from class names
 to test assertions. The skeleton actually contains erb templates in
@@ -122,28 +118,20 @@ being available to those templates.</p>
 <p>Assuming you have run the above commands you should have a folder called
 <code>puppet-ntp</code> in your current directory. <code>cd</code> into that and then install
 the dependencies:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle install
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle install</code></pre></div>
 <p><a href="http://bundler.io/">Bundler </a>is a dependency manager for Ruby. If you
 don&rsquo;t already have it installed you should be able to do so with the
 following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>gem install bundler
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gem install bundler</code></pre></div>
 <p>Now you have the dependencies why not run the full test suite? This
 checks syntax, lints the Puppet code and runs the unit tests.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle <span style="color: #003388">exec</span> rake <span style="color: #003388">test</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle <span style="color:#038">exec</span> rake test</code></pre></div>
 <p>Unit tests give fast feedback and help make sure the code you write is
 going to do what you intend, but they aren&rsquo;t actually applying the
 manifests to a real machine. For that you want an integration test.
 You&rsquo;ll need <a href="http://vagrantup.com">Vagrant</a> installed for this next
 step. Lets run those as well with:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle <span style="color: #003388">exec</span> rspec spec/acceptance
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle <span style="color:#038">exec</span> rspec spec/acceptance</code></pre></div>
 <p>This will take a while, especially the first time. This uses Beaker to
 download a virtual machine from Puppetlabs (if you don&rsquo;t already have
 it) and then brings up a new machine, applies a simple manifest, runs
@@ -156,9 +144,7 @@ suite.</p>
 
 <p>I&rsquo;ve recently added a <a href="https://github.com/guard/guard">Guardfile</a> to
 help with testing. You can run this with:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle <span style="color: #003388">exec</span> guard
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle <span style="color:#038">exec</span> guard</code></pre></div>
 <p>Now in a separate tab or pane make a change to any of the manifests. The
 tests should run automatically in the tab or pane where guard is
 running.</p>
@@ -200,14 +186,10 @@ from here, and the usage is very similar.</p>
 
 <p>First add (or hopefully change) your Gemfile line item for rspec-puppet
 to the following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>gem <span style="color: #dd2200; background-color: #fff0f0">&quot;rspec-puppet&quot;</span>, <span style="color: #aa6600; background-color: #fff0f0">:git</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;https://github.com/rodjek/rspec-puppet.git&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">gem <span style="color:#d20;background-color:#fff0f0">&#34;rspec-puppet&#34;</span>, <span style="color:#a60;background-color:#fff0f0">:git</span> =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;https://github.com/rodjek/rspec-puppet.git&#39;</span></code></pre></div>
 <p>Then all you need to do is include the following line anywhere in a
 spec.rb file in your spec directory.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">at_exit</span> { <span style="color: #336699">RSpec</span>::<span style="color: #336699">Puppet</span>::<span style="color: #336699">Coverage</span><span style="color: #a61717; background-color: #e3d2d2">.</span><span style="color: #336699">report</span>! }
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">at_exit</span> { <span style="color:#369">RSpec</span>::<span style="color:#369">Puppet</span>::<span style="color:#369">Coverage</span><span style="color:#a61717;background-color:#e3d2d2">.</span><span style="color:#369">report</span>! }</code></pre></div>
 <h2 id="what-do-i-get">What do I get?</h2>
 
 <p>Here&rsquo;s an <a href="https://github.com/garethr/garethr-nginx">example module</a>,
@@ -276,13 +258,11 @@ options and hopefully to integrate with the <a href="https://coveralls.io/docs/a
 <p>First we need to install Test Kitchen. We&rsquo;ll use vagrant and virtualbox for our example too so we need a few extra dependencies. I&rsquo;m going to assume you have bundler installed, if not you may be able to do so with <code>gem install bundler</code> but as the number of ways of setting a ruby environment up is greater than the number of people on the planet I&rsquo;ll have to defer to instructions elsewhere for getting that far.</p>
 
 <p>First create a file called <code>Gemfile</code> with the following contents:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>source <span style="color: #dd2200; background-color: #fff0f0">&quot;https://rubygems.org&quot;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">source <span style="color:#d20;background-color:#fff0f0">&#34;https://rubygems.org&#34;</span>
 
-gem <span style="color: #dd2200; background-color: #fff0f0">&quot;test-kitchen&quot;</span>, <span style="color: #aa6600; background-color: #fff0f0">:git</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&quot;https://github.com/test-kitchen/test-kitchen.git&quot;</span>
-gem <span style="color: #dd2200; background-color: #fff0f0">&quot;kitchen-vagrant&quot;</span>
-gem <span style="color: #dd2200; background-color: #fff0f0">&quot;vagrant-wrapper&quot;</span>
-</pre></div>
-
+gem <span style="color:#d20;background-color:#fff0f0">&#34;test-kitchen&#34;</span>, <span style="color:#a60;background-color:#fff0f0">:git</span> =&gt; <span style="color:#d20;background-color:#fff0f0">&#34;https://github.com/test-kitchen/test-kitchen.git&#34;</span>
+gem <span style="color:#d20;background-color:#fff0f0">&#34;kitchen-vagrant&#34;</span>
+gem <span style="color:#d20;background-color:#fff0f0">&#34;vagrant-wrapper&#34;</span></code></pre></div>
 <p>Then run:</p>
 
 <pre><code>bundle install
@@ -295,53 +275,47 @@ gem <span style="color: #dd2200; background-color: #fff0f0">&quot;vagrant-wrappe
 <p>Next we&rsquo;ll tell Test Kitchen what we want to do. As much for demonstration purposes I&rsquo;m going to grab one of the Puppetlabs boxes. This is just plain <a href="http://vagrantup.com">Vagrant</a> so feel free to substitude the <code>box</code> and <code>box_url</code> for alternatives you already have installed locally. Otherwise the first run will take a little longer as it downloads a large file.</p>
 
 <p>Pull all of the following in a file called `.kitchen.yml&rsquo;.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #bb0066; font-weight: bold">---</span>
-driver:
-  name: vagrant
-
-provisioner:
-  name: shell
-
-platforms:
-  - name: puppet-precise64
-    driver_config:
-      box: puppet-precise64
-      box_url: http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box
-
-suites:
-  - name: default
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---<span style="color:#bbb">
+</span><span style="color:#bbb"></span>driver:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>vagrant<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>provisioner:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>shell<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>platforms:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>puppet-precise64<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>driver_config:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>box:<span style="color:#bbb"> </span>puppet-precise64<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>box_url:<span style="color:#bbb"> </span>http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-<span style="color:#00d;font-weight:bold">12042</span>-x64-vbox4210.box<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>suites:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>default</code></pre></div>
 <p>The shell provisioner is going to look for a file called <code>bootstrap.sh</code> by default. You can overide this but we&rsquo;ll leave it for the moment. Our bootstrap script is going to do something very simple, install the ntp package. But the important part is it could do anything; run Salt, run Ansible, run Puppet, execute any arbitrary code we choose. In this case our script is completely self contained but if it needed some additional files we could put them in a directory called <code>data</code> and they would be copied to the newly created virtual machine under <code>/tmp/kitchen</code>.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #888888">#!/bin/bash</span>
-
-apt-get install ntp -y
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#c00;font-weight:bold">#!/bin/bash
+</span><span style="color:#c00;font-weight:bold"></span>
+apt-get install ntp -y</code></pre></div>
 <h2 id="tests">Tests</h2>
 
 <p>The last step is to write a test. I&rsquo;m suddently finding lots of excuses to use <a href="http://serverspec.org/">Serverspec</a> so we&rsquo;ll use that, but if you prefer you can use pretty much anything. The following file should be saved as  <code>test/integration/default/serverspec/ntp_spec.rb</code>. Note the <code>default</code> in the path which matches our suite above in the <code>.kitchen.yml</code> file. Test Kitchen allows for multiple suites all with separate tests based on a strong set of file path conventions.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #003388">require</span> <span style="color: #dd2200; background-color: #fff0f0">&#39;serverspec&#39;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#038">require</span> <span style="color:#d20;background-color:#fff0f0">&#39;serverspec&#39;</span>
 
-<span style="color: #008800">include</span> <span style="color: #003366; font-weight: bold">Serverspec</span>::<span style="color: #003366; font-weight: bold">Helper</span>::<span style="color: #003366; font-weight: bold">Exec</span>
-<span style="color: #008800">include</span> <span style="color: #003366; font-weight: bold">Serverspec</span>::<span style="color: #003366; font-weight: bold">Helper</span>::<span style="color: #003366; font-weight: bold">DetectOS</span>
+<span style="color:#080">include</span> <span style="color:#036;font-weight:bold">Serverspec</span>::<span style="color:#036;font-weight:bold">Helper</span>::<span style="color:#036;font-weight:bold">Exec</span>
+<span style="color:#080">include</span> <span style="color:#036;font-weight:bold">Serverspec</span>::<span style="color:#036;font-weight:bold">Helper</span>::<span style="color:#036;font-weight:bold">DetectOS</span>
 
-<span style="color: #003366; font-weight: bold">RSpec</span>.configure <span style="color: #008800; font-weight: bold">do</span> |c|
-  c.before <span style="color: #aa6600; background-color: #fff0f0">:all</span> <span style="color: #008800; font-weight: bold">do</span>
-    c.path = <span style="color: #dd2200; background-color: #fff0f0">&#39;/sbin:/usr/sbin&#39;</span>
-  <span style="color: #008800; font-weight: bold">end</span>
-<span style="color: #008800; font-weight: bold">end</span>
+<span style="color:#036;font-weight:bold">RSpec</span>.configure <span style="color:#080;font-weight:bold">do</span> |c|
+  c.before <span style="color:#a60;background-color:#fff0f0">:all</span> <span style="color:#080;font-weight:bold">do</span>
+    c.path = <span style="color:#d20;background-color:#fff0f0">&#39;/sbin:/usr/sbin&#39;</span>
+  <span style="color:#080;font-weight:bold">end</span>
+<span style="color:#080;font-weight:bold">end</span>
 
-describe package(<span style="color: #dd2200; background-color: #fff0f0">&#39;ntp&#39;</span>) <span style="color: #008800; font-weight: bold">do</span>
+describe package(<span style="color:#d20;background-color:#fff0f0">&#39;ntp&#39;</span>) <span style="color:#080;font-weight:bold">do</span>
   it { should be_installed }
-<span style="color: #008800; font-weight: bold">end</span>
+<span style="color:#080;font-weight:bold">end</span>
 
-describe service(<span style="color: #dd2200; background-color: #fff0f0">&#39;ntp&#39;</span>) <span style="color: #008800; font-weight: bold">do</span>
+describe service(<span style="color:#d20;background-color:#fff0f0">&#39;ntp&#39;</span>) <span style="color:#080;font-weight:bold">do</span>
   it { should be_enabled }
   it { should be_running }
-<span style="color: #008800; font-weight: bold">end</span>
-</pre></div>
-
+<span style="color:#080;font-weight:bold">end</span></code></pre></div>
 <h2 id="running-the-tests">Running the tests</h2>
 
 <p>With all of that in place we&rsquo;re ready to run our tests.</p>
@@ -946,7 +920,7 @@ not maybe this post will prompt someone to do so.</p>
     
     
     
-     
+    
         
         
     
@@ -958,7 +932,7 @@ not maybe this post will prompt someone to do so.</p>
     
     
     
-     
+    
         
         
     
@@ -970,7 +944,7 @@ not maybe this post will prompt someone to do so.</p>
     
     
     
-     
+    
         
         
     
@@ -982,7 +956,7 @@ not maybe this post will prompt someone to do so.</p>
     
     
     
-     
+    
         
         
     
@@ -994,7 +968,7 @@ not maybe this post will prompt someone to do so.</p>
     
     
     
-     
+    
         
         
     
@@ -1341,7 +1315,7 @@ not maybe this post will prompt someone to do so.</p>
     
     
     
-     
+    
         
         
     

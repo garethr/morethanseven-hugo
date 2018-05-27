@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21" />
+	<meta name="generator" content="Hugo 0.37" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -46,7 +46,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -188,12 +188,10 @@ which is now available on
 
 <p>This lets you do something like the following, and have a fully working
 MirageOS setup on Ubuntu 12.04 or 14.04.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">class</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;mirageos&#39;</span>:
-  <span style="color: #008800; font-weight: bold">user</span>      =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;vagrant&#39;</span>,
-  <span style="color: #336699">opam_root</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;/home/vagrant/.opam&#39;</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#080;font-weight:bold">class</span> { <span style="color:#d20;background-color:#fff0f0">&#39;mirageos&#39;</span>:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#080;font-weight:bold">user</span>      =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;vagrant&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">opam_root</span> =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;/home/vagrant/.opam&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <p>Given time, inclination or pull requests I&rsquo;ll add support for other
 operating systems in the future.</p>
 
@@ -361,18 +359,16 @@ file { '/etc/shared/client/apache.conf':
 
 <p><a href="http://fig.sh">Fig</a> is a tool to declare container types in a text file, and then run and manage
 them from a simple CLI. We could do all this with straigh docker calls too.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>master:
-  image: garethr/puppetshared
-  volumes:
-    - /etc/shared:/etc/shared:rw
-
-client:
-  image: ubuntu:trusty
-  volumes:
-    - /etc/shared/client:/etc/:ro
-  command: <span style="color: #dd2200; background-color: #fff0f0">&#39;/bin/sh</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">-c</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">&quot;while</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">true;</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">do</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">echo</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">hello</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">world;</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">sleep</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">1;</span><span style="color: #336699"> </span><span style="color: #dd2200; background-color: #fff0f0">done&quot;&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">master:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>image:<span style="color:#bbb"> </span>garethr/puppetshared<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>volumes:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>-<span style="color:#bbb"> </span>/etc/shared:/etc/shared:rw<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>client:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>image:<span style="color:#bbb"> </span>ubuntu:trusty<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>volumes:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>-<span style="color:#bbb"> </span>/etc/shared/client:/etc/:ro<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>command:<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#39;/bin/sh -c &#34;while true; do echo hello world; sleep 1; done&#34;&#39;</span></code></pre></div>
 <p>The important part of the above is the volumes lines. What we&rsquo;re doing here is:</p>
 
 <ul>
@@ -450,27 +446,21 @@ pipeline. Before Etcd (or <a href="http://www.consul.io/">Consul</a> or similar)
 would probably have values in Hiera or Data Bags or similar and inject them
 into files on hosts using your configuration management tool of choice. So
 lets just do the same with our new-fangled distributed configuration store.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">key_value_config</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;/foo&#39;</span>:
-  <span style="color: #336699">ensure</span>   =&gt; <span style="color: #008800; font-weight: bold">present</span>,
-  <span style="color: #336699">provider</span> =&gt; <span style="color: #336699">etcd</span>,
-  <span style="color: #336699">value</span>    =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;bar&#39;</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">key_value_config</span> { <span style="color:#d20;background-color:#fff0f0">&#39;/foo&#39;</span>:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">ensure</span>   =&gt; <span style="color:#080;font-weight:bold">present</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">provider</span> =&gt; <span style="color:#369">etcd</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">value</span>    =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;bar&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <p>Say you wanted to switch over to using Consul instead? Just switch the provider.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">key_value_config</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;/foo&#39;</span>:
-  <span style="color: #336699">ensure</span>   =&gt; <span style="color: #008800; font-weight: bold">present</span>,
-  <span style="color: #336699">provider</span> =&gt; <span style="color: #336699">consul</span>,
-  <span style="color: #336699">value</span>    =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;bar&#39;</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">key_value_config</span> { <span style="color:#d20;background-color:#fff0f0">&#39;/foo&#39;</span>:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">ensure</span>   =&gt; <span style="color:#080;font-weight:bold">present</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">provider</span> =&gt; <span style="color:#369">consul</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">value</span>    =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;bar&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <p>You&rsquo;d probably move all of that out into something like hiera, and then generate
 the above resources, but you get the idea.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>etcd_values:
-  foo: bar
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">etcd_values:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>foo:<span style="color:#bbb"> </span>bar</code></pre></div>
 <p>The above is implemented in a very simple
 <a href="https://github.com/garethr/garethr-key_value_config">proof of concept Puppet module</a>.
 Anyone with any feedback please do let me know.</p>
@@ -628,13 +618,9 @@ installed and started consul.</p>
 <p>I&rsquo;m running these examples on an Ubuntu 14.04 machine, but dnsmasq
 should be available and packaged for lots of different operating
 systems.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>apt-get install dnsmasq
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install dnsmasq</code></pre></div>
 <p>Once installed we can create a very simple configuration.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #003388">echo</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;server=/consul/127.0.0.1#8600&quot;</span> &gt; /etc/dnsmasq.d/10-consul
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#038">echo</span> <span style="color:#d20;background-color:#fff0f0">&#34;server=/consul/127.0.0.1#8600&#34;</span> &gt; /etc/dnsmasq.d/10-consul</code></pre></div>
 <p>All we&rsquo;re doing here is specifying that DNS requests for consul services
 are to be dealt with by the DNS server at 127.0.0.1 on port 8600. Unless
 you&rsquo;ve changed the consul defaults this should work.</p>
@@ -642,25 +628,19 @@ you&rsquo;ve changed the consul defaults this should work.</p>
 <p>Just in case you prefer Puppet their is already a handy
 <a href="https://github.com/saz/puppet-dnsmasq">dnsmasq</a> module. The resulting
 puppet code then looks like this.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">include</span> <span style="color: #336699">dnsmasq</span>
-<span style="color: #336699">dnsmasq</span>::<span style="color: #336699">conf</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;consul&#39;</span>:
-  <span style="color: #336699">ensure</span>  =&gt; <span style="color: #008800; font-weight: bold">present</span>,
-  <span style="color: #336699">content</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;server=/consul/127.0.0.1#8600&#39;</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#080;font-weight:bold">include</span> <span style="color:#369">dnsmasq</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#369">dnsmasq</span>::<span style="color:#369">conf</span> { <span style="color:#d20;background-color:#fff0f0">&#39;consul&#39;</span>:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">ensure</span>  =&gt; <span style="color:#080;font-weight:bold">present</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">content</span> =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;server=/consul/127.0.0.1#8600&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <h2 id="usage">Usage</h2>
 
 <p>The examples from the main documentation specify a custom DNS server for
 dig like so:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>dig @127.0.0.1 -p <span style="color: #0000DD; font-weight: bold">8600</span> web.service.consul
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig @127.0.0.1 -p <span style="color:#00d;font-weight:bold">8600</span> web.service.consul</code></pre></div>
 <p>With Dnsmasq installed and configured as above you should just be able
 to do the following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>dig web.service.consul
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig web.service.consul</code></pre></div>
 <p>And now any of your existing applications will be able to use your
 consul instance for service discovery via DNS.</p>
 
@@ -683,11 +663,9 @@ single host
 excellent. Simply install the plugin, add a provisioner and write your
 <a href="http://serverspec.org/">serverspec</a> tests. The serverspec provisioner
 looks like the following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>config.vm.provision <span style="color: #aa6600; background-color: #fff0f0">:serverspec</span> <span style="color: #008800; font-weight: bold">do</span> |spec|
-  spec.pattern = <span style="color: #dd2200; background-color: #fff0f0">&#39;*_spec.rb&#39;</span>
-<span style="color: #008800; font-weight: bold">end</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">config.vm.provision <span style="color:#a60;background-color:#fff0f0">:serverspec</span> <span style="color:#080;font-weight:bold">do</span> |spec|
+  spec.pattern = <span style="color:#d20;background-color:#fff0f0">&#39;*_spec.rb&#39;</span>
+<span style="color:#080;font-weight:bold">end</span></code></pre></div>
 <p>But I also found myself wanting to test behaviour from the host
 (serverspec tests are run on the guest), and also wanted to write tests
 that checked the behaviour of a multi-box setup. I started by simply
@@ -696,17 +674,13 @@ but I decided I wanted this integrated with vagrant. Enter
 <a href="https://github.com/garethr/vagrant-cucumber-host">vagrant-cucumber-host</a>.
 This implements a new vagrant provisioner which runs a set of cucumber
 features locally.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>config.vm.provision <span style="color: #aa6600; background-color: #fff0f0">:cucumber</span> <span style="color: #008800; font-weight: bold">do</span> |cucumber|
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">config.vm.provision <span style="color:#a60;background-color:#fff0f0">:cucumber</span> <span style="color:#080;font-weight:bold">do</span> |cucumber|
   cucumber.features = []
-<span style="color: #008800; font-weight: bold">end</span>
-</pre></div>
-
+<span style="color:#080;font-weight:bold">end</span></code></pre></div>
 <p>Just drop your features in the features folder and run <code>vagrant
 provision</code>. If you just want to run the cucumber features, without any
 of the other provisioners running you can use:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>vagrant provision --provision-with cucumber
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vagrant provision --provision-with cucumber</code></pre></div>
 <p>Another advantage of writing this as a vagrant plugin is that it uses
 the Ruby bundled with vagrant, meaning you just install the plugin
 rather than faff about with a local Ruby install.</p>
@@ -894,7 +868,7 @@ with some of the commercial competition.</p>
     
     
     
-     
+    
         
         
     
@@ -906,7 +880,7 @@ with some of the commercial competition.</p>
     
     
     
-     
+    
         
         
     
@@ -918,7 +892,7 @@ with some of the commercial competition.</p>
     
     
     
-     
+    
         
         
     
@@ -930,7 +904,7 @@ with some of the commercial competition.</p>
     
     
     
-     
+    
         
         
     
@@ -1286,7 +1260,7 @@ with some of the commercial competition.</p>
     
     
     
-     
+    
         
         
     

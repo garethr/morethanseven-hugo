@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -78,27 +78,21 @@ pipeline. Before Etcd (or <a href="http://www.consul.io/">Consul</a> or similar)
 would probably have values in Hiera or Data Bags or similar and inject them
 into files on hosts using your configuration management tool of choice. So
 lets just do the same with our new-fangled distributed configuration store.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">key_value_config</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;/foo&#39;</span>:
-  <span style="color: #336699">ensure</span>   =&gt; <span style="color: #008800; font-weight: bold">present</span>,
-  <span style="color: #336699">provider</span> =&gt; <span style="color: #336699">etcd</span>,
-  <span style="color: #336699">value</span>    =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;bar&#39;</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">key_value_config</span> { <span style="color:#d20;background-color:#fff0f0">&#39;/foo&#39;</span>:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">ensure</span>   =&gt; <span style="color:#080;font-weight:bold">present</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">provider</span> =&gt; <span style="color:#369">etcd</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">value</span>    =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;bar&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <p>Say you wanted to switch over to using Consul instead? Just switch the provider.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">key_value_config</span> { <span style="color: #dd2200; background-color: #fff0f0">&#39;/foo&#39;</span>:
-  <span style="color: #336699">ensure</span>   =&gt; <span style="color: #008800; font-weight: bold">present</span>,
-  <span style="color: #336699">provider</span> =&gt; <span style="color: #336699">consul</span>,
-  <span style="color: #336699">value</span>    =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;bar&#39;</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">key_value_config</span> { <span style="color:#d20;background-color:#fff0f0">&#39;/foo&#39;</span>:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">ensure</span>   =&gt; <span style="color:#080;font-weight:bold">present</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">provider</span> =&gt; <span style="color:#369">consul</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">value</span>    =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;bar&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <p>You&rsquo;d probably move all of that out into something like hiera, and then generate
 the above resources, but you get the idea.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>etcd_values:
-  foo: bar
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">etcd_values:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>foo:<span style="color:#bbb"> </span>bar</code></pre></div>
 <p>The above is implemented in a very simple
 <a href="https://github.com/garethr/garethr-key_value_config">proof of concept Puppet module</a>.
 Anyone with any feedback please do let me know.</p>

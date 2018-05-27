@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -94,16 +94,12 @@ or copying files from previous modules and changing names.</p>
 <p>Simple. The following will install the module skeleton to
 <code>~/.puppet/var/puppet-module/skeleton</code>. This turns out to be picked up
 by the Puppet module tool.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git clone https://github.com/garethr/puppet-module-skeleton 
-<span style="color: #003388">cd</span> puppet-module-skeleton
-find skeleton -type f | git checkout-index --stdin --force --prefix=<span style="color: #dd2200; background-color: #fff0f0">&quot;</span><span style="color: #336699">$HOME</span><span style="color: #dd2200; background-color: #fff0f0">/.puppet/var/puppet-module/&quot;</span> --
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/garethr/puppet-module-skeleton 
+<span style="color:#038">cd</span> puppet-module-skeleton
+find skeleton -type f | git checkout-index --stdin --force --prefix=<span style="color:#d20;background-color:#fff0f0">&#34;</span><span style="color:#369">$HOME</span><span style="color:#d20;background-color:#fff0f0">/.puppet/var/puppet-module/&#34;</span> --</code></pre></div>
 <p>With that in place you can then just run the following to create a new
 module, where puppet-ntp is the name of our new module.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>puppet module generate puppet-ntp
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">puppet module generate puppet-ntp</code></pre></div>
 <p>We use <code>puppet module</code> like this rather than just copying the files
 because otherwise you would have to rename everything from class names
 to test assertions. The skeleton actually contains erb templates in
@@ -115,28 +111,20 @@ being available to those templates.</p>
 <p>Assuming you have run the above commands you should have a folder called
 <code>puppet-ntp</code> in your current directory. <code>cd</code> into that and then install
 the dependencies:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle install
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle install</code></pre></div>
 <p><a href="http://bundler.io/">Bundler </a>is a dependency manager for Ruby. If you
 don&rsquo;t already have it installed you should be able to do so with the
 following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>gem install bundler
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gem install bundler</code></pre></div>
 <p>Now you have the dependencies why not run the full test suite? This
 checks syntax, lints the Puppet code and runs the unit tests.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle <span style="color: #003388">exec</span> rake <span style="color: #003388">test</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle <span style="color:#038">exec</span> rake test</code></pre></div>
 <p>Unit tests give fast feedback and help make sure the code you write is
 going to do what you intend, but they aren&rsquo;t actually applying the
 manifests to a real machine. For that you want an integration test.
 You&rsquo;ll need <a href="http://vagrantup.com">Vagrant</a> installed for this next
 step. Lets run those as well with:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle <span style="color: #003388">exec</span> rspec spec/acceptance
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle <span style="color:#038">exec</span> rspec spec/acceptance</code></pre></div>
 <p>This will take a while, especially the first time. This uses Beaker to
 download a virtual machine from Puppetlabs (if you don&rsquo;t already have
 it) and then brings up a new machine, applies a simple manifest, runs
@@ -149,9 +137,7 @@ suite.</p>
 
 <p>I&rsquo;ve recently added a <a href="https://github.com/guard/guard">Guardfile</a> to
 help with testing. You can run this with:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>bundle <span style="color: #003388">exec</span> guard
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bundle <span style="color:#038">exec</span> guard</code></pre></div>
 <p>Now in a separate tab or pane make a change to any of the manifests. The
 tests should run automatically in the tab or pane where guard is
 running.</p>

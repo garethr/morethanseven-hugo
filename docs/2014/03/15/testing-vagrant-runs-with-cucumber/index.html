@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -70,11 +70,9 @@ single host
 excellent. Simply install the plugin, add a provisioner and write your
 <a href="http://serverspec.org/">serverspec</a> tests. The serverspec provisioner
 looks like the following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>config.vm.provision <span style="color: #aa6600; background-color: #fff0f0">:serverspec</span> <span style="color: #008800; font-weight: bold">do</span> |spec|
-  spec.pattern = <span style="color: #dd2200; background-color: #fff0f0">&#39;*_spec.rb&#39;</span>
-<span style="color: #008800; font-weight: bold">end</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">config.vm.provision <span style="color:#a60;background-color:#fff0f0">:serverspec</span> <span style="color:#080;font-weight:bold">do</span> |spec|
+  spec.pattern = <span style="color:#d20;background-color:#fff0f0">&#39;*_spec.rb&#39;</span>
+<span style="color:#080;font-weight:bold">end</span></code></pre></div>
 <p>But I also found myself wanting to test behaviour from the host
 (serverspec tests are run on the guest), and also wanted to write tests
 that checked the behaviour of a multi-box setup. I started by simply
@@ -83,17 +81,13 @@ but I decided I wanted this integrated with vagrant. Enter
 <a href="https://github.com/garethr/vagrant-cucumber-host">vagrant-cucumber-host</a>.
 This implements a new vagrant provisioner which runs a set of cucumber
 features locally.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>config.vm.provision <span style="color: #aa6600; background-color: #fff0f0">:cucumber</span> <span style="color: #008800; font-weight: bold">do</span> |cucumber|
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">config.vm.provision <span style="color:#a60;background-color:#fff0f0">:cucumber</span> <span style="color:#080;font-weight:bold">do</span> |cucumber|
   cucumber.features = []
-<span style="color: #008800; font-weight: bold">end</span>
-</pre></div>
-
+<span style="color:#080;font-weight:bold">end</span></code></pre></div>
 <p>Just drop your features in the features folder and run <code>vagrant
 provision</code>. If you just want to run the cucumber features, without any
 of the other provisioners running you can use:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>vagrant provision --provision-with cucumber
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vagrant provision --provision-with cucumber</code></pre></div>
 <p>Another advantage of writing this as a vagrant plugin is that it uses
 the Ruby bundled with vagrant, meaning you just install the plugin
 rather than faff about with a local Ruby install.</p>

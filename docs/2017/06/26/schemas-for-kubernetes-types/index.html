@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -130,27 +130,25 @@ API</a>. But how
 do we use those <code>definitions</code> separately for our own nefarious
 validation purposes? Here&rsquo;s a quick sample of what we see in the <a href="https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json">50,000
 line-long OpenAPI definition file</a></p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #a61717; background-color: #e3d2d2">-</span> <span style="color: #a61717; background-color: #e3d2d2">definitions:</span> {
-    <span style="color: #a61717; background-color: #e3d2d2">io.k8s.api.admissionregistration.v1alpha1.AdmissionHookClientConfig:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
-      <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;AdmissionHookClientConfig contains the information to make a TLS connection with the webhook&quot;</span>,
-      <span style="color: #a61717; background-color: #e3d2d2">required:</span> <span style="color: #a61717; background-color: #e3d2d2">[</span>
-        <span style="color: #bb0066; font-weight: bold">&quot;service&quot;</span>,
-        <span style="color: #bb0066; font-weight: bold">&quot;caBundle&quot;</span>
-      <span style="color: #a61717; background-color: #e3d2d2">]</span>,
-      <span style="color: #a61717; background-color: #e3d2d2">properties:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
-        <span style="color: #a61717; background-color: #e3d2d2">caBundle:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
-          <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;CABundle is a PEM encoded CA bundle which will be used to validate webhook&#39;s server certificate. Required&quot;</span>,
-          <span style="color: #a61717; background-color: #e3d2d2">type:</span> <span style="color: #bb0066; font-weight: bold">&quot;string&quot;</span>,
-          <span style="color: #a61717; background-color: #e3d2d2">format:</span> <span style="color: #bb0066; font-weight: bold">&quot;byte&quot;</span>
-        }<span style="color: #a61717; background-color: #e3d2d2">,</span>
-        <span style="color: #a61717; background-color: #e3d2d2">service:</span> {
-          <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;Service is a reference to the service for this webhook. If there is only one port open for the service, that port will be used. If there are multiple ports open, port 443 will be used if it is open, otherwise it is an error. Required&quot;</span>,
-          <span style="color: #a61717; background-color: #e3d2d2">$ref:</span> <span style="color: #bb0066; font-weight: bold">&quot;#/definitions/io.k8s.api.admissionregistration.v1alpha1.ServiceReference&quot;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a61717;background-color:#e3d2d2">-</span> <span style="color:#a61717;background-color:#e3d2d2">definitions:</span> {
+    <span style="color:#a61717;background-color:#e3d2d2">io.k8s.api.admissionregistration.v1alpha1.AdmissionHookClientConfig:</span> <span style="color:#a61717;background-color:#e3d2d2">{</span>
+      <span style="color:#a61717;background-color:#e3d2d2">description:</span> <span style="color:#b06;font-weight:bold">&#34;AdmissionHookClientConfig contains the information to make a TLS connection with the webhook&#34;</span>,
+      <span style="color:#a61717;background-color:#e3d2d2">required:</span> <span style="color:#a61717;background-color:#e3d2d2">[</span>
+        <span style="color:#b06;font-weight:bold">&#34;service&#34;</span>,
+        <span style="color:#b06;font-weight:bold">&#34;caBundle&#34;</span>
+      <span style="color:#a61717;background-color:#e3d2d2">]</span>,
+      <span style="color:#a61717;background-color:#e3d2d2">properties:</span> <span style="color:#a61717;background-color:#e3d2d2">{</span>
+        <span style="color:#a61717;background-color:#e3d2d2">caBundle:</span> <span style="color:#a61717;background-color:#e3d2d2">{</span>
+          <span style="color:#a61717;background-color:#e3d2d2">description:</span> <span style="color:#b06;font-weight:bold">&#34;CABundle is a PEM encoded CA bundle which will be used to validate webhook&#39;s server certificate. Required&#34;</span>,
+          <span style="color:#a61717;background-color:#e3d2d2">type:</span> <span style="color:#b06;font-weight:bold">&#34;string&#34;</span>,
+          <span style="color:#a61717;background-color:#e3d2d2">format:</span> <span style="color:#b06;font-weight:bold">&#34;byte&#34;</span>
+        }<span style="color:#a61717;background-color:#e3d2d2">,</span>
+        <span style="color:#a61717;background-color:#e3d2d2">service:</span> {
+          <span style="color:#a61717;background-color:#e3d2d2">description:</span> <span style="color:#b06;font-weight:bold">&#34;Service is a reference to the service for this webhook. If there is only one port open for the service, that port will be used. If there are multiple ports open, port 443 will be used if it is open, otherwise it is an error. Required&#34;</span>,
+          <span style="color:#a61717;background-color:#e3d2d2">$ref:</span> <span style="color:#b06;font-weight:bold">&#34;#/definitions/io.k8s.api.admissionregistration.v1alpha1.ServiceReference&#34;</span>
         }
-      <span style="color: #a61717; background-color: #e3d2d2">}</span>
-    <span style="color: #a61717; background-color: #e3d2d2">},</span>
-</pre></div>
-
+      <span style="color:#a61717;background-color:#e3d2d2">}</span>
+    <span style="color:#a61717;background-color:#e3d2d2">},</span></code></pre></div>
 <p>The discussion around wanting JSON Schemas for Kubernetes types has
 cropped up in a few places before, there are some useful comments on <a href="https://github.com/kubernetes/kubernetes/issues/14987">this
 issue</a> for
@@ -212,11 +210,9 @@ basic level you can validate a Kubernetes config file.</p>
 <p>Here is a quick example using the Python <a href="https://github.com/Julian/jsonschema">jsonschema
 client</a> and an invalid deployment
 file:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ jsonschema -F <span style="color: #dd2200; background-color: #fff0f0">&quot;{error.message}&quot;</span> -i hello-nginx.json
-1.5.1-standalone/deployment.json
-u<span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span> is a required property
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ jsonschema -F <span style="color:#d20;background-color:#fff0f0">&#34;{error.message}&#34;</span> -i hello-nginx.json
+<span style="color:#00d;font-weight:bold">1</span>.5.1-standalone/deployment.json
+u<span style="color:#d20;background-color:#fff0f0">&#39;template&#39;</span> is a required property</code></pre></div>
 <h2 id="what-to-do-with-all-those-schema">What to do with all those schema?</h2>
 
 <p>As noted these schemas have lots of potential uses for development

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.21" />
+	<meta name="generator" content="Hugo 0.37" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -46,7 +46,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -263,27 +263,25 @@ API</a>. But how
 do we use those <code>definitions</code> separately for our own nefarious
 validation purposes? Here&rsquo;s a quick sample of what we see in the <a href="https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json">50,000
 line-long OpenAPI definition file</a></p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #a61717; background-color: #e3d2d2">-</span> <span style="color: #a61717; background-color: #e3d2d2">definitions:</span> {
-    <span style="color: #a61717; background-color: #e3d2d2">io.k8s.api.admissionregistration.v1alpha1.AdmissionHookClientConfig:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
-      <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;AdmissionHookClientConfig contains the information to make a TLS connection with the webhook&quot;</span>,
-      <span style="color: #a61717; background-color: #e3d2d2">required:</span> <span style="color: #a61717; background-color: #e3d2d2">[</span>
-        <span style="color: #bb0066; font-weight: bold">&quot;service&quot;</span>,
-        <span style="color: #bb0066; font-weight: bold">&quot;caBundle&quot;</span>
-      <span style="color: #a61717; background-color: #e3d2d2">]</span>,
-      <span style="color: #a61717; background-color: #e3d2d2">properties:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
-        <span style="color: #a61717; background-color: #e3d2d2">caBundle:</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
-          <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;CABundle is a PEM encoded CA bundle which will be used to validate webhook&#39;s server certificate. Required&quot;</span>,
-          <span style="color: #a61717; background-color: #e3d2d2">type:</span> <span style="color: #bb0066; font-weight: bold">&quot;string&quot;</span>,
-          <span style="color: #a61717; background-color: #e3d2d2">format:</span> <span style="color: #bb0066; font-weight: bold">&quot;byte&quot;</span>
-        }<span style="color: #a61717; background-color: #e3d2d2">,</span>
-        <span style="color: #a61717; background-color: #e3d2d2">service:</span> {
-          <span style="color: #a61717; background-color: #e3d2d2">description:</span> <span style="color: #bb0066; font-weight: bold">&quot;Service is a reference to the service for this webhook. If there is only one port open for the service, that port will be used. If there are multiple ports open, port 443 will be used if it is open, otherwise it is an error. Required&quot;</span>,
-          <span style="color: #a61717; background-color: #e3d2d2">$ref:</span> <span style="color: #bb0066; font-weight: bold">&quot;#/definitions/io.k8s.api.admissionregistration.v1alpha1.ServiceReference&quot;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a61717;background-color:#e3d2d2">-</span> <span style="color:#a61717;background-color:#e3d2d2">definitions:</span> {
+    <span style="color:#a61717;background-color:#e3d2d2">io.k8s.api.admissionregistration.v1alpha1.AdmissionHookClientConfig:</span> <span style="color:#a61717;background-color:#e3d2d2">{</span>
+      <span style="color:#a61717;background-color:#e3d2d2">description:</span> <span style="color:#b06;font-weight:bold">&#34;AdmissionHookClientConfig contains the information to make a TLS connection with the webhook&#34;</span>,
+      <span style="color:#a61717;background-color:#e3d2d2">required:</span> <span style="color:#a61717;background-color:#e3d2d2">[</span>
+        <span style="color:#b06;font-weight:bold">&#34;service&#34;</span>,
+        <span style="color:#b06;font-weight:bold">&#34;caBundle&#34;</span>
+      <span style="color:#a61717;background-color:#e3d2d2">]</span>,
+      <span style="color:#a61717;background-color:#e3d2d2">properties:</span> <span style="color:#a61717;background-color:#e3d2d2">{</span>
+        <span style="color:#a61717;background-color:#e3d2d2">caBundle:</span> <span style="color:#a61717;background-color:#e3d2d2">{</span>
+          <span style="color:#a61717;background-color:#e3d2d2">description:</span> <span style="color:#b06;font-weight:bold">&#34;CABundle is a PEM encoded CA bundle which will be used to validate webhook&#39;s server certificate. Required&#34;</span>,
+          <span style="color:#a61717;background-color:#e3d2d2">type:</span> <span style="color:#b06;font-weight:bold">&#34;string&#34;</span>,
+          <span style="color:#a61717;background-color:#e3d2d2">format:</span> <span style="color:#b06;font-weight:bold">&#34;byte&#34;</span>
+        }<span style="color:#a61717;background-color:#e3d2d2">,</span>
+        <span style="color:#a61717;background-color:#e3d2d2">service:</span> {
+          <span style="color:#a61717;background-color:#e3d2d2">description:</span> <span style="color:#b06;font-weight:bold">&#34;Service is a reference to the service for this webhook. If there is only one port open for the service, that port will be used. If there are multiple ports open, port 443 will be used if it is open, otherwise it is an error. Required&#34;</span>,
+          <span style="color:#a61717;background-color:#e3d2d2">$ref:</span> <span style="color:#b06;font-weight:bold">&#34;#/definitions/io.k8s.api.admissionregistration.v1alpha1.ServiceReference&#34;</span>
         }
-      <span style="color: #a61717; background-color: #e3d2d2">}</span>
-    <span style="color: #a61717; background-color: #e3d2d2">},</span>
-</pre></div>
-
+      <span style="color:#a61717;background-color:#e3d2d2">}</span>
+    <span style="color:#a61717;background-color:#e3d2d2">},</span></code></pre></div>
 <p>The discussion around wanting JSON Schemas for Kubernetes types has
 cropped up in a few places before, there are some useful comments on <a href="https://github.com/kubernetes/kubernetes/issues/14987">this
 issue</a> for
@@ -345,11 +343,9 @@ basic level you can validate a Kubernetes config file.</p>
 <p>Here is a quick example using the Python <a href="https://github.com/Julian/jsonschema">jsonschema
 client</a> and an invalid deployment
 file:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ jsonschema -F <span style="color: #dd2200; background-color: #fff0f0">&quot;{error.message}&quot;</span> -i hello-nginx.json
-1.5.1-standalone/deployment.json
-u<span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span> is a required property
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ jsonschema -F <span style="color:#d20;background-color:#fff0f0">&#34;{error.message}&#34;</span> -i hello-nginx.json
+<span style="color:#00d;font-weight:bold">1</span>.5.1-standalone/deployment.json
+u<span style="color:#d20;background-color:#fff0f0">&#39;template&#39;</span> is a required property</code></pre></div>
 <h2 id="what-to-do-with-all-those-schema">What to do with all those schema?</h2>
 
 <p>As noted these schemas have lots of potential uses for development
@@ -426,42 +422,36 @@ for completeness. You can write functions in officially supported
 languages (like Javascript or Python) or pick one of the languages
 supported via a shim in Apex. I&rsquo;ve been writing Serverless functions in
 Go and Clojure recently, but I prefer Clojure so lets use that for now.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>(<span style="color: #008800; font-weight: bold">ns </span><span style="color: #336699">net.morethanseven.hello</span>
-    (<span style="color: #aa6600; background-color: #fff0f0">:gen-class</span> <span style="color: #aa6600; background-color: #fff0f0">:implements</span> [<span style="color: #336699">com.amazonaws.services.lambda.runtime.RequestStreamHandler</span>])
-    (<span style="color: #aa6600; background-color: #fff0f0">:require</span> [<span style="color: #336699">clojure.java.io</span> <span style="color: #aa6600; background-color: #fff0f0">:as</span> <span style="color: #336699">io</span>]
-              [<span style="color: #336699">clojure.string</span> <span style="color: #aa6600; background-color: #fff0f0">:as</span> <span style="color: #336699">str</span>])
-    (<span style="color: #aa6600; background-color: #fff0f0">:import</span> (<span style="color: #0066bb; font-weight: bold">com.amazonaws.services.lambda.runtime</span> <span style="color: #336699">Context</span>)))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure">(<span style="color:#080;font-weight:bold">ns </span><span style="color:#369">net.morethanseven.hello</span>
+    (<span style="color:#a60;background-color:#fff0f0">:gen-class</span> <span style="color:#a60;background-color:#fff0f0">:implements</span> [<span style="color:#369">com.amazonaws.services.lambda.runtime.RequestStreamHandler</span>])
+    (<span style="color:#a60;background-color:#fff0f0">:require</span> [<span style="color:#369">clojure.java.io</span> <span style="color:#a60;background-color:#fff0f0">:as</span> <span style="color:#369">io</span>]
+              [<span style="color:#369">clojure.string</span> <span style="color:#a60;background-color:#fff0f0">:as</span> <span style="color:#369">str</span>])
+    (<span style="color:#a60;background-color:#fff0f0">:import</span> (<span style="color:#369">com.amazonaws.services.lambda.runtime</span> <span style="color:#369">Context</span>)))
 
-(<span style="color: #008800; font-weight: bold">defn </span><span style="color: #336699">-handleRequest</span>
-  [<span style="color: #336699">this</span> <span style="color: #336699">input-stream</span> <span style="color: #336699">output-stream</span> <span style="color: #336699">context</span>]
-  (<span style="color: #008800; font-weight: bold">let </span>[<span style="color: #336699">handle</span> (<span style="color: #0066bb; font-weight: bold">io/writer</span> <span style="color: #336699">output-stream</span>)]
-    (<span style="color: #0066bb; font-weight: bold">.write</span> <span style="color: #336699">handle</span> (<span style="color: #003388">str </span><span style="color: #dd2200; background-color: #fff0f0">&quot;hello&quot;</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;world&quot;</span>))
-    (<span style="color: #0066bb; font-weight: bold">.flush</span> <span style="color: #336699">handle</span>)))
-</pre></div>
-
+(<span style="color:#080;font-weight:bold">defn </span><span style="color:#369">-handleRequest</span>
+  [<span style="color:#369">this</span> <span style="color:#369">input-stream</span> <span style="color:#369">output-stream</span> <span style="color:#369">context</span>]
+  (<span style="color:#080;font-weight:bold">let </span>[<span style="color:#369">handle</span> (<span style="color:#369">io/writer</span> <span style="color:#369">output-stream</span>)]
+    (<span style="color:#369">.write</span> <span style="color:#369">handle</span> (<span style="color:#038">str </span><span style="color:#d20;background-color:#fff0f0">&#34;hello&#34;</span> <span style="color:#d20;background-color:#fff0f0">&#34;world&#34;</span>))
+    (<span style="color:#369">.flush</span> <span style="color:#369">handle</span>)))</code></pre></div>
 <p>This would be saved at
 <code>functions/hello/src/net/morethanseven/hello.clj</code>, and the Apex
 <code>project.json</code> file should point at the function above:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>{
-  <span style="color: #bb0066; font-weight: bold">&quot;runtime&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;clojure&quot;</span>,
-  <span style="color: #bb0066; font-weight: bold">&quot;handler&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;net.morethanseven.hello::handleRequest&quot;</span>
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#b06;font-weight:bold">&#34;runtime&#34;</span>: <span style="color:#d20;background-color:#fff0f0">&#34;clojure&#34;</span>,
+  <span style="color:#b06;font-weight:bold">&#34;handler&#34;</span>: <span style="color:#d20;background-color:#fff0f0">&#34;net.morethanseven.hello::handleRequest&#34;</span>
+}</code></pre></div>
 <p>You would also need a small configuration file at <code>functions/hello/project.clj</code>:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>(<span style="color: #008800; font-weight: bold">defproject </span><span style="color: #336699">net.morethanseven</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;0.1.0-SNAPSHOT&quot;</span>
-  <span style="color: #aa6600; background-color: #fff0f0">:description</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;Hello World.&quot;</span>
-  <span style="color: #aa6600; background-color: #fff0f0">:dependencies</span> [[<span style="color: #336699">com.amazonaws/aws-lambda-java-core</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;1.1.0&quot;</span>]
-                 [<span style="color: #336699">com.amazonaws/aws-lambda-java-events</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;1.1.0&quot;</span> <span style="color: #aa6600; background-color: #fff0f0">:exclusions</span> [
-<span style="color: #336699">com.amazonaws/aws-java-sdk-s3</span>
-<span style="color: #336699">com.amazonaws/aws-java-sdk-sns</span>
-<span style="color: #336699">com.amazonaws/aws-java-sdk-cognitoidentity</span>
-<span style="color: #336699">com.amazonaws/aws-java-sdk-kinesis</span>
-<span style="color: #336699">com.amazonaws/aws-java-sdk-dynamodb</span>]]
-                 [<span style="color: #336699">org.clojure/clojure</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;1.8.0&quot;</span>]]
-  <span style="color: #aa6600; background-color: #fff0f0">:aot</span> <span style="color: #aa6600; background-color: #fff0f0">:all</span>)
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure">(<span style="color:#080;font-weight:bold">defproject </span><span style="color:#369">net.morethanseven</span> <span style="color:#d20;background-color:#fff0f0">&#34;0.1.0-SNAPSHOT&#34;</span>
+  <span style="color:#a60;background-color:#fff0f0">:description</span> <span style="color:#d20;background-color:#fff0f0">&#34;Hello World.&#34;</span>
+  <span style="color:#a60;background-color:#fff0f0">:dependencies</span> [[<span style="color:#369">com.amazonaws/aws-lambda-java-core</span> <span style="color:#d20;background-color:#fff0f0">&#34;1.1.0&#34;</span>]
+                 [<span style="color:#369">com.amazonaws/aws-lambda-java-events</span> <span style="color:#d20;background-color:#fff0f0">&#34;1.1.0&#34;</span> <span style="color:#a60;background-color:#fff0f0">:exclusions</span> [
+<span style="color:#369">com.amazonaws/aws-java-sdk-s3</span>
+<span style="color:#369">com.amazonaws/aws-java-sdk-sns</span>
+<span style="color:#369">com.amazonaws/aws-java-sdk-cognitoidentity</span>
+<span style="color:#369">com.amazonaws/aws-java-sdk-kinesis</span>
+<span style="color:#369">com.amazonaws/aws-java-sdk-dynamodb</span>]]
+                 [<span style="color:#369">org.clojure/clojure</span> <span style="color:#d20;background-color:#fff0f0">&#34;1.8.0&#34;</span>]]
+  <span style="color:#a60;background-color:#fff0f0">:aot</span> <span style="color:#a60;background-color:#fff0f0">:all</span>)</code></pre></div>
 <p>The above is really just showing an example of how little code a
 function might contain, the specifics are relevant only if you&rsquo;re
 intersted in Clojure. But imagine the same sort of thing for your
@@ -484,50 +474,46 @@ apex infra deploy
 
 <p>Doing so requires us to write a little Terraform code. First we need
 some variables, we&rsquo;ll invclude this in <code>infrastructure/variables.tf</code>:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_region&quot;</span> {
-<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;AWS Region Lambda function is deployed to&quot;</span>
-}
-
-<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_environment&quot;</span> {
-<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Apex configured environment. Auto provided by &#39;apex infra&#39;&quot;</span>
-}
-
-<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_function_role&quot;</span> {
-<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Provisioned Lambda Role ARN via Apex. Auto provided by &#39;apex infra&#39;&quot;</span>
-}
-
-<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_function_hub&quot;</span> {
-<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Provisioned function &#39;hub&#39; ARN information. Auto provided by &#39;apex infra&#39;&quot;</span>
-}
-
-<span style="color: #008800; font-weight: bold">variable</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;apex_function_hub_name&quot;</span> {
-<span style="color: #336699">  description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Provisioned function &#39;hub&#39; name information. Auto provided by &#39;apex infra&#39;&quot;</span>
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#080;font-weight:bold">variable</span> <span style="color:#d20;background-color:#fff0f0">&#34;aws_region&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">  description =</span> <span style="color:#d20;background-color:#fff0f0">&#34;AWS Region Lambda function is deployed to&#34;</span>
+}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">variable</span> <span style="color:#d20;background-color:#fff0f0">&#34;apex_environment&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">  description =</span> <span style="color:#d20;background-color:#fff0f0">&#34;Apex configured environment. Auto provided by &#39;apex infra&#39;&#34;</span>
+}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">variable</span> <span style="color:#d20;background-color:#fff0f0">&#34;apex_function_role&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">  description =</span> <span style="color:#d20;background-color:#fff0f0">&#34;Provisioned Lambda Role ARN via Apex. Auto provided by &#39;apex infra&#39;&#34;</span>
+}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">variable</span> <span style="color:#d20;background-color:#fff0f0">&#34;apex_function_hub&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">  description =</span> <span style="color:#d20;background-color:#fff0f0">&#34;Provisioned function &#39;hub&#39; ARN information. Auto provided by &#39;apex infra&#39;&#34;</span>
+}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">variable</span> <span style="color:#d20;background-color:#fff0f0">&#34;apex_function_hub_name&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">  description =</span> <span style="color:#d20;background-color:#fff0f0">&#34;Provisioned function &#39;hub&#39; name information. Auto provided by &#39;apex infra&#39;&#34;</span>
+}</code></pre></div>
 <p>And then we need to describe the resources for our cron job in
 <code>infrastructure/main.tf</code>:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">resource</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_cloudwatch_event_rule&quot; &quot;every_five_minutes&quot;</span> {
-<span style="color: #336699">    name</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;every-five-minutes&quot;</span>
-<span style="color: #336699">    description</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;Fires every five minutes&quot;</span>
-<span style="color: #336699">    schedule_expression</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;rate(5 minutes)&quot;</span>
-}
-
-<span style="color: #008800; font-weight: bold">resource</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_cloudwatch_event_target&quot; &quot;check_hub_every_five_minutes&quot;</span> {
-<span style="color: #336699">    rule</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${aws_cloudwatch_event_rule.every_five_minutes.name}&quot;</span>
-<span style="color: #336699">    target_id</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${var.apex_function_hub_name}&quot;</span>
-<span style="color: #336699">    arn</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${var.apex_function_hub}&quot;</span>
-}
-
-<span style="color: #008800; font-weight: bold">resource</span> <span style="color: #dd2200; background-color: #fff0f0">&quot;aws_lambda_permission&quot; &quot;allow_cloudwatch_to_call_hub&quot;</span> {
-<span style="color: #336699">    statement_id</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;AllowExecutionFromCloudWatch&quot;</span>
-<span style="color: #336699">    action</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;lambda:InvokeFunction&quot;</span>
-<span style="color: #336699">    function_name</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${var.apex_function_hub_name}&quot;</span>
-<span style="color: #336699">    principal</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;events.amazonaws.com&quot;</span>
-<span style="color: #336699">    source_arn</span> = <span style="color: #dd2200; background-color: #fff0f0">&quot;${aws_cloudwatch_event_rule.every_five_minutes.arn}&quot;</span>
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#080;font-weight:bold">resource</span> <span style="color:#d20;background-color:#fff0f0">&#34;aws_cloudwatch_event_rule&#34; &#34;every_five_minutes&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">    name =</span> <span style="color:#d20;background-color:#fff0f0">&#34;every-five-minutes&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">description =</span> <span style="color:#d20;background-color:#fff0f0">&#34;Fires every five minutes&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">schedule_expression =</span> <span style="color:#d20;background-color:#fff0f0">&#34;rate(5 minutes)&#34;</span>
+}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">resource</span> <span style="color:#d20;background-color:#fff0f0">&#34;aws_cloudwatch_event_target&#34; &#34;check_hub_every_five_minutes&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">    rule =</span> <span style="color:#d20;background-color:#fff0f0">&#34;${aws_cloudwatch_event_rule.every_five_minutes.name}&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">target_id =</span> <span style="color:#d20;background-color:#fff0f0">&#34;${var.apex_function_hub_name}&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">arn =</span> <span style="color:#d20;background-color:#fff0f0">&#34;${var.apex_function_hub}&#34;</span>
+}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">resource</span> <span style="color:#d20;background-color:#fff0f0">&#34;aws_lambda_permission&#34; &#34;allow_cloudwatch_to_call_hub&#34;</span> {<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">    statement_id =</span> <span style="color:#d20;background-color:#fff0f0">&#34;AllowExecutionFromCloudWatch&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">action =</span> <span style="color:#d20;background-color:#fff0f0">&#34;lambda:InvokeFunction&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">function_name =</span> <span style="color:#d20;background-color:#fff0f0">&#34;${var.apex_function_hub_name}&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">principal =</span> <span style="color:#d20;background-color:#fff0f0">&#34;events.amazonaws.com&#34;</span>
+    <span style="color:#a61717;background-color:#e3d2d2">source_arn =</span> <span style="color:#d20;background-color:#fff0f0">&#34;${aws_cloudwatch_event_rule.every_five_minutes.arn}&#34;</span>
+}</code></pre></div>
 <p>Here we&rsquo;re running the job every 5 minutes, but it should be relatively
 easy to see how you can change that frequency. See the Terraform and AWS
 Lambda documentation for all the possible options.</p>
@@ -2259,7 +2245,7 @@ interesting then you&rsquo;d be right.</p>
     
     
     
-     
+    
         
         
     
@@ -2271,7 +2257,7 @@ interesting then you&rsquo;d be right.</p>
     
     
     
-     
+    
         
         
     
@@ -2283,7 +2269,7 @@ interesting then you&rsquo;d be right.</p>
     
     
     
-     
+    
         
         
     
@@ -2648,7 +2634,7 @@ interesting then you&rsquo;d be right.</p>
     
     
     
-     
+    
         
         
     

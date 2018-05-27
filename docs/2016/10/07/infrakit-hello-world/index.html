@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -74,24 +74,22 @@
 
 <pre><code>cat garethr.json
 </code></pre>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>{
-    <span style="color: #bb0066; font-weight: bold">&quot;ID&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;garethr&quot;</span>,
-    <span style="color: #bb0066; font-weight: bold">&quot;Properties&quot;</span>: {
-        <span style="color: #bb0066; font-weight: bold">&quot;Instance&quot;</span> : {
-            <span style="color: #bb0066; font-weight: bold">&quot;Plugin&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;instance-file&quot;</span>,
-            <span style="color: #bb0066; font-weight: bold">&quot;Properties&quot;</span>: {
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#b06;font-weight:bold">&#34;ID&#34;</span>: <span style="color:#d20;background-color:#fff0f0">&#34;garethr&#34;</span>,
+    <span style="color:#b06;font-weight:bold">&#34;Properties&#34;</span>: {
+        <span style="color:#b06;font-weight:bold">&#34;Instance&#34;</span> : {
+            <span style="color:#b06;font-weight:bold">&#34;Plugin&#34;</span>: <span style="color:#d20;background-color:#fff0f0">&#34;instance-file&#34;</span>,
+            <span style="color:#b06;font-weight:bold">&#34;Properties&#34;</span>: {
             }
         },
-        <span style="color: #bb0066; font-weight: bold">&quot;Flavor&quot;</span> : {
-            <span style="color: #bb0066; font-weight: bold">&quot;Plugin&quot;</span>: <span style="color: #dd2200; background-color: #fff0f0">&quot;flavor-vanilla&quot;</span>,
-            <span style="color: #bb0066; font-weight: bold">&quot;Properties&quot;</span>: {
-                <span style="color: #bb0066; font-weight: bold">&quot;Size&quot;</span>: <span style="color: #0000DD; font-weight: bold">1</span>
+        <span style="color:#b06;font-weight:bold">&#34;Flavor&#34;</span> : {
+            <span style="color:#b06;font-weight:bold">&#34;Plugin&#34;</span>: <span style="color:#d20;background-color:#fff0f0">&#34;flavor-vanilla&#34;</span>,
+            <span style="color:#b06;font-weight:bold">&#34;Properties&#34;</span>: {
+                <span style="color:#b06;font-weight:bold">&#34;Size&#34;</span>: <span style="color:#00d;font-weight:bold">1</span>
             }
         }
     }
-}
-</pre></div>
-
+}</code></pre></div>
 <p>InfraKit is based on running separate plugins. Each plugin runs as a separate process and provides a filesystem socket in /run/infrakit/plugins. First start up the file plugin:</p>
 
 <pre><code>$ ./infrakit/file --dir=./test

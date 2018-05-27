@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -82,14 +82,10 @@ from here, and the usage is very similar.</p>
 
 <p>First add (or hopefully change) your Gemfile line item for rspec-puppet
 to the following:</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>gem <span style="color: #dd2200; background-color: #fff0f0">&quot;rspec-puppet&quot;</span>, <span style="color: #aa6600; background-color: #fff0f0">:git</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;https://github.com/rodjek/rspec-puppet.git&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">gem <span style="color:#d20;background-color:#fff0f0">&#34;rspec-puppet&#34;</span>, <span style="color:#a60;background-color:#fff0f0">:git</span> =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;https://github.com/rodjek/rspec-puppet.git&#39;</span></code></pre></div>
 <p>Then all you need to do is include the following line anywhere in a
 spec.rb file in your spec directory.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">at_exit</span> { <span style="color: #336699">RSpec</span>::<span style="color: #336699">Puppet</span>::<span style="color: #336699">Coverage</span><span style="color: #a61717; background-color: #e3d2d2">.</span><span style="color: #336699">report</span>! }
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">at_exit</span> { <span style="color:#369">RSpec</span>::<span style="color:#369">Puppet</span>::<span style="color:#369">Coverage</span><span style="color:#a61717;background-color:#e3d2d2">.</span><span style="color:#369">report</span>! }</code></pre></div>
 <h2 id="what-do-i-get">What do I get?</h2>
 
 <p>Here&rsquo;s an <a href="https://github.com/garethr/garethr-nginx">example module</a>,

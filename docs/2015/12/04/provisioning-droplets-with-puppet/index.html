@@ -45,7 +45,7 @@
 </head>
 <body class="theme-base-08">
 <div class="sidebar">
-  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=morethansevennet" id="_carbonads_js"></script>
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       
@@ -70,14 +70,12 @@ This currently provides a single Puppet type; <code>droplet</code>.</p>
 
 <p>Lets show a quick example of that, by launching two droplets, called
 test-digitalocean and test-digitalocean-1.</p>
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #336699">droplet</span> { [<span style="color: #dd2200; background-color: #fff0f0">&#39;test-digitalocean&#39;</span>, <span style="color: #dd2200; background-color: #fff0f0">&#39;test-digitalocean-1&#39;</span>]:
-  <span style="color: #336699">ensure</span> =&gt; <span style="color: #008800; font-weight: bold">present</span>,
-  <span style="color: #336699">region</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;lon1&#39;</span>,
-  <span style="color: #336699">size</span>   =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;512mb&#39;</span>,
-  <span style="color: #336699">image</span>  =&gt; <span style="color: #0000DD; font-weight: bold">14169855</span>,
-}
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-puppet" data-lang="puppet"><span style="color:#369">droplet</span> { [<span style="color:#d20;background-color:#fff0f0">&#39;test-digitalocean&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;test-digitalocean-1&#39;</span>]:<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">ensure</span> =&gt; <span style="color:#080;font-weight:bold">present</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">region</span> =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;lon1&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">size</span>   =&gt; <span style="color:#d20;background-color:#fff0f0">&#39;512mb&#39;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#369">image</span>  =&gt; <span style="color:#00d;font-weight:bold">14169855</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>}</code></pre></div>
 <p>With the above manifest saved as <code>droplets.pp</code> we can run it with:</p>
 
 <pre><code>$ puppet apply --test droplets,pp
