@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,44 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2010/12/24/A-vagrant-ecosystem/">A Vagrant Ecosystem</a>
+      </h1>
+      <span class="post-date">Dec 24, 2010 &middot; 3 minute read
+      </span>
+      
+      
+
+<p>As mentioned loudly and repeatedly on here and on Twitter I love <a href="http://vagrantup.com">vagrant</a>. While writing a chef cookbook to bootstrap my virtual machines I started thinking about how things around vagrant could help it be more useful. These might be things I&rsquo;m going to do, or ideally get involved with others to do. If anyone has any other ideas, or suggestions please leave comments, I definately think this is the time for discussion.</p>
+
+<h2 id="baseboxes">Baseboxes</h2>
+
+<p>I don&rsquo;t really want to have to maintain baseboxes but I want access to lots of them. I&rsquo;m sure some people will want a <em>Ruby on Rails in a box</em> but all I really care about is having access to recent 32 and 63 bit vanilla linux distributions. I want a good source for trusted baseboxes. At the moment the approach is to look on the wiki, then look on the mailing list and then search the web, then create your own (even using <a href="https://github.com/jedi4ever/veewee">VeeWee</a> it&rsquo;s still a little fiddly). I&rsquo;ve managed to find good lucid, maverick and debian boxes, but have had problems with centos and a few others. Part of this is the rate of change recenty of both vagrant and now VirtualBox (both good things), part of it is the lack of reviews and shared experiences around baseboxes.</p>
+
+<p>What I&rsquo;d love to see is a single place where anyone can post a link to a basebox and vagrant users can come along and assign metadata about whether it worked and on what hardware, vagrant version, virtual box version, etc. It could even act as a tracker, counting downloads of boxes to gauge popularity.</p>
+
+<h2 id="templated-vagrantfiles">Templated Vagrantfiles</h2>
+
+<p>As mentioned previously I have a chef cookbook I use to bootstrap all my new virtual machines. My process is therefore: <em>vagrant init</em>, make some manual changes to the Vagrantfile (or copy it from elsewhere), <em>vagrant up</em>. I&rsquo;m lazy and want a nicer way to reuse Vagrantfiles or to script their creation.</p>
+
+<p>I started out thinking that the ability to point the init command at a template and to provide context on the command line might be a good idea. Now I&rsquo;m wondering whether we just need a command line application which allows for writing or modifying the Vagrantfile? Something like:</p>
+
+<pre><code>vagrant config vm.provisioner=:chef_solo
+vagrant config chef.recipe_url=http://cloud.github.com/downloads/garethr/chef-repo/cookbooks.tar.gz
+</code></pre>
+
+<h2 id="hosted-cookbooks">Hosted cookbooks</h2>
+
+<p>I dissed the idea of a <em>Ruby on Rails in a box</em> basebox above but I still want to be able to let people more easily share custom configuration for specialist applications. But what I&rsquo;d prefer would be people sharing packaged cookbooks, a bit like I&rsquo;ve done for my default virtual machine setup. Again the beauty of this is it&rsquo;s pretty much just sharing a URL to a tar.gz file. This makes more sense to me at least than random people connecting to my chef server (I shouldn&rsquo;t know about their machines) and lowers the barrier to entry for those not interested in hosting their own chef server or using the opscode platform for local virtual machines.</p>
+
+<p>I&rsquo;m also not talking here about just sharing individual cookbooks like <a href="http://cookbooks.opscode.com/">cookbooks.opscode.com</a>, but rather a packaged collection of individual recipes designed for a specific purpose. A fully working solr instance, a django application server using apache/mod_wsgi, etc.</p>
+
+<p>Many of the points about baseboxes above would work here too I think. Having a good community resource which points to lots of cookbook tar files. Allowing people to feed back about what works for them. I&rsquo;ve mainly taked about Chef here as that&rsquo;s what vagrant initially shipped with, with the puppet provisioner now ready to go with would stand for puppet manifests too.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -416,60 +454,6 @@ vagrant up
 
 <script src="http://gist.github.com/471711.js?file=pre-receive">
 </script>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2010/06/29/Python-what-to-use/">Python: What To Use?</a>
-      </h1>
-      <span class="post-date">Jun 29, 2010 &middot; 4 minute read
-      </span>
-      
-      
-
-<p>My friend <a href="http://jamieonsoftware.com">Jamie Rumbelow</a> has started a new project and decided to use Python. He asked a great question over on <a href="http://stackoverflow.com/questions/3143115/architecting-from-scratch-in-python-what-to-use">Stack Overflow</a> which basically came down to <em>what should I use for my first proper Python web application project</em>. After a quick prompting on twitter I decided to have a go. I&rsquo;ve cross posted my anwser below more because it took as long as a typical blog post to write.</p>
-
-<h2 id="frameworks">Frameworks</h2>
-
-<p>OK, so I&rsquo;m a little biased here as I currently make extensive use of Django and organise the Django User Group in London so bear that in mind when reading the following.</p>
-
-<p>Start with Django because it&rsquo;s a great gateway drug. Lots of documentation and literature, a very active community of people to talk to and lots of example code around the web.</p>
-
-<p>That&rsquo;s a completely non-technical reason. Pylons is probably purer in terms of Python philosophy (being much more a collection of discrete bits and pieces) but lots of the technical stuff is personal preference, at least until you get into Python more. Compare the very active Django tag on Stack Overflow with that of pylons or turbogears though and I&rsquo;d argue getting started is simply easier with Django irrespective of anything to do with code.</p>
-
-<p>Personally I default to Django, but find that an increasing amount of time I actually opt for writing using simpler micro frameworks (think Sinatra rather than Rails). Lots of things to choose from (<a href="http://fewagainstmany.com/blog/python-micro-frameworks-are-all-the-rage">good list here</a>). I tend to use MNML (because I wrote parts of it and it&rsquo;s tiny) but others are actively developed. I tend to do this for small, stupid web services which are then strung together with a Django project in the middle serving people.</p>
-
-<p>Worth noting here is appengine. You have to work within it&rsquo;s limitations and it&rsquo;s not designed for everything but it&rsquo;s a great way to just play with Python and get something up and working quickly. It makes a great testbed for learning and experimentation.</p>
-
-<h2 id="mongo-orm">Mongo/ORM</h2>
-
-<p>On the MongoDB front you&rsquo;ll likely want to look at the <a href="http://api.mongodb.org/python/">basic python mongo library</a> first to see if it has everything you need. If you really do want something a little more ORM like then <a href="http://hmarr.com/mongoengine/">mongoengine</a> might be what you&rsquo;re looking for. A bunch of folks are also working on making Django specifically integrate more seamlessly with nosql backends. Some of that is for future Django releases, but <a href="http://www.allbuttonspressed.com/projects/django-nonrel">django-norel</a> has code now.</p>
-
-<p>For relational data <a href="http://www.sqlalchemy.org/">SQLAlchemy</a> is good if you want something standalone. Django&rsquo;s ORM is also excellent if you&rsquo;re using Django.</p>
-
-<h2 id="api">API</h2>
-
-<p>The most official Oauth library is <a href="http://github.com/simplegeo/python-oauth2">python-oauth2</a>, which handily has a Django example as part of it&rsquo;s docs.</p>
-
-<p><a href="http://bitbucket.org/jespern/django-piston/wiki/Home">Piston</a> is a Django app which provides lots of tools for building APIs. It has the advantage of being pretty active and well maintained and in production all over the place. Other projects exist too, including <a href="http://zacharyvoase.github.com/dagny/">Dagny</a> which is an early attempt to create something akin to RESTful resources in Rails.</p>
-
-<p>In reality any Python framework (or even just raw WSGI code) should be reasonably good for this sort of task.</p>
-
-<h2 id="testing">Testing</h2>
-
-<p>Python has unittest as part of it&rsquo;s standard library, and unittest2 is in python 2.7 (but <a href="http://pypi.python.org/pypi/unittest2/0.1.4">backported to previous versions too</a>). Some people also like <a href="http://code.google.com/p/python-nose/">Nose</a>, which is an alternative test runner with some additional features. <a href="http://twill.idyll.org/">Twill</a> is also nice, it&rsquo;s a &ldquo;a simple scripting language for Web browsing&rdquo;, so handy for some functional testing. <a href="http://github.com/rlisagor/freshen">Freshen</a> is a port of cucumber to Python. I haven&rsquo;t yet gotten round to using this in anger, but a quick look now suggests it&rsquo;s much better than when I last looked.</p>
-
-<p>I actually also use Ruby for high level testing of Python apps and apis because I love the combination of celerity and cucumber. But I&rsquo;m weird and get funny looks from other Python people for this.</p>
-
-<h2 id="message-queues">Message Queues</h2>
-
-<p>For a message queue, whatever language I&rsquo;m using, I now always use RabbitMQ. I&rsquo;ve had some success with stompserver in the past but Rabbit is awesome. Don&rsquo;t worry that it&rsquo;s not itself written in Python, neither is PostgresSQL, Nginx or MongoDB - all for good reason. What you care about are the libraries available. What you&rsquo;re looking for here is <a href="http://barryp.org/software/py-amqplib/">py-amqplib</a> which is a low level library for talking amqp (the protocol for talking to rabbit as well as other message queues). I&rsquo;ve also used <a href="http://github.com/ask/carrot/">Carrot</a>, which is easier to get started with and provides a nicer API. Think bunny in Ruby if you&rsquo;re familiar with that.</p>
-
-<h2 id="environment">Environment</h2>
-
-<p>Whatever bits and pieces you decide to use from the Python ecosystem I&rsquo;d recommend getting to who <a href="http://clemesha.org/blog/2009/jul/05/modern-python-hacker-tools-virtualenv-fabric-pip/">pip and virtualenv</a> - note that fabric is also cool, but not essential and these docs are out of date on that tool). Think about using Ruby without gem, bundler or rvm and you&rsquo;ll be in the right direction.</p>
 
       
     </div>

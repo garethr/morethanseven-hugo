@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,26 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2007/02/28/uk-web-design-meetups-map/">UK Web Design Meetups Map</a>
+      </h1>
+      <span class="post-date">Feb 28, 2007 &middot; 2 minute read
+      </span>
+      
+      <p>I&rsquo;ve posted a list before of events and meetups I know about around the UK but had got playing with the <a href="http://www.google.com/apis/maps/documentation/">Google Maps API</a> and decided to go one stage further and create a hopefully useful place to put all that info in the shape of a quick mashup.</p>
+
+<p>Have a look over on <a href="http://morethanseven.net/presents/meetup">morethanseven.net/presents/meetup</a> for a hopefully useful tool. I&rsquo;ll try and keep this up to date manually for the time being, so if you know of any other get togethers please leave a comment and I&rsquo;ll add them to the list. Thanks to the excellent, if a little technical (well, it is Google) API documentation and <a href="http://adactio.com">Jeremy&rsquo;s</a> <a href="http://austin.adactio.com">Adactio Austin</a> for inspiration.</p>
+
+<p><img src="http://morethanseven.net/_assets/media/imgMapSample.jpg" alt="Sample map of UK Meetups" title="Sample map of UK Meetups" /></p>
+
+<p>I&rsquo;d like to make this even more flexible, ideally all I should have to do is point the page at the group urls and then parse out the geo-coded microformats data and then display it on the map and page, rather than duplicate this information and maintain it by hand. So if any of the owners of these sites want to geo-code up their sites and let me know that would be great. Some <a href="http://upcoming.org">Upcoming</a> integration might be on the cards too.</p>
+
+<p>Hopefully it should be of some use to anyone looking for things going on in their area, or if you find yourself in a strange part of the country for whatever reasons then you&rsquo;ll know how to find the local geek community without risking life and limb with an odd T-Shirt.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -556,71 +576,6 @@ Post
 </table>
 <p>
 Doing this for a site or application in the early stages of development really helps to highlight what actions are available, and to remove the need for costly changes later in the day. It also helps others learn, mainly through discussion, about the different HTTP methods and the importance of the URI in general.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/01/20/posting-to-twitter-using-php/">Posting to Twitter using PHP</a>
-      </h1>
-      <span class="post-date">Jan 20, 2007 &middot; 2 minute read
-      </span>
-      
-      <p><em>Please note that Twitter no-longer support Basic Auth via the API so the following code no longer works. Please see the <a href="http://dev.twitter.com/pages/oauth_faq">official docs</a> for more info</em></p>
-
-<p>
-Like others I’ve found myself becoming something of a fan of <a href="http://twitter.com">Twitter</a>, the impossible to explain social networking site. If you’re reading this, have a twitter account and not already my <em>friend</em> then <a href="http://twitter.com/garethr">add me</a> if you like.
-
-</p>
-<p>
-Apart from the interesting social aspects I’m also interested in Twitter as an API for all sorts of communications, remember Twitter already deals nicely with SMS messaging, Instant Messaging, subscription and the like and has a <a href="http://twitter.com/help/api">nice XML and JSON based API</a>. I’ve been using the <a href="http://www.zamano.com/">Zamano</a> SMS gateway at work for a few projects and Twitter actually lets me some more and doesn’t come with a price tag.
-
-</p>
-<p>
-I started out playing with <a href="http://curl.haxx.se/">curl</a> to send updates like so (obviously with a real username and password):
-
-</p>
-<code>curl -u username:password -d status="twittering from curl" http://twitter.com/statuses/update.xml</code>
-
-I then used the PHP curl features to do the same thing from PHP:
-
-    <code>&lt;?php
-    // Set username and password
-    $username = 'username';
-    $password = 'password';
-    // The message you want to send
-    $message = 'is twittering from php using curl';
-    // The twitter API address
-    $url = 'http://twitter.com/statuses/update.xml';
-    // Alternative JSON version
-    // $url = 'http://twitter.com/statuses/update.json';
-    // Set up and execute the curl process
-    $curl_handle = curl_init();
-    curl_setopt($curl_handle, CURLOPT_URL, "$url");
-    curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
-    curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl_handle, CURLOPT_POST, 1);
-    curl_setopt($curl_handle, CURLOPT_POSTFIELDS, "status=$message");
-    curl_setopt($curl_handle, CURLOPT_USERPWD, "$username:$password");
-    $buffer = curl_exec($curl_handle);
-    curl_close($curl_handle);
-    // check for success or failure
-    if (empty($buffer)) {
-        echo 'message';
-    } else {
-        echo 'success';
-    }
-    ?&gt;</code>
-
-<p>
-Obviously you could do more with the return than print out a success or failure message. The $buffer variable has the returned XML or JSON for you’re parsing pleasure.
-
-</p>
-<p>
-I’m going to try out some of the other API methods too, probably play more with XSL or look more closely at the <a href="http://pear.php.net/pepr/pepr-proposal-show.php?id=198">PEAR JSON module</a> in building up a simple library as a quick search didn’t throw up much of interest and the API is nice and simple; making it fun to hack on.
 
 </p>
 

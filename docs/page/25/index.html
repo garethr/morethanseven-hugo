@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,42 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2008/01/19/a-few-interesting-upcoming-events/">A few interesting upcoming events</a>
+      </h1>
+      <span class="post-date">Jan 19, 2008 &middot; 2 minute read
+      </span>
+      
+      <p>After a break over Christmas the web world is back in full swing with a few upcoming events.</p>
+
+<p><a href="http://barcamp.org/BarCampScotland2008">BarCamp Scotland</a> - <em>February 2nd</em>.</p>
+
+<p>I only just found out about this one but it looks like a few people from Refresh Newcastle and Refresh Edinburgh are going to make it along. The short notice does mean I have to think of something to talk about sharpish though.</p>
+
+<p><a href="http://www.thinkandadrink.com/">Think and a Drink</a> - <em>February 7th</em></p>
+
+<p>Bit of shameless self promotion here. I&rsquo;m speaking at the monthly <a href="http://www.codeworks.net/">Codeworks</a> get together on something to do with the Web. Also speaking is <a href="http://blog.whatfettle.com/">Paul Downey</a> from BT and another regular BarCamp attendee. If you&rsquo;re around Newcastle try and get along (it&rsquo;s a membership event but let me know if you want to go along and I&rsquo;ll speak with the organisers).</p>
+
+<p><a href="http://semanticcamp.tommorris.org/">Semantic Camp</a> - <em>February 16th - 17th</em></p>
+
+<p>A whole BarCamp style event brought to you by <a href="http://tommorris.org">tommorris</a>. This looks likely to be particularly interesting event I think.</p>
+
+<p><a href="http://futureofwebdesign.com/">Future of Web Design</a> - <em>April 17th - 18th</em></p>
+
+<p><em>The Future of&hellip;</em> rolls into town again, this time with a focus on web design. I&rsquo;d be tempted to go along to this solely for the Photoshop tennis doubles match with <a href="http://stuffandnonsense.co.uk/">Andy Clarke</a> commentating. The rest of the content looks pretty good to.</p>
+
+<p><a href="http://thinkingdigital.co.uk">Thinking Digital</a> - <em>May 21st - 23rd</em></p>
+
+<p>Another event I&rsquo;m involved in, this time on the board along with <a href="http://www.cubicgarden.com">Ian Forrester</a> from The BBC and Mike Butcher from <a href="http://uk.techcrunch.com">Techcrunch</a>. This one is a little different to most of the events I go along to - being less web centric and more about all sorts of interesting ideas. With the likes of <a href="http://horsepigcow.com/">Tara Hunt</a>, Sean Phelan (<a href="http://www.multimap.com/">MultiMap</a>), <a href="http://www.test.org.uk/">Matt Locke</a> and <a href="http://fakesteve.blogspot.com/">Dan Lyons</a> (a.k.a. Fake Steve Jobs) speaking it should be good fun. Oh, and did I mention it&rsquo;s in Newcastle?</p>
+
+<p>And look, only two of those are in London!</p>
+
+<p>It&rsquo;s already looking like 2008 will be even more jam packed than last year. I also have a sneaking feeling that their will be lots more events <em>Up North</em> this year than last. It will be interesting to see how this works out. Will more people come along that might not have travelled down to London? Will the event happy northerners still go to London as well? Will anyone from London travel north of Watford? Time will tell.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -380,42 +416,6 @@ For anyone in the Newcastle are we&rsquo;re having a meetup next week, on Thursd
 
 <pre><code>&lt;code&gt;CouchDB has started. Time to relax.&lt;/code&gt;
 </code></pre>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/12/08/insert-dojo-and-yui-bookmarklets/">Insert Dojo and YUI bookmarklets</a>
-      </h1>
-      <span class="post-date">Dec 8, 2007 &middot; 1 minute read
-      </span>
-      
-      <p>I&rsquo;ve talked about <a href="http://morethanseven.net/posts/debug-web-pages-with-jquery-and-jash/">having fun with jQuery</a> using <a href="http://www.billyreisinger.com/jash/">Jash</a> and Firebug before after seeing <a href="http://simonwillison.net">Simon</a> throw the Google homepage around at barcamp. I&rsquo;m no more a one javascript framework person than a one programming language person and recently I&rsquo;ve seen cool things I want to play with in lots of the main contenders.</p>
-
-<p>I&rsquo;ve put together a couple of bookmarklets which load <a href="http://developer.yahoo.com/yui/">YUI</a> or <a href="http://dojotoolkit.org/">Dojo</a> from their respective content delivery networks and insert them into your current browser context. You can then play around with them in Jash or Firebug or any other Javascript console.</p>
-
-<p>Dojo is particularly interesting here due to it&rsquo;s cunning loading mechanism for additional parts of the framework. Basically you can gain access to the entire (huge) framework simply by using the bookmarklet and then dynamically loading the rest via the command line.</p>
-
-<p><a href="javascript:void(function(){var%20s=document.createElement('script');s.src='http://o.aolcdn.com/dojo/1.0.0/dojo/dojo.xd.js';document.getElementsByTagName('head')[0].appendChild(s);}())">Insert Dojo</a></p>
-
-<pre><code>&lt;code&gt;javascript:void(function(){
- var%20s=document.createElement('script');
- s.src='http://o.aolcdn.com/dojo/1.0.0/dojo/dojo.xd.js';
- document.getElementsByTagName('head')[0].appendChild(s);
-}())&lt;/code&gt;
-</code></pre>
-
-<p><a href="javascript:void(function(){var%20s=document.createElement('script');s.src='http://yui.yahooapis.com/2.4.0/build/yahoo-dom-event/yahoo-dom-event.js';document.getElementsByTagName('head')[0].appendChild(s);}())">Insert YUI</a></p>
-
-<pre><code>&lt;code&gt;javascript:void(function(){
- var%20s=document.createElement('script');
- s.src='http://yui.yahooapis.com/2.4.0/build/yahoo-dom-event/yahoo-dom-event.js';
- document.getElementsByTagName('head')[0].appendChild(s);
-}())&lt;/code&gt;
-</code></pre>
-
-<p>The code simply inserts a script element into the page which loads the relevant framework. I&rsquo;ve shown the code on multiple lines for the sake of the example, but your bookmarklet should be on one line. Alternatively you can drag the <a href="javascript:void(function(){var%20s=document.createElement('script');s.src='http://yui.yahooapis.com/2.4.0/build/yahoo-dom-event/yahoo-dom-event.js';document.getElementsByTagName('head')[0].appendChild(s);}())">Insert YUI</a> or <a href="javascript:void(function(){var%20s=document.createElement('script');s.src='http://o.aolcdn.com/dojo/1.0.0/dojo/dojo.xd.js';document.getElementsByTagName('head')[0].appendChild(s);}())">Insert Dojo</a> links to your bookmark bar.</p>
 
       
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,202 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2018/07/29/knative-build-with-docker-buildkit-img/">Knative Build with Docker, BuildKit and Img</a>
+      </h1>
+      <span class="post-date">Jul 29, 2018 &middot; 4 minute read
+      </span>
+      
+      
+
+<p><a href="https://github.com/knative/build">Knative Build</a> is one of the components of <a href="https://cloud.google.com/knative/">Knative</a> that shipped last week.
+Knative is described as a set of <em>&ldquo;essential base primitives&rdquo;</em>, one of those is an approach to describing build pipelines to run on Kubernetes.</p>
+
+<p><a href="https://github.com/knative/docs/blob/master/build/installing-build-component.md">Installing</a> <code>knative/build</code> is relatively simple as long as you have
+a Kubernetes cluster running at least 1.10. Handily Docker Desktop for <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Windows</a> or
+<a href="https://store.docker.com/editions/community/docker-ce-desktop-mac">Mac</a> makes it easy to get a local cluster up and running.</p>
+
+<pre><code>kubectl apply -f https://storage.googleapis.com/knative-releases/build/latest/release.yaml
+</code></pre>
+
+<p>With Knative Build installed we can describe our build pipelines using the new <code>Build</code> and <code>BuildTemplate</code> objects.
+The <a href="https://github.com/knative/docs/blob/master/build/builds.md#examples">documentation</a> covers a few basic examples and
+the <a href="https://github.com/knative/build/tree/master/test">tests folder</a> has more. The project is early, so browsing through these
+has been the best way I&rsquo;ve found of discovering how to do various things. In this post I thought I&rsquo;d try a few examples, making use
+of the latest build functionality in Docker 18.06 and using BuildKit via <a href="https://github.com/genuinetools/img">Img</a>.</p>
+
+<h2 id="knative-and-docker-build">Knative and Docker Build</h2>
+
+<p>First lets describe a <code>BuildTemplate</code> for BuildKit. Templates can be reused for different builds by defining parameters that need to be set by the <code>Build</code>.
+Templates aren&rsquo;t strictly required (see the basic examples mentioned above) but feel like a useful tool in most cases. The following template uses
+the latest version of the Docker client image. We enable the experimental BuildKit builder, which isn&rsquo;t stricktly required but has some nifty new features.
+We also bind this to the local Docker socket, so you need to be running Docker 18.06 on the server too. Again, if you&rsquo;re using Docker Desktop locally then you&rsquo;re all set.
+Save the following as <code>buildkit.yaml</code>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#bbb"> </span>build.knative.dev/v1alpha1<span style="color:#bbb">
+</span><span style="color:#bbb"></span>kind:<span style="color:#bbb"> </span>BuildTemplate<span style="color:#bbb">
+</span><span style="color:#bbb"></span>metadata:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>buildkit<span style="color:#bbb">
+</span><span style="color:#bbb"></span>spec:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>parameters:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>IMAGE<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>description:<span style="color:#bbb"> </span>Where<span style="color:#bbb"> </span>to<span style="color:#bbb"> </span>publish<span style="color:#bbb"> </span>the<span style="color:#bbb"> </span>resulting<span style="color:#bbb"> </span>image.<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>steps:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>build<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>image:<span style="color:#bbb"> </span>docker:<span style="color:#00d;font-weight:bold">18.06</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>env:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>DOCKER_BUILDKIT<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>value:<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;1&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>args:<span style="color:#bbb"> </span>[<span style="color:#d20;background-color:#fff0f0">&#34;build&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;-t&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;${IMAGE}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;.&#34;</span>]<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>volumeMounts:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>docker-socket<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>mountPath:<span style="color:#bbb"> </span>/var/run/docker.sock<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>volumes:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>docker-socket<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>hostPath:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>path:<span style="color:#bbb"> </span>/var/run/docker.sock<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>type:<span style="color:#bbb"> </span>Socket</code></pre></div>
+<p>Let&rsquo;s add that template to the cluster:</p>
+
+<pre><code>kubectl apply -f buildkit.yaml
+</code></pre>
+
+<p>Then we describe our build. For this I&rsquo;m using <a href="https://github.com/garethr/kubeval">kubeval</a> but you can use source repository which provides
+a Dockerfile to build from. Save the following as <code>kubeval-buildkit.yaml</code>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#bbb"> </span>build.knative.dev/v1alpha1<span style="color:#bbb">
+</span><span style="color:#bbb"></span>kind:<span style="color:#bbb"> </span>Build<span style="color:#bbb">
+</span><span style="color:#bbb"></span>metadata:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>kubeval-buildkit<span style="color:#bbb">
+</span><span style="color:#bbb"></span>spec:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>source:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>git:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>url:<span style="color:#bbb"> </span>https://github.com/garethr/kubeval.git<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>revision:<span style="color:#bbb"> </span>master<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>template:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>name:<span style="color:#bbb"> </span>buildkit<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>arguments:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>IMAGE<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>value:<span style="color:#bbb"> </span>garethr/kubeval</code></pre></div>
+<p>Finally trigger the build by submitting the <code>Build</code> object to the Kubernetes API.</p>
+
+<pre><code>kubectl apply -f kubeval-buildkit.yaml
+</code></pre>
+
+<p>We can watch the build by watching the object:</p>
+
+<pre><code>kubectl get build kubeval-buildkit -o yaml -w
+</code></pre>
+
+<p>For the actual build logs we need to go a little deeper. From the above output you&rsquo;ll see the name of the pod. Use that in the following command
+(just swap out the <code>gztzq</code> part) to get the build logs from Docker:</p>
+
+<pre><code>kubectl -n default logs -f kubeval-buildkit-gztzq -c build-step-build
+</code></pre>
+
+<h2 id="knative-and-img">Knative and Img</h2>
+
+<p>The above example uses the hosts Docker daemon, but if you want to run the build without you&rsquo;re in luck. <a href="https://github.com/genuinetools/img">Img</a>
+is a &ldquo;standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.&rdquo; It&rsquo;s using the same build engine, BuildKit, as
+we used above with Docker 18.06. In this example we&rsquo;ll need to push the resulting image to a remote repository, as it won&rsquo;t show up in the local engine
+when you run <code>docker images</code>. For that Knative Build provides some handy <a href="https://github.com/knative/docs/blob/master/build/auth.md">auth options</a>.
+Let&rsquo;s create a <code>Secret</code> and an asscoiated <code>ServiceAccount</code>. The username and password want to be changed to your authentication credentials for Docker Hub.
+Save this as <code>serviceaccount.yaml</code>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---<span style="color:#bbb">
+</span><span style="color:#bbb"></span>apiVersion:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span>kind:<span style="color:#bbb"> </span>Secret<span style="color:#bbb">
+</span><span style="color:#bbb"></span>metadata:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>docker-hub<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>annotations:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>build.knative.dev/docker-<span style="color:#00d;font-weight:bold">0</span>:<span style="color:#bbb"> </span>https://index.docker.io/v1/<span style="color:#bbb">
+</span><span style="color:#bbb"></span>type:<span style="color:#bbb"> </span>kubernetes.io/basic-auth<span style="color:#bbb">
+</span><span style="color:#bbb"></span>stringData:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>username:<span style="color:#bbb"> </span>&lt;your<span style="color:#bbb"> </span>username<span style="color:#d20;background-color:#fff0f0">&gt;
+</span><span style="color:#d20;background-color:#fff0f0">  password: &lt;your password&gt;</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>---<span style="color:#bbb">
+</span><span style="color:#bbb"></span>apiVersion:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span>kind:<span style="color:#bbb"> </span>ServiceAccount<span style="color:#bbb">
+</span><span style="color:#bbb"></span>metadata:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>build-bot<span style="color:#bbb">
+</span><span style="color:#bbb"></span>secrets:<span style="color:#bbb">
+</span><span style="color:#bbb"></span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>docker-hub</code></pre></div>
+<p>We then define a new <code>BuildTemplate</code> for Img. Note this one has two steps rather than just one. Save the following as <code>img.yaml</code>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#bbb"> </span>build.knative.dev/v1alpha1<span style="color:#bbb">
+</span><span style="color:#bbb"></span>kind:<span style="color:#bbb"> </span>BuildTemplate<span style="color:#bbb">
+</span><span style="color:#bbb"></span>metadata:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>name:<span style="color:#bbb"> </span>img<span style="color:#bbb">
+</span><span style="color:#bbb"></span>spec:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>parameters:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>IMAGE<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>description:<span style="color:#bbb"> </span>Where<span style="color:#bbb"> </span>to<span style="color:#bbb"> </span>publish<span style="color:#bbb"> </span>the<span style="color:#bbb"> </span>resulting<span style="color:#bbb"> </span>image.<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>steps:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>build<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>image:<span style="color:#bbb"> </span>garethr/img<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>args:<span style="color:#bbb"> </span>[<span style="color:#d20;background-color:#fff0f0">&#34;build&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;-t&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;${IMAGE}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;.&#34;</span>]<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>securityContext:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>privileged:<span style="color:#bbb"> </span><span style="color:#080;font-weight:bold">true</span><span style="color:#bbb">
+</span><span style="color:#bbb">  </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>push<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>image:<span style="color:#bbb"> </span>garethr/img<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>args:<span style="color:#bbb"> </span>[<span style="color:#d20;background-color:#fff0f0">&#34;push&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;${IMAGE}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#d20;background-color:#fff0f0">&#34;-d&#34;</span>]<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>securityContext:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>privileged:<span style="color:#bbb"> </span><span style="color:#080;font-weight:bold">true</span></code></pre></div>
+<p>With those defined we can submit them to Kubernetes:</p>
+
+<pre><code>kubectl apply -f serviceaccount.yaml -f img.yaml
+</code></pre>
+
+<p>Finally we describe out build. The only changes to the above are the addition of the <code>serviceAccountName</code> property (so the build will have access to the Docker Hub credentials)
+and swapping the <code>buildkit</code> template out for the <code>img</code> one we just defined. If you want this to work for you then you&rsquo;ll need to swap out the image name to a repository
+you have permissions to push to, rather than <code>garethr/kubeval</code>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#bbb"> </span>build.knative.dev/v1alpha1<span style="color:#bbb">
+</span><span style="color:#bbb"> </span>kind:<span style="color:#bbb"> </span>Build<span style="color:#bbb">
+</span><span style="color:#bbb"> </span>metadata:<span style="color:#bbb">
+</span><span style="color:#bbb">   </span>name:<span style="color:#bbb"> </span>kubeval-img<span style="color:#bbb">
+</span><span style="color:#bbb"> </span>spec:<span style="color:#bbb">
+</span><span style="color:#bbb">   </span>serviceAccountName:<span style="color:#bbb"> </span>build-bot<span style="color:#bbb">
+</span><span style="color:#bbb">   </span>source:<span style="color:#bbb">
+</span><span style="color:#bbb">     </span>git:<span style="color:#bbb">
+</span><span style="color:#bbb">       </span>url:<span style="color:#bbb"> </span>https://github.com/garethr/kubeval.git<span style="color:#bbb">
+</span><span style="color:#bbb">       </span>revision:<span style="color:#bbb"> </span>master<span style="color:#bbb">
+</span><span style="color:#bbb">   </span>template:<span style="color:#bbb">
+</span><span style="color:#bbb">     </span>name:<span style="color:#bbb"> </span>img<span style="color:#bbb">
+</span><span style="color:#bbb">     </span>arguments:<span style="color:#bbb">
+</span><span style="color:#bbb">     </span>-<span style="color:#bbb"> </span>name:<span style="color:#bbb"> </span>IMAGE<span style="color:#bbb">
+</span><span style="color:#bbb">       </span>value:<span style="color:#bbb"> </span>garethr/kubeval</code></pre></div>
+<p>Save the above as <code>kubeval-img.yaml</code> and finally submit the build:</p>
+
+<pre><code>kubectl apply -f kubeval-img.yaml
+</code></pre>
+
+<p>As before we can watch the build by watching the relevant object:</p>
+
+<pre><code>kubectl get build kubeval-img -o yaml -w
+</code></pre>
+
+<p>And again to get at the logs we&rsquo;ll rhe name of the pod. Use that in the following command
+(just swap out the <code>gztzq</code> part) to get the build logs from Img:</p>
+
+<pre><code>kubectl -n default logs -f kubeval-img-gztzq -c build-step-build
+</code></pre>
+
+<p>There are a few things to note with the above:</p>
+
+<ul>
+<li>The <code>img</code> images run as priviledged. I tried and failed to set the relevant capabilities instead but I&rsquo;m sure that&rsquo;s fixable
+with a little more debugging</li>
+<li>I rebuild the <code>img</code> Docker image and pushed this to my repo. This image runs as root, due to a conflict with permissions and
+the user in the original image. Again, I&rsquo;m sure that&rsquo;s also resolvable with a bit more spelunking.</li>
+</ul>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>The above demonstrates how to use Knative Build from what I&rsquo;ve been able to pick up from the documentation and examples. This definitely
+feels like a component for folks to build higher-level interfaces on. It solves some useful problems but requires a fair understanding
+of Kubernetes objects to utilise and interact with today. I could certainly see the potential however for some more user-fiendly tools on top of
+this in the future.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -2028,202 +2224,6 @@ I want to be able to isolate running applications from each other in terms of me
 As a web operations engineer working on the service<br />
 So that I can protect against files being changed due to compromises in the application<br />
 I want to be able to configure a read-only file system if appropriate.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2016/12/31/working-for-a-software-vendor/">Working for a software vendor</a>
-      </h1>
-      <span class="post-date">Dec 31, 2016 &middot; 8 minute read
-      </span>
-      
-      
-
-<p>One of the reasons I moved to Puppet two and a bit years ago was because
-I was interested in the software industry. In particular I was
-interested in being on the vendor side for a while. My background is
-mainly as a service provider, software as a service, in-house
-developer/ops type person. This has definitely been an interesting
-experience, but I&rsquo;ve not tried too much to explain <em>why</em>, until now.</p>
-
-<p>First, what do we mean by <em>vendor</em>?</p>
-
-<blockquote>
-<p>a person or company offering something for sale, especially a trader
-in the street.</p>
-</blockquote>
-
-<p>So in the context of a software vendor we specifically mean:</p>
-
-<blockquote>
-<p>a person or company offering software for sale</p>
-</blockquote>
-
-<p>Note that we&rsquo;re selling the software, not access to some service
-provided by software (ie. SaaS). SaaS and other as-a-service models are
-growing part of the industry, but the business model, development cycle,
-company structure and other aspects are quite different in my experience,
-though lots of hybrid models exist too.</p>
-
-<h2 id="economics-and-scale">Economics and scale</h2>
-
-<p>One of the interesting aspects of the software vendor world is the
-economics, the revenues, and the fact lots of companies are public. This
-in turn means a large amount of VC money goes into trying to create
-another large software vendor, because the potential payout is huge.</p>
-
-<p>Take a sample set of companies from the last 10 years or so that are still
-private: Docker, Puppet, Chef, MongoDB, Elastic, CoreOS, Mesosphere,
-Weave, Cloudera, etc. Somewhat biased towards my own interests I&rsquo;ll
-admit.</p>
-
-<p>Now take a sample of large, public, software vendors: Oracle, Microsoft,
-CA, SAP, Sage, BMC, VMware. Not counting companies like Intel,
-Cisco, IBM, Dell (no longer public), and HP with huge software portfolios.</p>
-
-<p>Let&rsquo;s pick on Sage, a UK software company selling accounting software.
-<a href="http://www.truffle100.com/2015/ranking.php">As of 2014</a> Sage had 1169
-people in software development R&amp;D roles and they made $1.6billion from
-software and related services in 2015. That&rsquo;s probably about the (order
-of magnitude) number of people employed in R&amp;D roles in the above private
-softare companies. The revenue is (and I&rsquo;m guessing here) a bit higher
-at Sage than those companies combined too. SAP is an order of magnitude larger,
-both in terms of people (18908 in 2014) and revenues ($18billion
-also in 2014). Oracle revenues were $38billion as another data point.</p>
-
-<p>So all the cool (or not so cool) companies from the past 10 years or so
-are a rounding error to the size of the industry. But you wouldn&rsquo;t know
-that from reading Hacker News or other parts of the internet. This
-disconnect is a constant source of interest to me as I spend time with
-Puppet customers and with the wider infrastructure community at
-conferences and the like.</p>
-
-<h2 id="a-world-of-difference">A world of difference</h2>
-
-<p>My gut feeling is that most people working as software developers,
-designers, product managers, etc. don&rsquo;t work for software vendors. Apart
-from maybe in localised areas like Silicon Valley. But because of the
-mentioned money and scale (and PR spend) of the big players a
-great deal of press interest centers around vendors. Docker is probably the
-best current example of this but it&rsquo;s more general than one company.
-This makes what happens in software-vendor-startup-land more visible to
-everyone else than, say, IT reality in large financial companies.</p>
-
-<p>At the heart of a good software company is a product being
-built and maintained by a team of engineers, designers, managers, etc.
-In many ways this is similar to lots of peoples experience of building
-software (whether at work or at home as part of one open source project
-or another). But the support surrounding this tends to vary greatly from
-other areas. A dedicated marketing and product marketing team, dedicated
-sales staff, a professional services function, training, documentation,
-public relations personell are all required to turn the software into
-revenue. And importantly these teams have to work closely together, and
-be actively involved with the development of the product.</p>
-
-<p>This is very different from an in-house development position, but it&rsquo;s
-also quite different from most SaaS operations. SaaS tends (generalising
-here) to be based around large numbers of individual users with monthly
-recurring revenues of 10s or 100s of US dollars. Software vendors
-selling to large enterprises tends to be looking at single large deals
-of 10s of thousands to many millions of dollars. This tends to mean
-large differences in total number of customers, revenue per
-customer, time needed to close a deal, requirement for staff local to a
-customer, etc. All of that makes for a very different operation and
-feedback cycle.</p>
-
-<h2 id="some-interesting-observations">Some interesting observations</h2>
-
-<p>Software has a much longer shelf-life in the real-world than people
-typically think on the internet. Take the datacenter automation
-market. <a href="https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vrealize-suite/vmware-idc-worlwide-datacenter-automation-software-market-shares-2015.pdf">This IDC
-report</a>
-for example pegs the market at $2.3billion in 2015. VMware takes the
-lions share with roughly 30%, with BMC with 10%. For reference Puppet
-has 3.2% and Chef 1.2%. Obviously this is just one report, and it&rsquo;s now
-a year old, but it&rsquo;s an interesting data point. And compare that to what
-you might expect if you just follow the software rather than the market.
-Even in 2015 some people would have been saying &ldquo;surely everything is
-Docker and Kubernetes now?&ldquo;. The reality is closer to it being all shell
-scripts and BladeLogic for the majority of IT shops.</p>
-
-<p>For the most part, innovators (and some early adopters) don&rsquo;t buy software,
-instead they build or co-opt it. Take Netflix, Uber, Amazon, Google,
-Facebook or similar. All are well-known for building much of there core
-software and infrastructure and using open source solutions for much of
-the rest. And it&rsquo;s not just software, all of the above also have large
-internal investments in bespoke hardware as well. So who buys software
-from software vendors? Taking the <a href="http://www.valuebasedmanagement.net/methods_rogers_innovation_adoption_curve.html">Rogers&rsquo; Innovation Adoption
-Curve</a>
-it&rsquo;s the early majority, the late majority and laggards. That&rsquo;s
-~85% of the market. Most of the noise on the internet about software is
-from innovators and early adopters, or people who want to be in those
-groups. But most of the software sold is to people with very different
-wants and needs. This chasm explains much of the frustration experienced
-with software, and the difficulty of building software for often very
-different types of users at the same time.</p>
-
-<p>Much of the writing about continuous delivery and continuous deployment
-assumes you&rsquo;re releasing a web site or at least a central, single,
-service. At the very least this is most peoples experience and context.
-But shipping software than people install and run themselves tends to
-make software deployment a pull rather than a push. A vendor can release
-a new version, but how to make the customer upgrade? Technically this
-could be reasonably straightforward (Chrome auto-updates for example)
-but for expensive, often critical, systems in sometimes regulated or
-otherwise controlled or low trust environments, this turns out to be
-trickier and more about people than just technology. This is an entire
-topic on it&rsquo;s own so I&rsquo;ll leave it there <a href="https://web.pipelineconf.info/">for
-now</a>.</p>
-
-<p>Continuous integration for packaged software (true for some, but not most,
-projects outside software vendors) tends to hit a permutation explosion quite
-quickly. Take server software because that&rsquo;s what I&rsquo;m most familiar
-with. You&rsquo;ll definitely support the latest version of RHEL, plus
-probably a few older versions, and maybe Centos and some of the other
-variants (Oracle Linux, Scientific Linux) as well. Ubuntu LTS releases
-probably makes the list, as might Debian stable. You&rsquo;ll also likely want
-to test on at least Windows Server 2016 and 2012. You may have need to
-keep going and support BSD, AIX, HP-UX, SUSE, etc. <a href="https://docs.puppet.com/guides/platforms.html">Puppet has an
-unreasonably long list of supported and tested
-platforms</a> for instance.
-Throw in other variations or configurations or architectures and you
-have a serious CI environment. Compare this to a more typical case of a
-deployment pipeline to a single known operating system and version on
-a server you control.</p>
-
-<h2 id="open-source">Open source</h2>
-
-<p>One of the notable things about the lists above of older (public) and
-newer (currently private) software companies is that all of the newer
-ones are based around an open source software product or products. We&rsquo;ve
-had companies based around open source for a long time, but very few make
-it to the public markets (where we get data to see if they actually work
-as companies). A recent exception is Hortonworks (HDP) which
-opened at $26.38 in December 2014 but is down to $8.31 as of this
-writing, with revenues around <a href="http://hortonworks.com/press-releases/hortonworks-reports-financial-results-second-quarter-2016/">$40million a
-quarter</a>.
-Red Hat (RHT) did <a href="https://investors.redhat.com/news-and-events/press-releases/2016/03-22-2016-201734069">$2billion in
-2016</a>
-(which remember is 5% of Oracles revenues, but still a large amount).</p>
-
-<p>So undoutedly open source has had a large effect on the software
-industry as a whole. But the impact on the public markets to date is
-minimal in terms of new companies. It will be super interesting to see
-if in 5 years time the list of public software companies based on open
-source software is larger than it is today.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>I mainly wrote this post so I had something to reference when I talk to
-people about the software industry, and in particular what it&rsquo;s like
-working for a software vendor. Speculating about or second guessing one
-vendor or another is an internet sport (non-more-so than for those that
-work at other vendors) but from the outside it&rsquo;s worth an appreciation
-of some of the differences I think and a bit of empathy for the
-decisions made. And if the above makes you think this all sounds rather
-interesting then you&rsquo;d be right.</p>
 
       
     </div>

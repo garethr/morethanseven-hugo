@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,24 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2009/05/14/back-toon-thinking-digital/">Back in Toon - Thinking Digital </a>
+      </h1>
+      <span class="post-date">May 14, 2009 &middot; 1 minute read
+      </span>
+      
+      <p>After what seems like longer than a year I&rsquo;ve finally managed to make it back up to Newcastle. It&rsquo;s the <a href="http://www/thinkingdigital.com">Thinking Digital</a> conference again this year and so far it&rsquo;s been a hoot. A mix of practical, inspirational and just odd speakers (and acts) suits me pretty well. Lots of <a href="http://search.twitter.com/search?q=%23tdc">twitter activity</a> too.</p>
+
+<p>The highlights for me so far I think has been Dan Lyons talking about the future of media and print businesses. Basically a somewhat rambling attempt to describe where newspapers and print publications find themselves in this day and age (in trouble) and where they might head for salvation (either dumbing down or becoming more exclusive/expensive). Throw in interesting stories and anecdotes, the odd joke and some personal thoughts on the future for journalists and everyone&rsquo;s happy.</p>
+
+<p>An honorable mention goes to Johnny Lee Chung as well for showing off drag and drop between a laptop and a table. Oh, and everything else has been pretty interesting as well and it&rsquo;s not even the end of day one yet.</p>
+
+<p>I&rsquo;m around until next week too, which means I should be able to get along to barcamp - assuming my mind hasn&rsquo;t melted with all the stuff to take in.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -329,62 +347,6 @@ run_wsgi_app(application)</li>
 </ol>
 
 <p>WSGI middleware is both a useful place for common functionality to live in your App Engine application as well as being a handy tool for anyone working across multiple Python frameworks to share code.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/03/14/xmpp-and-queues-app-engine-jaiku-not-quite-yet/">XMPP and Queues in App Engine via Jaiku? Not quite yet</a>
-      </h1>
-      <span class="post-date">Mar 14, 2009 &middot; 2 minute read
-      </span>
-      
-      <p>So <a href="http://code.google.com/p/jaikuengine">JauikuEngine</a>, the open source, App Engine based, version of Jaiku is now available for everyone to look at. I <a href="http://twitter.com/garethr/status/1321372099">found the repo a couple of days ago</a> but it was restricted to project members. The main reason I want to hunt through the code is to have a look at what I&rsquo;m guessing will be API&rsquo;s available in a soon to be released version of App Engine - with specific interest in anything to do with XMPP, queues and offline processing.</p>
-
-<p>Well it looks like I&rsquo;m out of luck for the moment at least. In the <a href="http://code.google.com/p/jaikuengine/source/browse/trunk/settings.py">settings file</a> I found the following two snippets though:</p>
-
-<p>pre. #</p>
-
-<ol>
-<li>XMPP / IM
-#</li>
-<li>Enabling IM will require a bit more than just making this True, please</li>
-<li>read the docs at <a href="http://code.google.com/p/jaikuengine/wiki/im_support">http://code.google.com/p/jaikuengine/wiki/im_support</a>
-IM_ENABLED = False</li>
-<li>This is the id (JID) of the IM bot that you will use to communicate with</li>
-<li>users of the IM interface
-IM_BOT = &lsquo;root@example.com&rsquo;</li>
-<li>Turn on test mode for IM
-IM_TEST_ONLY = False</li>
-<li>JIDs to allow when testing live XMPP so you don&rsquo;t spam all your users
-IM_TEST_JIDS = []</li>
-</ol>
-
-<p>And another for queues:</p>
-
-<p>pre. #</p>
-
-<ol>
-<li>Task Queue
-#</li>
-<li>Enabling the queue will allow you to process posts with larger numbers</li>
-<li>of followers but will require you to set up a cron job that will continuously</li>
-<li>ping a special url to make sure the queue gets processed
-QUEUE_ENABLED = True</li>
-<li>The secret to use for your cron job that processes your queue
-QUEUE_VENDOR_SECRET = &lsquo;SECRET&rsquo;</li>
-</ol>
-
-<p>The only problem appears to be that the page referenced, <a href="http://code.google.com/p/jaikuengine/wiki/im_support">code.google.com/p/jaikuengine/wiki/im_support</a>, currently says:</p>
-
-<blockquote>
-<p>TODO (termie): describe how to get IM working with Jaiku Engine</p>
-</blockquote>
-
-<p>So <a href="http://twitter.com/termie">termie</a>, or anyone else on the inside, I&rsquo;d love to know how to get this up and running?</p>
-
-<p>I&rsquo;ll be having a better look through the code when I get a chance. This was just the first thing I jumped on before heading out the door. I love Open Source.</p>
 
       
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,26 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2012/07/01/The-vagrantbox.es-story/">The Vagrantbox.es Story</a>
+      </h1>
+      <span class="post-date">Jul 1, 2012 &middot; 2 minute read
+      </span>
+      
+      <p>A few weeks ago now <a href="http://www.vagrantbox.es/">Vagrantbox.es</a> (a website I maintain for third party hosted <a href="http://vagrantup.com/">Vagrant</a> base boxes) dissapeared from the internet for a few days. This was completely my fault, the (lovely) hosting people <a href="https://www.ep.io/">ep.io</a> had unfortunately closed down the service they had in beta and I&rsquo;d been so busy that I hadn&rsquo;t had chance to move it elsewhere.</p>
+
+<p>The original version of the site (I had the code and good backups of the data) was a pretty simple Django application, but I&rsquo;d used it to experiment (read over-engineer) with various bits of tech including Varnish, Solr, some ORM caching and lots more. This had been great, but it made it less portable. I had everything described in Puppet, but with virtually no spare time I decided to go a different route.</p>
+
+<p>I threw a flat version of the site up on <a href="https://github.com/garethr/vagrantboxes-heroku">GitHub</a>, served it using Nginx on <a href="http://www.heroku.com/">Heroku</a> and added a quick <em>Fork me on GitHub</em> badge to the top. Suggest a box moved from being a web form to a pull request. It&rsquo;s fair to say I did this pretty quickly and made a good few typos on the way. But within a couple of weeks I&rsquo;ve had 8 pull requests either fixing my bugs, removing dead boxes and adding new ones.</p>
+
+<p>What I&rsquo;m going to take from this is, if you&rsquo;re building a community project that&rsquo;s aimed at developers, then throw the content on GitHub. In my case I have the entire site on there too but I think that&rsquo;s secondary. Pull requests are much better than any content management system or workflow you&rsquo;re likely to build, and even more importantly the time to implement something drops hugely.</p>
+
+<p>With all the spare time I don&rsquo;t have I&rsquo;ll be thinking about a content management model using GitHub for content, pull requests for workflow and post commit hooks for loading that content into a site or service somewhere.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -417,48 +437,6 @@ default: { include base }
 </ol>
 
 <p>Much easier to automate. And if you&rsquo;re looking at a box and want to know what it&rsquo;s role is you can check the relevant environment variable.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2011/11/16/Jenkins-parameterized-builds/">Jenkins Parameterized Builds</a>
-      </h1>
-      <span class="post-date">Nov 16, 2011 &middot; 5 minute read
-      </span>
-      
-      <p>I&rsquo;m a huge Jenkins fan now, but that wasn&rsquo;t always the case. I started (and still have a soft spot for) Cruise Control, mainly building .NET and PHP applications. I then jumped to much simpler projects like <a href="http://integrityapp.com/">Integrity</a> mainly for Python and Ruby projects. I reasoned I didn&rsquo;t need the complexity of Cruise or Hudson, I just wanted to be able to run my tests on a remote machine and have something go green or red. I then worked out that wasn&rsquo;t quite the case, and ended up committing webhook like functionality to Integrity so I could chain builds together. And then I eventually tried Jenkins and found it&rsquo;s power mixed with flexibility won me over. That&rsquo;s really all just context, but hopefully explains a little about why I like a few Jenkins features in particular, one of which is <a href="https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Build">Parameterized builds</a>.</p>
-
-<p>The Jenkins wiki describes this by saying:</p>
-
-<blockquote>
-<p>Sometimes, it is useful/necessary to have your builds take several &ldquo;parameters.&rdquo;</p>
-</blockquote>
-
-<p>But then goes onto a usecase that probably won&rsquo;t mean much to dynamic language folk. This is one failing of much of the documentation around Jenkins, it often feels geared towards developers of certain languages when in reality the tool is useful everywhere. The important take away here is that builds can take arguments, which can have default values. Here&rsquo;s an example:</p>
-
-<p>Imagine we have a build which runs a set of simple tests against a live system . And further imagine that said system is composed of a number of different web services. Oh, and we&rsquo;re running a few different parrallel versions of the entire system for testing and staging purposes. We could have one Jenkins job per application/environment combination. Or we could have one parameterized build.</p>
-
-<p>Lets first specify our parameters from the Configure build screen of our Job.</p>
-
-<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRjZsAIM"/></p>
-
-<p>Here we&rsquo;re specifying a TARGET_APPLICATION and TARGET_PLATFORM parameter. These are going to turn into environment variables we can use in our build steps. We can specify default values for these if we like too. I&rsquo;m just using strings here, but I could also use a select box or file dialog, or other options provided by various plugins.</p>
-
-<p>Now when we hit the build button, instead of the build just starting, we&rsquo;re propted for these values.</p>
-
-<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRjxqAIM"/></p>
-
-<p>So with our new build if we want it to run against the staging environment and just for the foobar application we enter those values and hit build. That on it&rsquo;s own can be used to drastically cut down on the number of individual builds you have to manage in Jenkins. And we&rsquo;re not just restricted to text inputs, we can use boolean values or even prompt for file uploads at build time. But throw in a few plugins and things get even more interesting.</p>
-
-<p>Jenkins has an overwhelming number of plugin available. If you haven&rsquo;t spent the good half hour it takes to go down the list I&rsquo;d highly recommend it. One of Jenkins best features is the ability to trigger a build after the successful run of another job. It allows you to chain things like test runs to integration deployments to smoke tests to production deploys. Basically your modern continuous deployment/delivery pipeline. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+Pipeline+Plugin">Build Pipeline</a> plugin is excellent for visuallising this and introducing human gates if needed. Another useful plugin in this context is the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin">Parameterized Trigger</a> plugin. A limitation of Jenkins is that downstream builds can&rsquo;t pass parameters, but this plugin works around that. Instead of ticking the <em>Build other projects</em> option you go for the <em>Trigger parameterized build on other projects</em> box. This allows you to select the project and to specify parameters to pass. This could be hard coded values, paramaters already passed into the pipeline, or things from other plugins like the git sha1 hash or subversion version number.</p>
-
-<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRjyqAIM"/></p>
-
-<p>Combine all this together and it&rsquo;s simple to have a per project continuous integration build running a test suite, kicking off a standard set of downsteam jobs for deploying to a test environment (by passing th relevant parameters), running some basic smoke tests and allowing someone to click a button to deploy to production. Or going the whole continuous deployment, I trust my test suite route, and deploying automatically. All within Jenkins. Getting this working requires a bit of planning. You want all of your projects to be deployed the same way but you probably want this to be the case anyway.</p>
-
-<p>Providing flexible push button builds/deploys and reducing the number of nearly identical jobs in Jenkins are just two advantages to using parameterized builds. Most of the tricks come from thinking about Jenkins as much more than a continuous integration tool and more of an automation framework - I know at least one large organisation who have pretty much replaced cron for many tasks with Jenkins for instance. Running tests automatically, and in a central environment as close to production as possible, is important. But it&rsquo;s just a sanity check if you&rsquo;re doing everything right already. Centralising activity on a build pipeline requires you to be doing all that anyway, but in my opinion gives way more useful and rapid feedback about the state of the code your team is writing.</p>
 
       
     </div>

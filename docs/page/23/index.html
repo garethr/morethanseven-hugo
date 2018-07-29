@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,53 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2008/04/26/a-really-simple-capistrano-recipe/">A Really Simple Capistrano Recipe</a>
+      </h1>
+      <span class="post-date">Apr 26, 2008 &middot; 3 minute read
+      </span>
+      
+      <p>Build scripts. I think I&rsquo;ve probably mentioned before; everyone knows they should but not many actually do. I&rsquo;m not talking about your large in-house development teams or your sexy web startups; both probably have a good-enough build process for different reasons. But smaller teams, web design agencies or freelancers often rely on FTP and a prayer. One of the problems is definitely finding <em>suitable</em> documentation. It&rsquo;s not that their isn&rsquo;t a lot of good quality documentation - it&rsquo;s the suitability of it for those with only a passing interest and a limited systems administration experience.</p>
+
+<p><a href="http://capify.org/">Capistrano</a> is a tool for automating tasks on remote servers. It can be used for all sorts of useful things but we&rsquo;ll concentrate on it&rsquo;s utility for web site deployment. It&rsquo;s been popular with the <a href="http://rubyonrails.com/">Rails</a> crowd for a while and is written in Ruby, but it can be used for deploying sites in Python, PHP, Django, whatever you happen to be using at the time.</p>
+
+<p>You&rsquo;ll first need to install Ruby and Capistrano. The Capistrano site has <a href="http://capify.org/install">installation instructions</a> which should get you up and running. You&rsquo;ll need to be able to use a console on your machine and have a passing acquaintance with your webserver. I&rsquo;ve also assumed that you&rsquo;re using source control, mainly because if you&rsquo;re not you should start their. Automation becomes much more useful and practical on the back of a good source control system.</p>
+
+<p>Right, lets get started. Create a file called <em>capfile</em> somewhere on your local machine. The following two code snippets should go in that file.</p>
+
+<pre><code>&lt;code&gt;set :username, &quot;&lt;username&gt;&quot;
+set :host, &quot;&lt;host&gt;&quot;
+set :path, &quot;&lt;path&gt;&quot;
+set :restart, &quot;/etc/init.d/apache2 restart&quot;
+set :checkout, &quot;svn export --force&quot;
+set :repo, &quot;&lt;repository address&gt;&quot;&lt;/code&gt;
+</code></pre>
+
+<p>Just replace the variables (marked with angle brackets) with your own values. The path is the full path on the remote server where you want to deploy your files to. Note that I&rsquo;ve abstracted out the webserver restart command and the source control checkout command. The above example values assume you&rsquo;re using apache and subversion (and want to do a subversion export). It should be easy enough to change these for your preferred combination of source control system and webserver.</p>
+
+<pre><code>&lt;code&gt;desc &quot;Remote checkout and restart of webserver&quot;
+task :deploy, :hosts =&gt; &quot;#{username}@#{host}&quot; do
+  run &quot;#{checkout} #{repo} #{path}; #{restart}&quot;
+end&lt;/code&gt;
+</code></pre>
+
+<p>If your platform of choice doesn&rsquo;t require a server restart (say PHP) you can always remove the <em>; #{restart}</em> portion of the command.</p>
+
+<p>Now we&rsquo;re all set up just bring up a console in the folder containing the <em>capfile</em> and run the following command:</p>
+
+<pre><code>&lt;code&gt;cap deploy&lt;/code&gt;
+</code></pre>
+
+<p>After prompting for a password to access the remote machine this should display the output from the commands being run. Depending on the size of the repository you&rsquo;re checking out</p>
+
+<p>Of course for most projects you would want to expand this basic recipe. Maybe you have database updates to run or need to deploy to multiple machines at once? You&rsquo;ll might have machine specific configuration files which aren&rsquo;t in the source control system. You will also probably want to be able to revert back if something goes wrong and you might want to only change files that have been altered. Capistrano has lots of powerful features built in that will let you do just that, and once you get started with this sort of build scripting you&rsquo;ll find lots of areas to improve. And you&rsquo;ll find lots of good tutorials online that will take you further.</p>
+
+<p>The difficult part with project automation and build scripts is often the <em>getting started</em> in the first place; especially if you&rsquo;re not the server admin type. Unfortunately the documentation and articles written on the subject tend to be somewhat arcane and aimed at the more hardcore developer. Hopefully this simple, usable, example convinces someone else to give it a try.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -402,49 +449,6 @@
 <p>It&rsquo;s not just web pages you have to worry about. Feeds are another example of URLs you just might want to keep control over. This last one is also something I see lots of people handing off to others - specifically <a href="http://feedburner.com">Feedburner</a>. Now I&rsquo;m a big fan of feedburner and use it for the feeds on this site. But I don&rsquo;t use the feedburner URL, anyone subscribing to the feeds here does so using morethanseven.net/feed/. If I decide to stop using feedburner I can, without having to upset the few people who subscribe to it by moving my feed address. It&rsquo;s the same with email addresses; I love gmail but rarely actually give my gmail email address out.</p>
 
 <p>So, start looking after your domain names a little more carefully. They are pieces of you scattered around the internet, and losing control of them is going to become increasingly socially painful.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/03/14/accepted-for-xtech/">Accepted for Xtech</a>
-      </h1>
-      <span class="post-date">Mar 14, 2008 &middot; 3 minute read
-      </span>
-      
-      
-
-<p>So, while sat with a few people at the WaSP panel at SXSW (of which more later when I&rsquo;m fully caught up) I got a nice email from the folks at <a href="http://2008.xtech.org">Xtech</a> accepting my presentation idea. The abstract is below. If any of that sounds interesting or up your street I&rsquo;d love to hear other peoples experiences or ideas on the subject.</p>
-
-<h2 id="design-strategies-for-a-distributed-web">Design Strategies for a Distributed Web</h2>
-
-<h3 id="from-language-frameworks-to-apis">From language frameworks to APIs</h3>
-
-<p>Everyone is making use of mature and stable web application or javascript frameworks these days. That means weâ€™ve stopped reinventing things such as routing and object relational mapping, but weâ€™re all still building very similar components again and again. Frameworks might allow us to solve lots of fine grained problems but APIs could let us solve common course grained problems quicker.</p>
-
-<h3 id="building-blocks-for-your-applications">Building blocks for your applications</h3>
-
-<p>Their are already a few examples in the wild of APIs designed to be used as part of your application development process. Amazon has been leading the way in providing remote services such as S3, EC2 and SimpleDB. Their are also options when it comes to hosting these services yourself, the mint analytics software and the CouchDb database service are both good examples.</p>
-
-<h3 id="quality-engineering-for-free">Quality engineering for free</h3>
-
-<p>The real value of outsourcing a discreet portion of your application to a third party API lies in quality. You could always use local storage and your programming language of choice to deal with a large volume of file read and write operations. But do you really think youâ€™ll beat Amazon for reliability, scalability and speed?</p>
-
-<h3 id="functionality-vs-data">Functionality vs Data</h3>
-
-<p>Itâ€™s not just high quality functionality that we could leverage from other providers. Weâ€™re all fed up with entering and re-entering our personal data into each new service. With advancements like OAuth and Microformats and lots of focus on data portability at the moment we might just be able to share data too.</p>
-
-<h3 id="change-the-client-as-well-as-the-server">Change the client as well as the server</h3>
-
-<p>Sometimes itâ€™s not enough to just change the server. The rise of specialised browsers such as Joost and Songbird allows for functionality that would be impossible otherwise. Site specific browser, along with advancements such as local storage, may prove
-Problems</p>
-
-<p>Itâ€™s not all in place just yet. The reliability of your application is likely to be important, and making use of a distributed set of APIs could leave you in the unenviable position of being less stable than your least stable partner. The issue of lock-in could also raise itâ€™s head, without a vibrant ecosystem of different providers that is.</p>
-
-<h3 id="the-future">The Future</h3>
-
-<p>The use of third party commercial APIs has the potential to change the development landscape â€“ bringing high quality middleware to the web. It could be the original web services dream realised. But without critical mass and an active market it could also be a new achilles heel for successful startups.</p>
 
       
     </div>

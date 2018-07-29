@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,62 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2009/06/22/ant-web-developers-i-backup-config-file/">Ant for Web Developers I - Backup Config File</a>
+      </h1>
+      <span class="post-date">Jun 22, 2009 &middot; 3 minute read
+      </span>
+      
+      <p>I occasionally get <a href="http://morethanseven.net/2009/01/24/defence-apache-ant/">carried away</a> with <a href="http://ant.apache.org/">Apache Ant</a>. For those that haven&rsquo;t come across it, Ant is a build tool written in Java, using an XML syntax to describe a series of repeatable tasks. In your typical web standards savvy, dynamic language favouring, web developer types that description is probably all they (think they) need to know. It&rsquo;s Java. It&rsquo;s XML. It&rsquo;s only really useful in the context of building software (dull).</p>
+
+<p>But I think Ant is a particularly handy tool to have around for anyone working on even simple websites. A couple of strong use cases come to mind:</p>
+
+<ul>
+<li>If you&rsquo;re working in a team environment then build files are hugely useful when introducing new people to the team, or when moving people around. Getting code up and running at the start of a project, or if you join the team part way through, can be tricky. A well written build file can automate this.</li>
+<li>Even when working on projects on my own I tend to write simple build files. The main reason is so I don&rsquo;t forget how to do something. How do you deploy this particular site? How do you run the test suite or generate the documentation? Build files can encapsulate this, and rather than documentation that might be out of date the build file will be executed to do that job in question.</li>
+</ul>
+
+<p>So with all that in mind I&rsquo;m going to try and do a series of posts each covering a single task, aiming to cover things that your regular web developer will find useful. With that in mind if anyone has any requests or questions let me know either by email or in the comments.</p>
+
+<p>Out first task lets us backup a file from our remote web server, in this case it&rsquo;s the apache2.conf file used to setup apache. Obviously it could be any file you want to get hold of. The example below has a couple of properties for the username and hostname of the remote machine. Save the following snippet into a file called build.xml and place it anywhere you like on your machine.</p>
+
+<p>pre.</p>
+
+<p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?&gt;
+<project name="example" basedir=".">
+<property name="username" value="{user}"/>
+<property name="host" value="{host}"/>
+<target name="backup-apacheconf" description="backup apache2.conf file from a remote server">
+<exec executable="scp" dir="." failonerror="true">
+<arg value="${username}@${host}:/etc/apache2/apache2.conf"/>
+<arg value="apache2.conf"/>
+</exec>
+</target>
+</project></p>
+
+<p>Running the task, once you have ant installed (it comes already installed on OS X and is generally available in whatever linux package management system you prefer), is as simple as typing the following into a console.</p>
+
+<p>pre. ant backup-apacheconf</p>
+
+<p>This should download the apache2.conf file to you local machine, into the same directory as your build file.</p>
+
+<p>The above task requires that you have scp installed on your machine, which is pretty likely if you&rsquo;re using OS X or Linux. Ant comes with an inbuilt <em>scp</em> task, but it requires you to install a separate java library. If you&rsquo;re happy doing that then you can write tasks like:</p>
+
+<p>pre.</p>
+
+<p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?&gt;
+<project name="example" basedir=".">
+<property name="username" value="{user}"/>
+<property name="password" value="{password}"/>
+<target name="backup-apacheconf" description="backup apache2.conf file from a remote server">
+<scp file="${username}@${host}:/etc/apache2/apache2.conf" todir="." password="${password}"/>
+</target>
+</project></p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -350,24 +406,6 @@ application = TokenBasedApplication(routes)</p>
 <p>The only thing I would say to anyone looking to use this is don&rsquo;t create your own version. Use the <a href="http://code.google.com/p/universal-ie6-css/">one from google code</a>. As Andy suggests, do suggest improvements, ideally by making the changes yourself presumably along with a solid test case. The time saving benefits basically disappear if we all have to maintain our own versions, before that means we have to test our own versions.</p>
 
 <p>I&rsquo;m not saying <em>ignore IE6</em>, and neither is Andy (I don&rsquo;t think). I&rsquo;m saying pick your battles. I&rsquo;ve build websites to support everything under the sun. Sometimes it&rsquo;s been absolutely the right thing to do, sometimes in hindsight it&rsquo;s probably been a little bit of wasted time. I&rsquo;m sure you can think of similar times from the sites you&rsquo;ve been involved in.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/05/14/back-toon-thinking-digital/">Back in Toon - Thinking Digital </a>
-      </h1>
-      <span class="post-date">May 14, 2009 &middot; 1 minute read
-      </span>
-      
-      <p>After what seems like longer than a year I&rsquo;ve finally managed to make it back up to Newcastle. It&rsquo;s the <a href="http://www/thinkingdigital.com">Thinking Digital</a> conference again this year and so far it&rsquo;s been a hoot. A mix of practical, inspirational and just odd speakers (and acts) suits me pretty well. Lots of <a href="http://search.twitter.com/search?q=%23tdc">twitter activity</a> too.</p>
-
-<p>The highlights for me so far I think has been Dan Lyons talking about the future of media and print businesses. Basically a somewhat rambling attempt to describe where newspapers and print publications find themselves in this day and age (in trouble) and where they might head for salvation (either dumbing down or becoming more exclusive/expensive). Throw in interesting stories and anecdotes, the odd joke and some personal thoughts on the future for journalists and everyone&rsquo;s happy.</p>
-
-<p>An honorable mention goes to Johnny Lee Chung as well for showing off drag and drop between a laptop and a table. Oh, and everything else has been pretty interesting as well and it&rsquo;s not even the end of day one yet.</p>
-
-<p>I&rsquo;m around until next week too, which means I should be able to get along to barcamp - assuming my mind hasn&rsquo;t melted with all the stuff to take in.</p>
 
       
     </div>

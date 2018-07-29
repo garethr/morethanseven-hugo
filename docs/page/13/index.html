@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,26 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2010/01/07/speaking-dibi/">Speaking at DIBI</a>
+      </h1>
+      <span class="post-date">Jan 7, 2010 &middot; 2 minute read
+      </span>
+      
+      <p>I&rsquo;ll be heading back up to Newcastle in April to give a talk at what&rsquo;s shaping up to be a good looking conference to kick off the year with. <a href="http://www.whatisdibi.com/">DIBI</a> is trying to please everyone, with both front and backend focused streams.</p>
+
+<blockquote>
+<p>Created for both sides of the web coin, DIBI brings together designers and developers for an unusual two-track web conference. World renowned speakers leading in their fields of work will talk about all things web. Taking place in Newcastle upon Tyne, (it&rsquo;s oop north) at The Sage Gateshead on the 28th April 2010, we&rsquo;re bringing both sides of the web world together with some awesome speakers.</p>
+</blockquote>
+
+<p>I&rsquo;m not a big fan of making a point of dividing frontend and backend work. You nearly always end up with javascript dominated horribleness (because we only had a front end person available) or a so called content management system that means all sites have to look the same except for the colour palette. So I&rsquo;m hoping lots of cross over stuff happens and interesting conversations abound.</p>
+
+<p>Oh, and if you&rsquo;re wondering what I&rsquo;ll be speaking about it&rsquo;s probably going to be something about all the cool tools you could and should be using when building or looking after web applications. I&rsquo;ll probably be doing my best to convince people to look outside the comfort of the LAMP or C#/MSSQL stacks and realise the future for lots of web developers might just be more devops.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -246,105 +266,6 @@ The other part of the code example was a very basic apache virtualhost so just i
 <p>I&rsquo;m going to be talking about automating deployment of Python web applications. If you follow me on Twitter you&rsquo;ll have heard me rambling a little about some of what I&rsquo;ve been up to, and some of the posts here give an insight into what I&rsquo;ve been working on. But the short version is that several friends mentioned how difficult it could be to get a working Django application from a local machine to a production web server. And I though I better get down in script form my experiences of Django, WSGI applications and web server setup to make things easier.</p>
 
 <p>I think this situation is partially caused by the success of the Django development server, and partially by people coming from a PHP background. In my PHP days I think I always wanted to know how Apache did it&rsquo;s think, so long ago jumped into anything and everything in httpd.conf from loading modules to virtual hosts. But not everyone does the same, and PHP does make simple deployments easy enough that you might get away without doing so. Rails went through the same problems and seems to be coming out the other side. I&rsquo;m hoping that Django and Python is soon to be in the same position, where basic deployment is just a given.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/08/21/django-wsgi-deployment-solaris/">Django and WSGI deployment on Solaris</a>
-      </h1>
-      <span class="post-date">Aug 21, 2009 &middot; 3 minute read
-      </span>
-      
-      <p>Now I&rsquo;m generally an Ubuntu guy, but I&rsquo;ve just had the need to setup some boxes running Solaris for Django and a handful of WSGI applications. I know my way around Ubuntu pretty well. I know all the packages I need to install and in what order. Hell, I even have all that scripted so I can just run a command and it works by magic. I&rsquo;ll script the following steps if I can do when I get round to it but here, in one list, are the installation instructions for Apache, mod_wsgi, Mysql, MySQLdb, setuptools and memcached that worked for me on the latest version of <a href="http://www.opensolaris.com/">Open Solaris</a> (2009.06 at the time of writing).</p>
-
-<p>First up I needed to install Apache and start the service running.</p>
-
-<pre><code>pfexec pkg install SUNWapch22
-svcadm enable http:apache22
-</code></pre>
-
-<p>You should be able to test that&rsquo;s running by hitting localhost on a browser running on the same box. Now for MySQL.</p>
-
-<pre><code>pfexec pkg install SUNWmysql5
-svcadm enable mysql:version_50
-</code></pre>
-
-<p>This installs the mysql binary into /usr/mysql/5.0/bin/mysql on the system I&rsquo;m working on. As I want to talk to the MySQL database server using Python I need to install MySQLdb.</p>
-
-<pre><code>pfexec pkg install SUNWmysql-python
-ln -s /usr/mysql/5.0/lib/mysql/libmysqlclient_r.so.15 /usr/lib/libmysqlclient_r.so.15
-</code></pre>
-
-<p>This installs the library files into /usr/mysql/5.0/lib and Python doesn&rsquo;t know were to find them. The above command links them into the more standard /usr/lib folder were Python will pick it up nicely.</p>
-
-<p>I tend to use <a href="http://code.google.com/p/modwsgi/">mod_wsgi</a> for serving Python apps behind Apache, however a mod_wsgi package isn&rsquo;t part of the default package list. It is however available in the pending list so first you need to add that list of packages.</p>
-
-<pre><code>pfexec pkg set-authority -O http://pkg.opensolaris.org/pending pending
-pfexec pkg refresh
-pfexec pkg install mod-wsgi
-</code></pre>
-
-<p>This installs the module but you then need to tell Apache to load it. Add the following line to /etc/apache2/2.2/conf.d/modules-32.load or /etc/apache2/2.2/conf.d/modules-64.load depending on your architecture.</p>
-
-<pre><code>LoadModule wsgi_module    libexec/mod_wsgi.so
-</code></pre>
-
-<p>To get Apache to load that module you need to restart it like so:</p>
-
-<pre><code>svcadm restart http:apache22
-</code></pre>
-
-<p>I use <a href="http://pypi.python.org/pypi/pip">Pip</a> for installing Python code, but tend to install setuptools to make installing Pip easier. I don&rsquo;t know if an up to date Pip package exists.</p>
-
-<pre><code>pfexec pkg install python-setuptools
-</code></pre>
-
-<p>This should leave you with easy_install on your path so installing Pip, then virtualenv should be a breeze.</p>
-
-<p>As an added bonus I also installed memcached for some snappy caching.</p>
-
-<pre><code>pfexec pkg install SUNWmemcached
-</code></pre>
-
-<p>This won&rsquo;t start up by default and needs a little configuration. The first command will launch you into a prompt where you can type the rest of the commands.</p>
-
-<pre><code>svccfg
-svc:&gt; select memcached
-svc:/application/database/memcached&gt; setprop memcached/options=(&quot;-u&quot; &quot;nobody&quot;)
-svc:/application/database/memcached&gt; quit
-</code></pre>
-
-<p>Once you&rsquo;d done that you should be able to start memcache on the standard port.</p>
-
-<pre><code>svcadm refresh memcached
-svcadm enable memcached
-</code></pre>
-
-<p>Et voila. The internet helped massively on my quest to track down this information. Not all of the following links turned out to work for me but all of them led me in the right direction. Thanks everyone.</p>
-
-<ul>
-<li><a href="http://blogs.sun.com/quenelle/entry/jazz_guitar_and_rpath">http://blogs.sun.com/quenelle/entry/jazz_guitar_and_rpath</a></li>
-<li><a href="http://blogs.sun.com/natarajan/entry/installing_amp_stack_within_glassfish">http://blogs.sun.com/natarajan/entry/installing_amp_stack_within_glassfish</a></li>
-<li><a href="http://blogs.sun.com/overstre/entry/django_on_solaris10_with_the">http://blogs.sun.com/overstre/entry/django_on_solaris10_with_the</a></li>
-<li><a href="https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_SMI-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=Web-Stack-1.5-OTH-G-F@CDS-CDS_SMI">https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_SMI-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=Web-Stack-1.5-OTH-G-F@CDS-CDS_SMI</a></li>
-<li><a href="http://wiki.joyent.com/mod_wsgi">http://wiki.joyent.com/mod_wsgi</a></li>
-<li><a href="http://textusers.com/wiki/AcceleratorDjango">http://textusers.com/wiki/AcceleratorDjango</a></li>
-<li><a href="http://wiki.joyent.com/accelerators:kb:django">http://wiki.joyent.com/accelerators:kb:django</a></li>
-<li><a href="http://www.b-list.org/weblog/2007/sep/04/django-accelerated/">http://www.b-list.org/weblog/2007/sep/04/django-accelerated/</a></li>
-<li><a href="http://blogs.sun.com/natarajan/entry/getting_ruby_or_amp_apache">http://blogs.sun.com/natarajan/entry/getting_ruby_or_amp_apache</a></li>
-<li><a href="http://blogs.sun.com/overstre/entry/opensolaris_with_mod_wsgi">http://blogs.sun.com/overstre/entry/opensolaris_with_mod_wsgi</a></li>
-<li><a href="http://branesks.blogspot.com/2009/01/installing-modwsgi-on-opensolaris.html">http://branesks.blogspot.com/2009/01/installing-modwsgi-on-opensolaris.html</a></li>
-<li><a href="http://blogs.sun.com/overstre/entry/django_on_opensolaris">http://blogs.sun.com/overstre/entry/django_on_opensolaris</a></li>
-<li><a href="http://code.google.com/p/modwsgi/wiki/InstallationOnSolaris">http://code.google.com/p/modwsgi/wiki/InstallationOnSolaris</a></li>
-<li><a href="http://groups.google.com/group/modwsgi/browse_thread/thread/7e2cc7ce366253cc">http://groups.google.com/group/modwsgi/browse_thread/thread/7e2cc7ce366253cc</a></li>
-<li><a href="http://blogs.sun.com/lr/entry/django_setup_mysql_python_opensolaris">http://blogs.sun.com/lr/entry/django_setup_mysql_python_opensolaris</a></li>
-<li><a href="http://blogs.sun.com/trond/entry/memcached_in_solaris">http://blogs.sun.com/trond/entry/memcached_in_solaris</a></li>
-<li><a href="http://blog.hendrikvolkmer.de/2009/1/29/deploying-a-rails-application-on-opensolaris-with-passenger-aka-modrails/">http://blog.hendrikvolkmer.de/2009/1/29/deploying-a-rails-application-on-opensolaris-with-passenger-aka-modrails/</a></li>
-</ul>
-
-<p>I&rsquo;m not a Solaris admin. I&rsquo;m not really a sysadmin at all, I just end up pretending to be one of late. Any experienced Solaris people with experience of these tools reading this I&rsquo;d be grateful for any hints and tips. Hopefully this saves a few people from the head scratching I&rsquo;ve been doing for the last few days.</p>
 
       
     </div>

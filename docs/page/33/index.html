@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,45 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2006/10/14/virtualhosts-on-mac-os-x/">Virtualhosts on Mac OS X</a>
+      </h1>
+      <span class="post-date">Oct 14, 2006 &middot; 2 minute read
+      </span>
+      
+      <p>
+<a href="http://www.thewatchmakerproject.com">Matthew</a> just posted a quick write up of <a href="http://www.thewatchmakerproject.com/journal/378/virtual-hosts-and-the-proper-way-to-work-offline">setting up virtual hosts</a> on windows and a little of the rationale behind why you would bother.
+
+</p>
+<p>
+Being a Mac person when I’m not in the office I thought a quick follow up would be useful for those that way inclined.
+
+</p>
+<p>
+On OS X their are a couple of things needed to setup a virtual host. As well as the apache virtualhost directives the host needs adding to NetInfoManager.
+
+</p>
+<p>
+Although you can do all of this manually I’m more of a fan of a quick shell script and, as it happens, so are others. I’ve been using a modified version of <a href="http://patrickgibson.com/">Patrick Gibsons</a> <a href="http://patrickgibson.com/utilities/virtualhost/">Virtualhost’s script</a> for a while. Just drop it somewhere on your path (or run it from a specific folder) from Terminal like so:
+
+</p>
+<div>
+<code>sudo virtualhost.sh morethanseven.dev</code>
+
+</div>
+<p>
+Where morethanseven.dev is the local domain you want setting up. The default version of the script makes the assumption that you are using the default web server which comes with OS X. I’m not, but it’s easy enough to modifiy the configuration parameters at the top of the (well commented) script to point where you want. I have it working perfectly with a copy of the <a href="http://www.mamp.info/">MAMP</a> installation package for instance.
+
+</p>
+<p>
+I’m something of a fan of utility scripts. Often repeated tasks can be bundled up into a shell script, python script or automator workflow. Automatic screen capture? Batch image processing? Backup? It can help keep everything tidy, as well as minimising repeated effort. Anyone else with any good examples of process automation with regards web design want to share?
+
+</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -1740,45 +1779,6 @@ The rest was easy.<code>
 </p>
 <p>
 Ok, so this isn’t an application. Just a proof of concept but you get the idea and I dont really want or need this app anyway. Why then? because I thought I could. Oh, and Python’s interactive prompt is so cool. I want one for everything.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/08/07/some-start-of-the-week-fun-with-yahoo/">Some start of the week fun with Yahoo!</a>
-      </h1>
-      <span class="post-date">Aug 7, 2006 &middot; 1 minute read
-      </span>
-      
-      <p>
-Well, Christian’s book, <a href="http://www.beginningjavascript.com">Begining Javascript with DOM Scripting and Ajax</a> is out and, as of writing this <a href="http://www.amazon.co.uk/gp/product/1590596803/202-8465886-9794241?v=glance&#38;n=266239">Amazon UK</a> only have four copies left so hopefully that’s a good sign.
-
-</p>
-<p>
-A quick competition on the site peaked my amusometer and I couldn’t resist.
-
-</p>
-<p>
-<img src="http://static.flickr.com/97/209018272_66abe7c6ea.jpg?v=0" alt="" />
-
-</p>
-<p>
-Keep an eye on <a href="http://flickr.com/photos/tags/newcoverforbeginningjavascript/">flickr</a> for more hopefully.
-
-</p>
-<p>
-<a href="http://simon.incutio.com/">Everyone</a> <a href="http://www.wait-till-i.com">who</a> <a href="http://www.paulhammond.org/journal/">is</a> <a href="http://cackhanded.net/">everyone</a> already resides at YAHOO!, with more <a href="http://allinthehead.com/">recent</a> <a href="http://muffinresearch.co.uk/">movers</a> that you can shake a stick at. I’d just like to make a couple of observations:
-
-</p>
-<p>
-Both <a href="http://allinthehead.com/retro/297/joining-yahoo">Drew</a> and <a href="http://muffinresearch.co.uk/archives/2006/07/12/joining-yahoo/">Stuart</a> posted posts titled <strong>Joining Yahoo!</strong>. The brain washing obviously starts in the interviews so you have been warned!
-
-</p>
-<p>
-The upcoming <a href="http://barcamp.org/BarCampLondon">BarCampLondon</a> event is being held at the Yahoo offices in London. I’m thinking about going along, but I’m scared Yahoo might not let all those talented developers leave on the sunday?
 
 </p>
 

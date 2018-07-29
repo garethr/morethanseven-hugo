@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.37" />
+	<meta name="generator" content="Hugo 0.40.3" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -60,6 +60,41 @@
 <div class="content container">
   <div class="posts">
     
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="/2011/06/26/New-ganglia-web-interface-improvements/">New Ganglia Web Interface Improvements</a>
+      </h1>
+      <span class="post-date">Jun 26, 2011 &middot; 3 minute read
+      </span>
+      
+      <p>So I&rsquo;m a huge <a href="http://ganglia.sourceforge.net/">Ganglia</a> fan. It&rsquo;s my go-to tool for standard low level metrics and for more ad-hoc higher level stuff as well. So I&rsquo;m very happy to see the <a href="http://ganglia.info/?p=393">newly released</a> version of the Ganglia Web interface.</p>
+
+<p>Here&rsquo;s the old look and feel:</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRiZ8gEM" alt="Old Ganglia UI"/></p>
+
+<p>And here&rsquo;s the new version:</p>
+
+<p><img src="http://image-host.appspot.com/i/img?id=agppbWFnZS1ob3N0cg0LEgVJbWFnZRix6gEM" alt="New Ganglia UI"/></p>
+
+<p>The first thing that stands out to me is the wide range of new options. We have a navigation bar with items like search, views, agregate graphs, events and mobile. And we have dynamic date ranges, and filtering and sorting options for metrics.</p>
+
+<ul>
+<li>Search is what you&rsquo;d expect. A search as you type facility for hosts and metrics, great if you have a large cluster and want to find something quickly.</li>
+<li>Views are interesting. Basically a way of putting together a specific set of metrics on one screen and linking to them, rather than always having to go via the node or grid overview.</li>
+<li>You could always create agregate graphs in Ganglia, but you had to delve into writing some PHP to get what you wanted. Not you can do certain types of graph on the fly, simply by specifying what you want.</li>
+<li>I&rsquo;m cheating slightly here and using the very latest code rather than the 2.0.0 release. But it&rsquo;s worth it for the Events feature. Events gives you the ability to record events like a deploy or a daily backup onto your graphs, immediately making some types of diagnosis easier. More about how I&rsquo;m using this when I finish automating it.</li>
+<li>Gnaglia always worked OK on a mobile device mainly because all you really wanted was the graphs. The new mobile UI however just makes navigating much easier. It&rsquo;s not yet doing device detection and automatically redirecting my iphone to that view which would be nice but it&rsquo;s definately a good addition.</li>
+<li>Combined with views, automatic rotation shows a series of graphs, one every 30 seconds. Particularly useful for big screen dashboards, in fact I&rsquo;ve built this exact feature before more than once before.</li>
+</ul>
+
+<p>I&rsquo;ve concentrated here on the new visual features, but the new UI also contains CSV and JSON output for all metrics as well as a much easier JSON based approach to defining custom metrics. The amount of stuff in this release is huge. Massive thanks to the folks behind all the new features, in particular <a href="http://vuksan.com/">Vladimir Vuksan</a>.</p>
+
+<p>Ganglia is such a staple that I&rsquo;m used to just using whatever is in the latest distro provided packages. When it comes to the web UI however I&rsquo;m going to make an exception from now on. Not only can you run the new UI in parallel with the old, deployment is simply copying a directory into place (It&rsquo;s easy to forget just how simple PHP deployment is sometimes). If you&rsquo;re already using Ganglia spend a few minutes installing the new UI. If you&rsquo;ve rejected Ganglia previously because it didn&rsquo;t have one feature or another then now is the time to look again.</p>
+
+      
+    </div>
     
     <div class="post">
       <h1 class="post-title">
@@ -476,46 +511,6 @@ Generating with project generator:
 <param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=vagrant-110402104037-phpapp01&rel=0&stripped_title=vagrant-and-configuration-management&userName=garethr" /> <param name="allowFullScreen" value="true"/> <param name="allowScriptAccess" value="always"/> <embed name="__sse7492432" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=vagrant-110402104037-phpapp01&rel=0&stripped_title=vagrant-and-configuration-management&userName=garethr" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="595" height="497"></embed> </object></p>
 
 <p>More interesting I thought were the questions and conversations that followed. We talked a little about how Vagrant might fit into a continuous integration setup. Another aspect some of the systems folk took to was how flexible the network configuration was and whether they might be able to use this to more effectively test firewall configurations well before the final push into a production environment. It&rsquo;s not something I&rsquo;ve been doing but it sounds feasable and useful in some organisations. If anyone is doing interesting things with Vagrants network config I&rsquo;d be interested to know.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2011/03/26/Devops-isnt-a-methodology/">Devops Isn&#39;t A Methodology</a>
-      </h1>
-      <span class="post-date">Mar 26, 2011 &middot; 4 minute read
-      </span>
-      
-      
-
-<p>I was reading <a href="http://teddziuba.com/2011/03/devops-scam.html">Devops is a poorly executed scam</a> and just couldn&rsquo;t resist a reply. Not because of the entertaining title, but because I both agree and disagree quite strongly with parts of the post. Read it first if you haven&rsquo;t already. And yes I know I&rsquo;m feeding the internet.</p>
-
-<p>I&rsquo;m going to pick parts of the post out and then comment. Hopefully I&rsquo;m not quoting these in any way out of context.</p>
-
-<h2 id="it-s-got-the-potential-to-make-a-handful-of-people-a-lot-of-money-in-the-same-way-that-agile-did-but-nobody-is-really-executing-on">&ldquo;It&rsquo;s got the potential to make a handful of people a lot of money in the same way that Agile did, but nobody is really executing on.&rdquo;</h2>
-
-<p>People are pretty aware of this fact I think, but watch what happens when people post on the mailing lists or turn up at community events with a purely marketing hat on. They just get no traction and even damage their product brand amongst the early adopters. The fact the term is starting to get used in job adverts and marketing materials isn&rsquo;t really being driven by the people talking about what devops might or might not be. I think the main reason for this is that most of the people I talk to in person or online are actually pretty happy with their jobs and generally work inside companies rather than as independent consultants. They have often reached an age where they want to improve within a given field but would like a wider network than their current colleagues to discuss things with.</p>
-
-<h2 id="how-do-you-implement-devops">&ldquo;How do you implement Devops?&rdquo;</h2>
-
-<p>I don&rsquo;t think you do. The comparisons with Agile are interesting from a community point of view but Scrum is a methodology. To me at least devops isn&rsquo;t, it&rsquo;s just a banner or tag under which interesting conversations are happening. The argument that &ldquo;You should be doing this anyway. Not earth shattering.&rdquo; is a good thing. You&rsquo;d be suprised by how many people don&rsquo;t do all the things they should be doing, especially in small and young companies. And one of the reasons for that is no one bothered writing a list of these things down anywhere and then discussing them. I&rsquo;m not saying this huge list exists or even whether it should, but the discussion is happening.</p>
-
-<h2 id="the-underlying-problem-however-is-that-dev-and-ops-have-different-goals">&ldquo;The underlying problem, however, is that dev and ops have different goals&rdquo;</h2>
-
-<p>This is spot on. I think this maybe does get missed in talk that focuses more on tools but not in the wider discussion happening about business improvements. Devops quite litterally brings those two things together. You&rsquo;ll always have individual goals but where you have separate operations and development teams they should have the same fundamental goals.</p>
-
-<h2 id="developers-develop-in-the-same-environment-production-runs-in-if-you-deploy-to-linux-you-develop-on-linux-no-more-of-this-coding-on-your-macbook-pro-and-deploying-to-ubuntu-that-is-why-you-can-t-have-nice-things">&ldquo;Developers develop in the same environment production runs in If you deploy to Linux, you develop on Linux. No more of this coding on your Macbook Pro and deploying to Ubuntu: that is why you can&rsquo;t have nice things.&rdquo;</h2>
-
-<p>Yes, yes and yes again. I&rsquo;m definitely from the developer side of the tracks and I&rsquo;m constantly telling people this and it&rsquo;s definitely something I don&rsquo;t see enough people doing. What I&rsquo;d love is for all the operations people to state this to their development team and most importantly to help them set that up. Just saying <em>work like me or I won&rsquo;t let you near the production machines</em> is just being obstructive. Educating and helping with tooling helps build those bridges and trust. And with trust comes the access the developers want. And less stupid bugs and less deployment issues with differing package dependencies.</p>
-
-<h2 id="none-of-this-amounts-to-a-methodology-as-the-devops-people-would-have-you-believe">&ldquo;None of this amounts to a methodology, as the Devops people would have you believe.&rdquo;</h2>
-
-<p>Still unsure which Devops people are saying it&rsquo;s a bonefide methodology. I see the word used sometimes but generally in passing and not I don&rsquo;t think meant how you mean here. And I don&rsquo;t think I&rsquo;ve heard people speak about it in person. &ldquo;Scrum methodology&rdquo; returns more than 113,000 results in Google. &ldquo;Devops methodology&rdquo; returns about 150, some of which 404 and half of which are agregators pointing at the other half.</p>
-
-<h2 id="the-devops-movement-smells-of-a-scam-in-the-making">&ldquo;The Devops movement smells of a scam in the making&rdquo;</h2>
-
-<p>Some company or other is definitely going to be scammed into paying over the odds for a consultant because they used the word Devops in the sales pitch. That will have next to nothing to do with what I&rsquo;d see as the Devops movement and everything to do with human nature (and sales people).</p>
 
       
     </div>
