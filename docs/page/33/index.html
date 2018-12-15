@@ -63,6 +63,41 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/10/21/an-apology-to-xslt/">An apology to XSLT</a>
+      </h1>
+      <span class="post-date">Oct 21, 2006 &middot; 2 minute read
+      </span>
+      
+      <p>
+I have to admit to thinking that XSL was something of a waste of time a while back. I’ve changed my mine and wanted to muse about why.
+
+</p>
+<p>
+XML is simple enough to jump right in, and a few years back it had a big enough band wagon to mean jumping on was pretty much required. I think in hindsight, at least in my mind, alot of this was just a little gratuitous. XML abstraction layers, XML content management systems, SOAP, etc.
+
+</p>
+<p>
+I’d often seen XSLT as the template layer in an XML based content management system and after several looks went back to using light weight systems that made sense. The idea of going from a database to XML then outputting HTML via XSLT just made me wonder why. The rationale that you could then output it as anything (WML, PDF, whatever) was very nice, but rarely actually realised from what I saw, and easy enough to do with any half decent templating system. You also always seemed to need more XSLT that it looked like you should.
+
+</p>
+<p>
+<a href="http://rubyonrails.org">Ruby on Rails</a> even wore as a badge of honor that it didn’t need to do any XML pushups to deal with configuration. And even those with a penchant for Java seem to have problems with using <a href="http://www.sdtimes.com/printArticle/column-20060901-05.html">XML as a programming language</a>.
+
+</p>
+<p>
+Of late though I’ve been back playing with APIs, many of which produce XML in one way or another (whether that’s RSS, Atom or some custom format), and XSL actually comes in pretty handy here for just thowing around content. I did some work with a <a href="http://mini.google.co.uk">Google Mini</a> too using XSLT and their are some <a href="http://suda.co.uk/projects/X2V/">interesting tricks</a> with <a href="http://microformats.org">Microformats</a> to boot. I haven’t listened to the <a href="http://muffinresearch.co.uk/wsg/audio/index.xml">podcast</a> yet so I’m just guessing at the moment but I could see <a href="http://allinthehead.com/">Drew’s</a> “Your website as your API” talk at the <a href="http://muffinresearch.co.uk/archives/2006/10/21/following-the-wsg-microformats-event/">recent WSG meeting</a> making use of XSLT?
+
+</p>
+<p>
+So, I think I might have changed my mind a bit. XSL, I think, is going to be a useful skill to have in your toolkit in a world of microformats and APIs. The <a href="http://www.w3schools.com/xsl/">W3Schools XSL tutorial</a> is a pretty good starting place if you’ve not used it previously at all. Thought I’d still rather use a <a href="http://www.cheetahtemplate.org/">decent templating engine</a> for site rendering tasks.
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2006/10/14/virtualhosts-on-mac-os-x/">Virtualhosts on Mac OS X</a>
       </h1>
       <span class="post-date">Oct 14, 2006 &middot; 2 minute read
@@ -1736,49 +1771,6 @@ And then the UK (the French version is the same, except with the relevant langua
 </p>
 <p>
 The usability issue I have with this is the user chooses the locale when they login, wherever you login from (<a href="http://newsgator.com">newsgator.com</a>, <a href="http://newsgator.co.uk">newsgator.co.uk</a> or <a href="http://newsgator.fr">newsgator.fr</a>). OK so it’s an edge case issue, but I now know I have a choice of interfaces. Do I stick with being honest and saying I’m a brit and get an seemingly inferior interface? or do I lie and pretend to be a yank? If I was a French speaker I wouldn’t have that choice either? I dont actually know yet. I’m definately going to lie a few times just to see the new features and the interface though.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/08/14/geekout/">Geekout</a>
-      </h1>
-      <span class="post-date">Aug 14, 2006 &middot; 2 minute read
-      </span>
-      
-      <p>
-On occasion I even surprise myself. Sometimes you just need to geek. Rob at work was discussing his ideal device, basically something that would read text based RSS feeds to him while in the bath in the morning. Lazy I know.
-
-</p>
-<p>
-I thought to myself <em>That cant be too difficult</em> and I’ve never played with any text to speach stuff before and off I went. A few hours later and I just got my Windows machine to read out the top story from this site.
-
-</p>
-<p>
-Python is so cool to just hack in. Did I mention that before? I’ve yet to do anything <em>real</em> in it, but playing around with code is nice. Anyway, on with a solution;
-
-</p>
-<p>
-Lots of things to install first. As mentioned I used Windows, in this case so I could access the Win32 Speech API. I looked at using <a href="http://www.cstr.ed.ac.uk/projects/festival/">Festival</a> on Unix but left that for now. Tools of choice were <a href="http://python.org">Python</a> 2.4 with the <a href="http://sourceforge.net/projects/pywin32/">Win32 extensions</a>. A couple of Python modules do most of the work. First up <a href="http://sourceforge.net/projects/uncassist">pyTTS</a> which deals with the text to speach and SAPI integration. Next comes the <a href="http://feedparser.org/">Feedparser</a> module. I’d heard this mentioned by <a href="http://simon.incutio.com/archive/2006/08/08/ydn">Simon</a> over on the <a href="http://developer.yahoo.com/python/python-rss.html">Yahoo Python developer network</a> and it really is nice.
-
-</p>
-<p>
-The rest was easy.<code>
-
-    import pyTTS
-    import feedparser
-    d = feedparser.parse("http://morethanseven.net/rss")
-    tts = pyTTS.Create()
-    tts.Speak(d['items'][0].description)
-
-</code>
-
-</p>
-<p>
-Ok, so this isn’t an application. Just a proof of concept but you get the idea and I dont really want or need this app anyway. Why then? because I thought I could. Oh, and Python’s interactive prompt is so cool. I want one for everything.
 
 </p>
 

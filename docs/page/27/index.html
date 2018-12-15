@@ -63,6 +63,47 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2007/11/04/css-snapshots-css3-modules-and-an-agile-way-forwar/">CSS Snapshots, CSS3 Modules and an Agile Way Forward</a>
+      </h1>
+      <span class="post-date">Nov 4, 2007 &middot; 4 minute read
+      </span>
+      
+      <p>The state of CSS has been a common topic of conversation this year. Ever since <a href="http://www.andybudd.com">Andy Budd</a> stirred things up at <a href="http://thehighlandfling.com">The Highland Fling</a> about <a href="http://thehighlandfling.com/sessions/the-future-of-css/">The Future of CSS</a> and followed up with a <a href="http://www.andybudd.com/archives/2007/05/css22/">call for CSS 2.2</a> we&rsquo;ve been wanting more.</p>
+
+<p>Well, in response to all this the CSS3 working group have released <a href="http://www.w3.org/TR/css-beijing/">CSS Snapshot 2007</a> as a working draft. CSS3, in theory, has a modular structure. The idea behind this was that individual pieces could be worked up, specified and released without having to work on the whole thing at once. Sounds a lot like iterative development to me. The problem is we haven&rsquo;t, until now, had a stable <em>release one</em> of CSS3.</p>
+
+<blockquote>
+<p>At the time this specification enters Candidate Recommendation, Cascading Style Sheets (CSS) is defined by the following specifications:</p>
+</blockquote>
+
+<ul>
+<li>CSS Level 2 Revision 1 (including errata)</li>
+<li>Selectors Level 3</li>
+<li>CSS Namespaces</li>
+<li>CSS Color Level 3</li>
+</ul>
+
+<p>So (at least when this document reaches Candidate Recommendation at some unknown point in the future), we can get on and use all those selectors we keep eyeing up. Colors and Namespaces are not particularly interesting, at least to me, but useful non-the-less. CSS2.1 is important as a baseline going forward, especially for the browser makers, rather than being particular interesting for the jobbing web designer.</p>
+
+<p>The problems come when we look at some of the features we want, and the modules they are part of. Andy specifically references <a href="http://andybudd.com/archives/2007/10/snapshot_2007_i/">text-shadow</a> as something that&rsquo;s already got more than two sample implementations but is part of the <a href="http://www.w3.org/TR/css3-text/">Text module</a> which we won&rsquo;t see for a while due to it&rsquo;s complexity. (As a side note text-shadow was formerly part of CSS2.1 but got dropped due to lack of implementations at the time.) <a href="http://my.opera.com/dstorey/blog/">Dave Storey</a> summed this problem up nicely over on <a href="http://www.css3.info/css-snapshot-2007-released-as-a-working-draft/#comment-59776">CSS3.info</a></p>
+
+<blockquote>
+<p>I guess this is due to not wanting to put partial parts of a module in this snapshot. Iâ€™d like to see another snapshot draft in around six months that includes full or partial modules that have progressed since the time this snapshot was published.</p>
+</blockquote>
+
+<p>From a quick look at the <a href="http://www.w3.org/Style/CSS/current-work">current work</a> of the CSS working group I count six modules at candidate recommendations, six at last call, twenty three at working draft and six not yet started. If modules really are discrete blocks then this to me looks like a recipe for disaster. If modules aren&rsquo;t discrete blocks then why are they divided into modules? Rather than focus on shipping modules it appears that the effort of the working group has been spread out across nearly the whole spectrum of CSS3. This pretty much invalidates the idea of a modular approach.</p>
+
+<p>CSS3 is a big project. And specification, like software, is hard. In well organised and managed agile software teams it&rsquo;s common to split things down into features, or groups of features (modules). The CSS working group did this. In a well managed agile team shipping something early is hugely important. Everyone focuses on that goal, rather than on their favorite part of the project that might not be needed until later on. The CSS working group definitely didn&rsquo;t do that. But it&rsquo;s what I think is needed now.</p>
+
+<p>The working group are now <a href="http://xhtml.com/en/css/conversation-with-css-3-team/">starting to talk</a> more openly about what they are up to. And the <a href="http://csseleven.com/">CSS Eleven</a> are looking to add some support from a web design industry point of view. I&rsquo;m interested to see what they come up with as suggestions and support. The problem I see is that, unless the working group back down on the strict nature of the modules and define sub-modules or simply go to specifying features then we could hit an impasse. The best course of action (from a complete outsider anyhow) would be to get all the people from the working group and from the CSS Eleven working on one module at a time. Only once a little momentum has been built up maybe they could work on more than one at once, just not thirty five this time. All of that would take some hefty project management and some setting aside personal and organisational politics to get done. Fingers crossed.</p>
+
+<p>I actually think things are looking up, but time is certainly a factor here. Lets assume IE.next is released late next year or the start of 2009 (wild speculation). If the <a href="http://blogs.msdn.com/ie/">Internet Explorer team</a> implement to the current specs at that time - that could easily not include CSS Snapshot 2008, which would be reaching candidate recommendation around about the same time as they ship. Which could in theory mean it&rsquo;s four years or more before we see text-shadow well supported. Never mind elements of CSS3 which currently have no reference implementations at all! Anyone else with any bright idea? Or insider info that you want to share?</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2007/10/29/bbc-innovation-labs-2008/">BBC Innovation Labs 2008</a>
       </h1>
       <span class="post-date">Oct 29, 2007 &middot; 3 minute read
@@ -521,30 +562,6 @@ symfony propel-generate-crud backend items Item
 <p>Note I&rsquo;ll likely be somewhat wired. I might be up in edinburgh the night before for <a href="http://www.futureofwebapps.com/roadtrip/">FOWA roadtrip</a> and in any case I&rsquo;ll have been up all night at <a href="http://www.barcampbrighton.org/">barcampbrighton</a>.</p>
 
 <p>You can register for the <a href="http://upcoming.yahoo.com/event/254890/">event on upcoming</a> or even register for <a href="http://upcoming.yahoo.com/group/3537/">the group</a>. Or you could just turn up. See you there! Any questions post a comment (either here on on upcoming) or drop me an email.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/08/19/html-an-alternative-to-word/">HTML. An alternative to Word?</a>
-      </h1>
-      <span class="post-date">Aug 19, 2007 &middot; 3 minute read
-      </span>
-      
-      <p>When I&rsquo;m writing code, be it CSS, Javascript, Ruby, whatever, I don&rsquo;t like big bulky IDE&rsquo;s. Give me <a href="http://macromates.com/">TextMate</a> or Vim any day. Going all freelance I now have the occasional need to produce nice documents and being in charge means I get to decide what I use to produce them. I never really liked working in Microsoft Word so decided against it. But rather than sensibly going for an obviously alternative I decided to just use HTML, or rather more specifically, <a href="http://textism.com/tools/textile/">Textile</a>.</p>
-
-<p><img src="http://morethanseven.net/_assets/media/imgOnlineDocs.png" alt="An example of a current document" title="An example of a current document" /></p>
-
-<p>As an old time <a href="http://textpattern.com">textpattern</a> I learned to love the simple text transformation language and it&rsquo;s inclusion in the <a href="http://37signals.com">37signals</a> apps made me smile and more likely to use them. Why use it over HTML you may ask? For me I think about HTML like a browser, as a tree of nodes. I end up spending quite a bit of time writing content then going backwards and wrapping what I just wrote in markup. This is fine for your typical site, but for writing documents it&rsquo;s hard to get into a flow. With textile I can flow in one direction.</p>
-
-<p>So far I&rsquo;m liking it alot. I can seperate content from presentation (Word styles are a myth), easily repurpose my content (text, html, pdf) and write documents in anything I like, including Word if I chose to.</p>
-
-<p>It&rsquo;s been a pretty good excuse to play with various bits of CSS3, including multi-columns, advanced layout, generated content and the various print offerings. Given I can control the rendering engine then produce a PDF to distribute I can use anything that the latest browser builds can deal with.</p>
-
-<p>I&rsquo;ve not got all the workflow steps automated yet, I&rsquo;m using Firefox to print documents to PDF (via Preview) at the moment which works fine but is still a manual process I can get rid of using something like <a href="http://www.re.be/css2xslfo/">css2xslfo</a> and <a href="http://xmlgraphics.apache.org/fop/">fop</a>. I&rsquo;m also pretty sure the PDFs won&rsquo;t be accessible, although the original markup certainly should be.</p>
-
-<p>As I produce more complex documents I&rsquo;ll likely miss things like automated table of contents generation, footnotes and page numbering but, then again, I can write that in Javascript (or on the server) if I so choose. I was impressed listening to HÃ¥kon Wium Lie at <a href="http://vivabit.com/atmedia2007/">@media</a> about the process they used to format his last book using CSS and <a href="http://www.princexml.com/">PrinceXML</a>. I&rsquo;m half tempted to spend time rolling all this together into a web app. It would be pretty good fun really; APIs, XSLT, CSS, PDF, some nice UI problems, etc. Only problem I see would be entering a market contested by Microsoft, Google, Sun and er, lots of others.</p>
 
       
     </div>

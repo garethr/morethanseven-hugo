@@ -63,6 +63,25 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2012/08/11/Riemann-puppet-module/">Riemann Puppet Module</a>
+      </h1>
+      <span class="post-date">Aug 11, 2012 &middot; 1 minute read
+      </span>
+      
+      <p>Thanks to an <a href="https://twitter.com/bitprophet/status/233626675307479040">errant tweet</a> I started playing with <a href="http://aphyr.github.com/riemann/">Riemann</a> again. It ticks lots of boxes for me, from the clojure to configuration as code and the overloadable dashboard application. What started as using Puppet and Vagrant to investigate Riemann turned into a full blown tool and module writing exercise, resulting in two related projects on GitHub.</p>
+
+<ul>
+<li><a href="https://github.com/garethr/garethr-riemann/">garethr-riemann</a> is a Puppet module for installing and configuring Riemann. It allows for easily specifying your own server configuration and dashboard views.</li>
+<li><a href="https://github.com/garethr/riemann-vagrant">riemann-vagrant</a> is a Vagrantfile and other code which uses above puppet module to setup a local testing environment.</li>
+</ul>
+
+<p>I like this combination, a separate Puppet module along with a vagrant powered test bed. I&rsquo;ve written a reasonable rspec based test suite to check the module but it&rsquo;s always easier to be able to run <em>vagrant provision</em> as well to check everything is working. This also turned out to be the perfect opportunity to use <a href="https://github.com/rodjek/librarian-puppet">Librarian-Puppet</a> to manage the dependencies and eventually to ship the module to the <a href="https://forge.puppetlabs.com/garethr/riemann">Puppet Forge</a>.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2012/07/01/The-vagrantbox.es-story/">The Vagrantbox.es Story</a>
       </h1>
       <span class="post-date">Jul 1, 2012 &middot; 2 minute read
@@ -375,68 +394,6 @@ instance-name-8 (xx.xxx.xxx.xx, xxx.xx.xx.xx)
 <p>What I didn&rsquo;t find particularly appealing was the lack of a strong standard library coupled with the difficulty of tracking down suitable libraries. JSON parsing, dealing with HTTP requests and date handing are very common activities in web programming and all needed me to jump around looking at the best way of dealing with the common case. I settled on <a href="https://github.com/dakrone/clj-http">clj-http</a>, <a href="https://github.com/dakrone/cheshire">chesire</a> and using Java interop for date formatting. clj-http suffered from having lots of forks on GitHub to navigate through. I started with clojure-json before discovering it had been deprecated. And neither clj-time or date-clj appeared to support unix timestamps as far as I could tell from the source. Throw in some uncertainty over the status of clojure-contrib that isn&rsquo;t well documented on the official site and it needs some effort to get started.</p>
 
 <p>The working code for this is already up on <a href="https://github.com/garethr/jenkins-build-list">GitHub</a> and I&rsquo;d be interested in any Clojure experts showing me the error of my ways.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2011/12/13/Setting-puppet-class-using-environment-variables/">Setting Puppet Class Using Environment Variables</a>
-      </h1>
-      <span class="post-date">Dec 13, 2011 &middot; 2 minute read
-      </span>
-      
-      <p>I&rsquo;m not sure how novel this approach is but a few folks at work hadn&rsquo;t seen it before so I thought it worth jotting down.</p>
-
-<p>If you have even a small but dynamic set of servers then a problem arises with how those nodes are defined in puppet. A node remember is defined in puppet like so:</p>
-
-<pre><code>node web3.example.com {
-  include web_server
-}
-</code></pre>
-
-<p>The problem is twofold. If you have a growing infrastructure, that list of nodes is going to get quickly out of hand. The other problem is around provisioning new hosts, the obvious approach to which is something like:</p>
-
-<ol>
-<li>Summon new EC2 instance</li>
-<li>Change the node definition to include the new hostname</li>
-<li>Install puppet on instance and so the ssl certificate signing dance</li>
-<li>Run puppet</li>
-</ol>
-
-<p>Step 2 stands out. The others are easily automated, but do you want to automate a change to your puppet manifests and a redeploy to the puppetmaster for a new instance? Probably not.
-Puppet has the concept of an external node classifier which can be used to solve this problem, but another simpler approach is to use an environment variable on the new machine.</p>
-
-<p>Lets say we define our nodes something like this instead:</p>
-
-<p>{% codeblock %}node default {
-case $machine_role {
-frontend: { include web_server }
-backend: { include app_server }
-data: { include db_server }
-monitoring: { include monitoring_server }
-development: { include development }
-default: { include base }
-}
-}{% endcodeblock %}</p>
-
-<p>If a machine runs and sets the $machine_role variable to frontend it includes the web_server class, if that variable equals &lsquo;data&rsquo; it&rsquo;s going to include the db_server class instead. Much cleaner and more maintainable in my view. Now to set that variable.</p>
-
-<p>Facter is the tool used by Puppet to get system information like the operating system or processor count. You can use these facter provided variables anywhere in your manifests. And one way of adding a new fact is via an environment variable on the client. Any environment variable prefixed with FACTER_ will be available in Puppet manifests. So in this case we can:</p>
-
-<pre><code>export FACTER_machine_role=frontend
-</code></pre>
-
-<p>So our steps from above become something like:</p>
-
-<ol>
-<li>Summon new machine</li>
-<li>echo &ldquo;export FACTER_machine_role=backend&rdquo; &gt;&gt; /etc/environment</li>
-<li>Install puppet on instance and so the ssl certificate signing dance</li>
-<li>Run puppet</li>
-</ol>
-
-<p>Much easier to automate. And if you&rsquo;re looking at a box and want to know what it&rsquo;s role is you can check the relevant environment variable.</p>
 
       
     </div>

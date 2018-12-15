@@ -63,6 +63,32 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2010/01/26/processing-large-files-sed-and-awk/">Processing large files with sed and awk</a>
+      </h1>
+      <span class="post-date">Jan 26, 2010 &middot; 2 minute read
+      </span>
+      
+      <p>I found myself using a couple of powerful but underused command line applications this week and felt like sharing.</p>
+
+<p>My problem involved a large text file with over three million lines and a script that processed the file line by line, in this case running a SQL query against a remote database.</p>
+
+<p>My script didn&rsquo;t try and process everything in one go, rather taking off large chunks and processing them in turn, then stopping and printing out the number of lines processed. This was mainly so I could keep an eye on it and make sure it wasn&rsquo;t having a detrimental affect on other systems. But once I&rsquo;d run the script once (and processed the first quarter of a million records or so) I wanted to run it again, except without the first batch of lines. For this I used sed. The following command creates a new file with the contents of the original file, minus the first 254263 lines.</p>
+
+<pre><code>sed '1,254263d' original.txt &gt; new.txt
+</code></pre>
+
+<p>I could then run my script with the input from new.txt and not have to reprocess the deleted lines. My next problem came when the network connection between the box running the script and the database dropped out. The script printed out the contents of the last line successfully processed, so what I wanted was a new file with the all contents of the old file past the last line. The following awk command does just that, assuming the last line processed was f251f9ee0b39beb5b5c4675ed4802113.</p>
+
+<pre><code>awk '/^f251f9ee0b39beb5b5c4675ed4802113/{f=1;next}f' original.txt &gt; new.txt
+</code></pre>
+
+<p>Now I could have made the script that did the work more complicated and ensure it dealt with these cases. But it would have involved much more code and the original scripts where only a handful of throw away code. For one off jobs like this a quick dive into the command line seemed more prudent.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2010/01/07/speaking-dibi/">Speaking at DIBI</a>
       </h1>
       <span class="post-date">Jan 7, 2010 &middot; 2 minute read
@@ -248,24 +274,6 @@ The other part of the code example was a very basic apache virtualhost so just i
     CustomLog /var/log/apache2/sample/access.log combined
 &amp;lt;/VirtualHost&amp;gt;
 </code></pre>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/08/31/another-chance-djugl/">Another chance to DJUGL</a>
-      </h1>
-      <span class="post-date">Aug 31, 2009 &middot; 2 minute read
-      </span>
-      
-      <p><a href="http://djugl.eventwax.com/djugllondon-python">DJUGL</a> is back, the <em>monthly</em> Django meetup in London. I think the last few times have been as much about useful Python stuff as just using Django, and this time it&rsquo;s officially a bit more broad ranging. If you&rsquo;re in or around London on the 24th September then come along.</p>
-
-<p>You can get more information on <a href="http://twitter.com/londonpython">Twitter</a> or by following <a href="http://twitter.com/robertlofthouse/">Rob</a>. But expect a few short talks, some interesting conversations and maybe some beer with other like minded developers.</p>
-
-<p>I&rsquo;m going to be talking about automating deployment of Python web applications. If you follow me on Twitter you&rsquo;ll have heard me rambling a little about some of what I&rsquo;ve been up to, and some of the posts here give an insight into what I&rsquo;ve been working on. But the short version is that several friends mentioned how difficult it could be to get a working Django application from a local machine to a production web server. And I though I better get down in script form my experiences of Django, WSGI applications and web server setup to make things easier.</p>
-
-<p>I think this situation is partially caused by the success of the Django development server, and partially by people coming from a PHP background. In my PHP days I think I always wanted to know how Apache did it&rsquo;s think, so long ago jumped into anything and everything in httpd.conf from loading modules to virtual hosts. But not everyone does the same, and PHP does make simple deployments easy enough that you might get away without doing so. Rails went through the same problems and seems to be coming out the other side. I&rsquo;m hoping that Django and Python is soon to be in the same position, where basic deployment is just a given.</p>
 
       
     </div>

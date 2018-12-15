@@ -63,6 +63,41 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/02/14/easy-for-whom-a-minor-rant-about-help-from-framewo/">Easy for whom? - a minor rant about help from frameworks</a>
+      </h1>
+      <span class="post-date">Feb 14, 2006 &middot; 2 minute read
+      </span>
+      
+      <p>
+Some people think that <a href="http://www.lscheffer.com/malbolge.shtml">programming should be hard</a> while others, like me, quite like the idea of anyone being able to build things, especially web sites. To me the fact that either of my housemates (non IT types) could probably build a website this evening if they so choose is great. And to be honest if they did I’d be unlikely to complain about the code or the programme they chose to build it with (Ok, I would, but that’s me and I’d like to pretend I wouldn’t.)
+
+</p>
+<p>
+It’s pretty unlikely however that either of them, or any beginnner, would go along the route of choosing say <a href="http://asp.net">ASP.NET</a> or <a href="http://rubyonrails.com">Ruby on Rails</a> for that first site. Which leads me to some sort of assumption – <em>that both of these</em> are for experts and <a href="http://www.molly.com/2005/11/14/web-standards-and-the-new-professionalism/">professionals</a>. There are other facets which could be used to back up this argument but I dont want to go on – rails making use of the command line (in very cool ways) or ASP.NET requiring IIS configuration for a start. Not something I fancy talking non experts through to be fair.
+
+</p>
+<p>
+Using that assumption brings me nicely to helpers. Both are frameworks that try (and in may places succeed) in making life easier for developers. This is a good thing. What’s not so good is where this goes too far, in my opinion. ASP.NET <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfsystemwebuiwebcontrolslinkbuttonclasstopic.asp">linkButtons</a> are simply Evil. No questions. At All. Stop using them. Now. Rails wades in as well with it’s reliance, when it comes to certain controls, on inline Javascript. Did someone not get the <a href="http://adactio.com/atmedia2005/">memo</a>?
+
+</p>
+<p>
+As good web standards people we have divided content from presentation. Behaviour from both (sort of). Now we have great (in both senses of the word) frameworks coming along and riding roughshod over our labour of love to make the web a better place. Making the developers life easier, but impacting negatively on the end users. Such wide ranging and powerful tools for experts need not treat all users as experts in everything. ASP.NET (or Ruby on Rails) does it so it must be OK? cannot be allowed to undo good works.
+
+</p>
+<p>
+Lots of similar talk abounds at the moment, with certainly some light in some of these areas showing through. Visit <a href="http://www.vivabit.com/bollocks/2006/02/09/rails-is-the-devil-in-your-client-side-shoulder">Dan</a> and <a href="http://domscripting.com/blog/display/49">Jeremy</a> for more.
+
+</p>
+<p>
+end Rant – mmm Rails
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2006/02/09/one-conference-down/">One Conference Down</a>
       </h1>
       <span class="post-date">Feb 9, 2006 &middot; 2 minute read
@@ -665,45 +700,6 @@ And finally something vague; (note that this isn’t me with an idea under wraps
 </ul>
 <p>
 I may have forgetten a couple of things, I’ll add them as I see fit. Anyone else got a list that they would like to share? Either on here or post a link to your own site.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/01/08/widgets/">Widgets</a>
-      </h1>
-      <span class="post-date">Jan 8, 2006 &middot; 3 minute read
-      </span>
-      
-      <p>
-Of late I’ve got round to installing a few widgets on my computers – <a href="http://www.apple.com/macosx/features/dashboard">Dashboard</a> on my Mac and <a href="http://widgets.yahoo.com">Yahoo Widgets</a> on Windows (no linux widgets as yet). I’m actually still running OS X 10.3.9 and using the very nice <a href="http://www.mesadynamics.com/amnesty.htm">Amnesty</a> to allow run to Mac Widgets.
-
-</p>
-<p>
-I’ve been meaning to play with widgets for a while, mainly because I’ve been using HTML, CSS and Javascript for years and widgets simply reuse these technologies – making it easy to just jump in an make something handy. I’m also a fan of web services in general and widgets provide another handy interface to many online services.
-
-</p>
-<p>
-I’ve mainly been using the <a href="http://www.haveamint.com/">Junior Mint</a> widget (and <a href="http://www.widgetgallery.com/view.php?widget=37576">Minty</a>) for keeping an eye on my site stats, I think I mentioned before I’m hooked). I’ve also been using WiFi monitoring widgets, battery monitoring widgets and looking at the <a href="http://backpackit.com">backpack</a> <a href="http://www.chipt.com/">widget</a> which looks nice.
-
-</p>
-<p>
-As for having a go at developing them – I just made available my first go, a widget to keep track of the <a href="http://morethanseven.net/atmedia2006">@media2006 feed agregator</a> I have built. It’s relatively simply – it polls the site for a couple of variables and displays them across a couple of panes. The numbers in question are the total number of posts, the number of new posts this week and today – as well as a countdown to the event. I had to do a little work to expose these properties in an XML format from the site but nothing major.
-
-</p>
-<p>
-I learned by looking at a couple of <a href="http://developer.apple.com/documentation/AppleApplications/Conceptual/Dashboard_Tutorial/index.html">tutorials</a> as well as existing widgets. Disecting code prooved the most useful – the majority of tutorials seemed to provide good <em>Hello World</em> examples but you could probably guess most of that. If anyone has any good intermediary or advanced widget tutorials then let me know.
-
-</p>
-<p>
-The main problem with the development process was definately the iterative testing. With web pages I tend to work in large steps (with very little testing) early on and then move to more small changes and quick testing later on when it’s down to the details rather than the brush strokes. I’d definately echo the sentiment of others by testing in safari (it uses the same rendering engine) first, and also add that getting all the markup and CSS in place before moving to Javascript is probably the best bet. You really need to test the Javascipt with a real running widget as it has it’s own functions available via the widget object. I’ve heard Apple may be working on a suitable IDE for widgets (my guess would be a tie in with Xcode) and I’ve come across <a href="http://www.widgetfactor.com/factor.php">Wcode</a> which appears to offer some useful tools.
-
-</p>
-<p>
-I’ve not yet looked into the situation with Yahoo Widgets – I intend to port my @media widget to Yahoo as an experiment and we’ll see how that goes (and yes I know that’s the wrong way round – Dashboard was, to some, a copy of Konfabulator, now Yahoo widgets. It’s early days I think for widgets – the move to more of a distributed systems feel, with open APIs and web services, amongst modern web applications would seem to be a perfect match for small desktop applications that tie into them. Watch this space.
 
 </p>
 

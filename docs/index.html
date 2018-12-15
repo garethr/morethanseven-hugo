@@ -63,6 +63,66 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2018/12/15/what-is-cnab/">What is CNAB?</a>
+      </h1>
+      <span class="post-date">Dec 15, 2018 &middot; 6 minute read
+      </span>
+      
+      
+
+<p>We announced <a href="https://cnab.io">Cloud Native Application Bundles (CNAB)</a> at DockerCon EU and Microsoft Connect just last week, and I spent a bunch of time talking to folks and anwsering questions about it at KubeCon too. As I’m heading home I thought it would be good to write down a few thoughts about what CNAB <em>is</em>. As I see it CNAB is two things:</p>
+
+<ul>
+<li>Formalisation of a pattern we’ve seen for multi-toolchain installers</li>
+<li>Commoditization of the packaging part of the infrastructure-as-code stack</li>
+</ul>
+
+<p>Let’s take each of these in turn.</p>
+
+<h2 id="formalisation-of-a-pattern-we-ve-seen-for-multi-toolchain-installers">Formalisation of a pattern we’ve seen for multi-toolchain installers</h2>
+
+<p>The explosion of APIs for infrastructure services has led to a corresponding explosion of tools to help you manage and orchestrate them. From API clients for individual projects (countless Kubernetes configuration management tools) to cloud-provider specific tools (CloudFormation templates, ARM templates) to high-level DSLs (Ansible, Terraform). Throw in the <a href="http://mikehadlow.blogspot.com/2012/05/configuration-complexity-clock.html">configuration complexity clock</a> (so we have Pulumi in Typescript, Terraform with it’s own HCL DSL, too much YAML everywhere) and we have a lot of tool options. I posit this choice is a good thing, and that we’re never going to see everyone agree on one approach or another. One pattern that has emerged is packaging API clients as Docker images. <a href="https://hub.docker.com/r/lachlanevenson/k8s-kubectl">lachlanevenson/k8s-kubectl</a> has seen 5 million pulls, there are CloudFormation images on Hub that have millions of pulls, the official Terraform image has more than 10 million pulls. There are also lots of projects like <a href="https://github.com/jtbonhomme/terraform-ansible-docker">terraform-ansible-docker</a> which use multiple tools at the same time. CNAB is a formalisation of these patterns.</p>
+
+<h2 id="commoditization-of-the-packaging-part-of-the-infrastructure-as-code-stack">Commoditization of the packaging part of the infrastructure-as-code stack</h2>
+
+<p>There is a now familiar pattern when it comes to infrastructure-as-code tools, namely the introduction of a package format and some form of registry. Puppet and the Forge. Chef and the Supermarket. Ansible and Ansible Galaxy. Terraform and the Module Registry. Everyone basically creates a tar file with some metadata. Not all projects have done this, but most would probably benefit from doing so. Compose files, ARM templates, CloudFormation templates; all are shared predominantly as source artefacts which are copy-and-pasted around.</p>
+
+<p>CNAB aims to commoditize this part of the stack and provide tools for anyone implementing something similar. It’s predominantly undifferentiated heavy lifting. No-one is competing based on the package metadata format so maybe lets build some agreement, some shared tooling and move on.</p>
+
+<h2 id="what-has-this-got-to-do-with-kubernetes">What has this got to do with Kubernetes?</h2>
+
+<p>One point that came up in a few conversations around CNAB was what this has to do with Kubernetes? Typically this came from people so deep into Kubernetes that all they can see is the Kubernetes API. If that’s you then you probably don’t need CNAB, especially at this early stage. You probably think in one of two ways when it comes to application of configuration:</p>
+
+<ul>
+<li>You like the package metaphor and you’re a big fan of Helm</li>
+<li>You don’t like the package metaphor and you use some other tool to access the Kubernetes API more directly</li>
+</ul>
+
+<p>Back to our two original points. When it comes to a multi-toolchain installer, in the case of Kubernetes-only, you might not have multiple toolchains so this point is moot. Everything in your world is just the Kubernetes API.</p>
+
+<p>When it comes to the second point around a standard for packaging, Helm already serves this need within the tight scope of Kubernetes. I fully expect to see (or hey, to build) a Helm plugin which will allow for wrapping a Helm chart in CNAB. There are a few advantages to CNAB support for Helm; a single artefact could include the desired Helm chart and it’s dependent charts and it could include all of the images in use within those charts. That single artefact can be signed and stored in a registry of your choise. But that’s mainly a case of incremental benefit to most Helm users. It’s also theorectical, CNAB is just a specifcation, so concrete things like a Helm plugin still need to be actually built.</p>
+
+<p>What I would say to those that view everything through a Kubernetes lens is that not everyone does. CNAB is mainly for a messier world of multiple toolchains and multiple APIs.</p>
+
+<h2 id="why-you-might-care">Why you might care?</h2>
+
+<p>Depending on your role in the pantheon of software development you may care about one or both of the original points. You may care about them directly (especially if you’re a software vendor) or indirectly (because of what they allow us to collectively build for end-users.)</p>
+
+<p>The story is pretty straightforward if you’re a software vendor. It’s very likely you’re shipping software to customers using multiple toolchains. Either you’re dealing with the complexity of asking customers to install particular tools and providing content for each (say asking users to first run some Terraform code and then run something else) or you’re struggling to get a large number of different teams to use the same tool and cram everything into it. Lots of vendors also have something that looks like a storefront for mixed content, or multiple stores for individual tools. Everyone is getting bored of supporting all the different formats, so a standard here appeals.</p>
+
+<p>From the end user point of view the story is more about future potential. This is analogous to other standards. You might not have read or implemented anything against the OCI image or distribution spec, but you benefit from the compatability between all the different registries and runtimes. If you’ve built a multi-toolchain installer then you at least appreciate one of the problems CNAB aims to solve. But then you already have a point solution and the CNAB tooling is early here. You only benefit from commoditization of the format indirectly, and only if it’s actually adopted by multiple tools. But assuming it is widely adopted, in the future when a nifty new infrastructure as code tool comes along (say like Pulumi recently, or Terraform previously) then you’ll aleady know how to install applications defined using it if it implements the CNAB specifcation. You’ll already have CI/CD toolchains that accomodate CNAB. You’ll already have CNAB-compatible tools for storing and distributing bundles. The typical barriers to entry for yet another tool are reduced.</p>
+
+<h2 id="the-importance-of-agreement">The importance of agreement</h2>
+
+<p>There is a risk with any effort like this, one that aims to solve a general problem at a low level, that the actual user need gets lost. This is one of those solutions which impacts tool builders directly, and end users somewhat indirectly. That means you have to be a certain type of developer to benefit from looking at CNAB today. But if you look at <a href="https://blog.docker.com/2018/12/docker-app-and-cnab/">Docker App</a> you’ll find a much more opinionated tool which just happens to implement CNAB under the hood, without exposing it to end users. The end user benefits there (sharing Compose-based applications on Docker Hub, a single artefact with the application definition and associated images) are much more concrete.</p>
+
+<p>CNAB isn’t about one tool to rule them alI. It’s about building agreement between people and projects solving the same set of problems. That agreement means more time to focus on end users problems rather than undifferentiated heavy lifting and more compatibility between tools. I expect the future to look like a range of completely separate tools for specific formats and toolchains which just happen to be compatible because they implement CNAB. We can then build a whole new set of tools that work across all of these packages, from graphical installers to documentation generation to whatever else we can think of. If that sounds interesting join the conversation around this <a href="https://github.com/deislabs/cnab-spec">new specifaction</a> and lets see if it just might work.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2018/07/29/knative-build-with-docker-buildkit-img/">Knative Build with Docker, BuildKit and Img</a>
       </h1>
       <span class="post-date">Jul 29, 2018 &middot; 4 minute read
@@ -1587,643 +1647,6 @@ performance data, changes to best practice and service demand</p>
 <li><a href="http://blog.ingineering.it/post/59414765140/itil-vs-devops-slugfest-or-lovefest">Discussion of Devops and ITIL</a></li>
 <li><a href="http://changeandrelease.com/2014/04/05/devops-and-itil-continuous-delivery-doesnt-stop-at-software/">Discussion of ITIL and Continuous Delivery</a></li>
 </ul>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2017/01/01/user-stories-for-web-operations/">User stories for web operations teams</a>
-      </h1>
-      <span class="post-date">Jan 1, 2017 &middot; 21 minute read
-      </span>
-      
-      
-
-<p><em>This post was <a href="https://github.com/alphagov/government-service-design-manual/blob/master/service-manual/operations/web-operations-stories.md">originally written</a>
-as part of the Government Service Design Manual while I was working for the UK
-Cabinet Office in 2013. I&rsquo;m republishing it here under the terms of the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open
-Government licence</a>.</em></p>
-
-<p>This document outlines the typical scope of infrastructure and web operations
-(sometimes erroneously referred to as hosting) work on a large service
-redesign project.</p>
-
-<p>The sample list of user stories provided is not intended to be a complete list of
-all areas of interest nor are you likely to need to do all of this for every service.
-The idea is for this list to be a good starting place from where to you can write
-additional stories, delete ones you do not require and split stories into smaller
-ones. Importantly you also need to provide your own acceptance criteria
-specific to the needs of your service.</p>
-
-<p>Remember these stories are a placeholder for a conversation.
-For some contexts, that conversation will be &lsquo;this does not apply to my
-service&rsquo; &ndash; that is fine. But there will almost certainly be other stories not
-listed here which do apply.</p>
-
-<h2 id="the-problem">The problem</h2>
-
-<p>An issue we have observed on a number of projects is a lack of understanding
-early on in a project about the work required to run a large online
-service. Often this is placed under  <em>hosting</em> and is investigated too late
-in the process.</p>
-
-<h2 id="intended-audience">Intended audience</h2>
-
-<p>The hosting of a complex and sensitive software application requires a team
-of people with specialist skills to design, setup and operate. Because this
-work is generally not user facing and can be highly technical it is sometimes
-easy to leave until later &ndash; with potentially dire consequences for launching
-safely and on time.</p>
-
-<h3 id="service-managers">Service managers</h3>
-
-<p>Does your team have people who deeply understand this topic? If you are not an
-expert then it is important to involve people permanently in the team
-who are. They can explain the technical trade offs and decisions which may
-affect your service.</p>
-
-<h3 id="delivery-managers">Delivery managers</h3>
-
-<p>As well as understanding the potentially large scope of work, many of the areas
-discussed here have lead times associated with third parties. The earlier
-stories related to these topics are brought into project backlogs the sooner
-estimates can be made and deadlines understood.</p>
-
-<h2 id="stories">Stories</h2>
-
-<p>The following stories are intended to provide a starting point for any project,
-rather than be a complete set. Individual projects would be expected to take
-and modify stories as needed and importantly to apply their own acceptance
-criteria specific to their requirements.</p>
-
-<p>The majority of these stories are from the point of view of developers, web
-operations engineers and the responsible service manager. Although not ideal,
-for this particular technical topic this works reasonably well. Feel free
-to change the focus when using them in your backlog.</p>
-
-<h3 id="process">Process</h3>
-
-<p><em>Development process</em><br />
-As a developer working on the service<br />
-So that we can ensure a high level of quality<br />
-And so we can maximise the integrity of the source code<br />
-I want a well documented and understood development process</p>
-
-<p><em>Out-of-hours support</em><br />
-As the service manager responsible for the service<br />
-So that we can ensure a suitable level of availability and integrity<br />
-I want to understand the requirement for Out-of-hours support</p>
-
-<p><em>Disaster recovery</em><br />
-As the service manager responsible for the service<br />
-So that in the event of a disaster everyone doesn&rsquo;t panic and make things up<br />
-I want a clear disaster recovery plan in place to deal with different types of catastrophic event</p>
-
-<p><em>Release process</em><br />
-As the service manager responsible for the service<br />
-So that the service can be changed on a very frequent basis<br />
-And so that changes do not cause problems for users<br />
-I want a well documented and understood release process</p>
-
-<p><em>Security response</em><br />
-As the service manager responsible for the service<br />
-So that security incidents are handled with extra care<br />
-And so that the service meets its wider Government obligation to GovCert<br />
-I want a well documented and understood security incident process</p>
-
-<p><em>Helpdesk</em><br />
-As the service manager responsible for the service<br />
-So that communication with users is done in a joined up way<br />
-I want a central helpdesk function to deal with events, incidents and requests</p>
-
-<p><em>Request Management</em><br />
-As the service manager responsible for the service<br />
-So that questions from users can be dealt with efficiently<br />
-I want a clear information request management policy</p>
-
-<p><em>Event Management</em><br />
-As the service manager responsible for the service<br />
-So that likely events that could affect the running of the service can be dealt with smoothly<br />
-I want a clear event management policy</p>
-
-<p><em>Incident Management</em><br />
-As the service manager responsible for the service<br />
-So that problems that arise with that service can be dealt with efficiently<br />
-I want a clear incident management policy</p>
-
-<p><em>Operations manual</em><br />
-As the service manager responsible for the service<br />
-So that information about the running of the service is not kept in individuals’ heads<br />
-And so information is readily available to people running the service<br />
-I want a single place to store content for a service operations manual</p>
-
-<h3 id="shared-service">Shared service</h3>
-
-<p><em>Source code hosting</em><br />
-As a developer working on the service<br />
-So we have somewhere to securely store our source code<br />
-I want access to a central source code hosting service or repository</p>
-
-<p><em>Continuous Integration</em><br />
-As a developer working on the service<br />
-So we can ensure a high level of quality in the code<br />
-And so we can minimise the time needed for regression testings<br />
-I want a Continuous Integration environment which automatically runs tests against every commit</p>
-
-<p><em>External DNS</em><br />
-As a web operations engineer<br />
-So that visitors to the service don&rsquo;t need to remember an IP address that will change<br />
-I want a process and supplier relationship to manage external DNS addresses</p>
-
-<h3 id="policy">Policy</h3>
-
-<p><em>Sensitivity of source code</em><br />
-As a developer working on the service<br />
-So that I understand the controls that need to be in place<br />
-And so that I know who and how I may share it<br />
-I want a clear policy around the sensitivity of source code</p>
-
-<p><em>Third party code</em><br />
-As a developer working on the service<br />
-I want a clear policy around use of third party source code libraries<br />
-So that I do not introduce unknown security problems</p>
-
-<p><em>Change evaluation</em><br />
-As the service manager responsible for the service<br />
-So that I can release changes to production quickly<br />
-And so that we can meet our obligation to the Digital by Default Service Standard<br />
-I want a documented process for evaluating and deciding on a change to the production service</p>
-
-<p><em>Access control</em><br />
-As the service manager responsible for the service<br />
-So that the confidentiality, integrity and availability of the service isn&rsquo;t compromised<br />
-And so that suitable technical controls can be put in place to enforce it<br />
-I want a clear policy on who has access to what on the production system</p>
-
-<p><em>Separation of duties</em><br />
-As the service manager responsible for the service<br />
-So that we can ensure the service has enough people in the right roles<br />
-I want to understand any required separation of duties (whether driven by legislation or security concerns)</p>
-
-<p><em>Clearances</em><br />
-As the service manager responsible for the service<br />
-So that security clearances can be arranged early in the project to avoid access restrictions later on<br />
-I want to know what level of clearances are required for different roles (including third parties)</p>
-
-<p><em>Releasing open source</em><br />
-As a developer working on the service<br />
-So that I do not introduce unknown security problems<br />
-And so that we can meet our obligation to the Digital by Default Service Standard<br />
-I want a clear policy around releasing code as open source</p>
-
-<h3 id="design">Design</h3>
-
-<p><em>Government networks</em><br />
-As a technical architect<br />
-So that the right suppliers are contracted<br />
-And so that long lead times are factored into the project plan early<br />
-I want to know whether the service requires access to a Government network like the PSN or GSI</p>
-
-<p><em>Multiple infrastructure providers</em><br />
-As the service manager for this service<br />
-So that I understand the intended availability constraints<br />
-I want to know whether multiple suppliers of Infrastructure are required</p>
-
-<p><em>Capacity planning</em><br />
-As a web operations engineer<br />
-So that we can estimate the number and size of infrastructure components (instances, firewalls, load balancers etc.)<br />
-And so that resource based costs can be estimated<br />
-I want to carry out some capacity planning activities</p>
-
-<p><em>Network architecture</em><br />
-As a technical architect<br />
-So that I can build out a production environment to an agreed specification<br />
-I want a network architecture design</p>
-
-<h3 id="components">Components</h3>
-
-<p><em>Web servers</em><br />
-As a web operations engineer working on the service<br />
-So that we can serve HTTP request<br />
-And so we can proxy requests to application servers<br />
-I want to install and configure a web server</p>
-
-<p><em>Databases</em><br />
-As a web operations engineer working on the service<br />
-So that data can be stored in a manner befitting its structure<br />
-And so the stored data can be queried as quickly as required<br />
-I want to install and configure a suitable database server</p>
-
-<p>As a web operations engineer working on the service<br />
-So that data can still be read even during a failure of a single database server<br />
-I want to configure some failover or other redundancy mechanism for the database</p>
-
-<p>As a web operations engineer working on the service<br />
-So that data can still be written even during a failure of a single database server<br />
-I want to configure some failover or other redundancy mechanism for the database</p>
-
-<p><em>Load balancers</em><br />
-As a web operations engineer working on the service<br />
-So that web requests can still be served even with the failure of one or more web servers<br />
-I want to install and/or configure a load balancer</p>
-
-<p><em>Internal DNS</em><br />
-As a web operations engineer working on the service<br />
-So that we can easily address our services and instances<br />
-I want to install and/or configure a mechanism to manage internal DNS</p>
-
-<p><em>Database backups</em><br />
-As the service manager for the service<br />
-So that we can recover from a large failure of our database infrastructure<br />
-I want regular automated backups to be taken of the data stored in the database</p>
-
-<p>As the service manager for the service<br />
-So that we can recover from a large failure of a single suppliers infrastructure<br />
-I want regular automated backups to be stored off site</p>
-
-<p><em>HTTP cache</em><br />
-As a web operations engineer working on the service<br />
-So that the service remains fast when serving identical content<br />
-And so load is minimised on the application servers<br />
-I want to install an HTTP cache</p>
-
-<p><em>Email gateway</em><br />
-As a developer working on the service<br />
-So that the service can send email to administrators or end users<br />
-I want to setup and configure a suitable email gateway</p>
-
-<p><em>Application servers</em><br />
-As a developer working on the service<br />
-So that the code I write can be run on server instances<br />
-I want to install and configure a suitable application server</p>
-
-<p><em>Internal package repository</em><br />
-As a web operations engineer working on the service<br />
-So that we can use software not available in our operating system repositories<br />
-And so that we can use the security, dependency management and versioning features<br />
-I want to install and configure an internal package repository</p>
-
-<p><em>Artifact repository</em><br />
-As a developer working on the service<br />
-So that we can share and version individual code components that need it<br />
-I want to install and configure an artifact repository</p>
-
-<p><em>Message queue</em><br />
-As a developer working on the service<br />
-So that I can easily and efficiently process work asynchronously<br />
-I want to install and configure a suitable message queue or work queue system</p>
-
-<p><em>Search server</em><br />
-As a developer working on the service<br />
-So that I can quickly and efficiently search through large amounts of data<br />
-I want to install and configure a suitable search engine</p>
-
-<p><em>Object cache</em><br />
-As a developer working on the service<br />
-So that I can minimise the number of queries to the database<br />
-And so that I can keep the service fast and responsive to users<br />
-I want to install and configure a object caching system</p>
-
-<h3 id="monitoring">Monitoring</h3>
-
-<p><em>Metric collection service</em><br />
-As a web operations engineer working on the service<br />
-So that we can collect large numbers of time series metrics from the running service<br />
-I want to install and configure a metric collection system</p>
-
-<p><em>Application running monitoring checks</em><br />
-As a web operations engineer working on the service<br />
-So that we can run checks against metrics from the metrics system<br />
-And so that we can run active checks based on arbitrary code<br />
-I want to install and configure a monitoring system</p>
-
-<p><em>Smoke tests</em><br />
-As a developer working on the service<br />
-So that I know that I haven’t broken anything when deploying my application<br />
-I want a series of smoke tests to be run after all deployments</p>
-
-<p><em>Application metrics</em><br />
-As a developer working on the service<br />
-So that I can gain visibility of how my application is running in production<br />
-And so we can find and fix problems with it quickly<br />
-I want a simple way of instrumenting my application to feed metrics to the metrics system</p>
-
-<p><em>System metrics</em><br />
-As a web operations engineer working on the service<br />
-So that we can identify and fix problems with the system, ideally before they occur<br />
-I want to set up collection of low level system metrics like load, disk, network io, etc.</p>
-
-<p><em>Security monitoring</em><br />
-As a web operations engineer working on the service<br />
-So that we notice quickly and are alerted to any incidents with a security flavour<br />
-I want to configure suitable security monitoring tools</p>
-
-<p><em>Notifications</em><br />
-As a web operations engineer or developer supporting the service<br />
-So that I know about any issues as they happen<br />
-I want to set up suitable notifications from the monitoring system</p>
-
-<p><em>Transactional monitoring</em><br />
-As a developer working on a transactional service<br />
-So that we can block fraudulent or otherwise suspect transactions<br />
-I want to install and configure a transactional monitoring system with suitable rules</p>
-
-<p><em>External monitoring</em><br />
-As the service manager for the service<br />
-So that in the event of a failure of the monitoring system<br />
-And so that the service is monitoring from outside our local network<br />
-I want an external monitoring capability with basic checks to monitoring service uptime</p>
-
-<p><em>Monitoring data feed from infrastructure provider</em><br />
-As a web operations engineer working on the service<br />
-So that I am aware of problems in the hypervisor, physical or network infrastructure<br />
-I want a feed of monitoring data from the Infrastructure supplier</p>
-
-<h3 id="logging">Logging</h3>
-
-<p><em>Log collection</em><br />
-As a web operations engineer working on the service<br />
-So that I can easily see everything that is happening in specific applications<br />
-I want to collect all the logs from applications running on the same host in one place</p>
-
-<p><em>Log aggregation</em><br />
-As a web operations engineer working on the service<br />
-So that I don&rsquo;t have to go to an individual machine to view its logs<br />
-I want all logs from all machines to be aggregated together</p>
-
-<p><em>Log storage</em><br />
-As a web operations engineer working on the service<br />
-So that logs can be kept for a suitable period of time<br />
-I want to provision enough storage for log archiving</p>
-
-<p><em>Log viewing</em><br />
-As a web operations engineer working on the service<br />
-So that I can see what is happening across the infrastructure<br />
-I want a mechanism for viewing and searching logs in as near real time as possible</p>
-
-<p>As a developer working on the service<br />
-So that I can extract information from logs to aid with improving the service<br />
-I want a mechanism to run queries across the aggregated logs</p>
-
-<h3 id="configuration-management">Configuration management</h3>
-
-<p><em>Configuration management client</em><br />
-As a web operations engineer working on the service<br />
-So that changes to server configuration can be made safely and quickly<br />
-I want to install software to manage configuration management</p>
-
-<p><em>Configuration management database</em><br />
-As a web operations engineer working on the service<br />
-So that configuration changes are tracked over time<br />
-And so that current state of available to query<br />
-I want to install software to manage a configuration management database</p>
-
-<p><em>Configuration management server</em><br />
-As a web operations engineer working on the service<br />
-So that all nodes do not have all configuration information<br />
-I want to install software to allow centralised management of Configuration management code</p>
-
-<h3 id="deployment">Deployment</h3>
-
-<p><em>Configuration management code deployment mechanism</em><br />
-As a web operations engineer working on the service<br />
-So that configuration changes can be made safely and in an auditable manner<br />
-I want a deployment process and tooling for configuration management code</p>
-
-<p><em>Application deployment mechanism</em><br />
-As a developer working on the service<br />
-So that changes to applications can be made available to users<br />
-And so that changes are made in a safe and auditable manner<br />
-I want a deployment process and tooling for application code</p>
-
-<p><em>Release tracking</em><br />
-As the service manager for the service<br />
-So that we have an auditable log of what was changed when by whom<br />
-I want an up-to-date list of releases to be maintained</p>
-
-<p><em>Packaging</em><br />
-As a web operations engineer working on the service<br />
-So that we don’t have to compile customised applications from source before using them<br />
-And so we can take advantage of dependency and version management capabilities of the OS<br />
-I want a process and tooling for creating our own system packages</p>
-
-<p><em>Orchestration</em><br />
-As a web operations engineer working on the service<br />
-So that I can run commands across multiple instances quickly<br />
-I want tooling in place which allows some orchestration based on the current instances</p>
-
-<p><em>Database migrations</em><br />
-As a web operations engineer working on the service<br />
-So that I can have confidence that database migration scripts will work when applied to production<br />
-I want database migrations to be deployed through the same sequence of environments as code changes</p>
-
-<p><em>Management of secrets</em><br />
-As a web operations engineer working on the service<br />
-So that I can ensure confidential communication between particular parts of the system<br />
-I want a process or tool for managing secrets such as keys and passwords</p>
-
-<h3 id="access-control">Access control</h3>
-
-<p><em>End user devices</em><br />
-As the service manager responsible for the service<br />
-So that management access to the infrastructure can be locked down to prevent unauthorised access<br />
-I want to know what kind of protection the management end user devices require</p>
-
-<p><em>User directory</em><br />
-As a web operations engineer<br />
-So that we do not have to maintain multiple lists of privileged users<br />
-And so that users can be added and removed once in a central fashion<br />
-I want to install and configure something to provide a single user directory</p>
-
-<p><em>Key based authentication</em><br />
-As a web operations engineer<br />
-So that we are not vulnerable to password based login attempts to individual servers<br />
-I want to set-up public key based authentication</p>
-
-<p><em>Single sign-on</em><br />
-As a web operations engineer<br />
-So that any third party web interfaces we use can be accessed via a single login<br />
-I want to install and configure a single sign-on systems</p>
-
-<p><em>Network/VPN configuration</em><br />
-As a web operations engineer<br />
-So that management functions can not be accessed via the public internet<br />
-And so that we reduce the surface area for attack<br />
-I want to restrict management access to a VPN and/or non-public restricted network</p>
-
-<h3 id="provisioning">Provisioning</h3>
-
-<p><em>Other environments</em><br />
-As the service manage for the service<br />
-So that I can see the very latest working version of the service at any time<br />
-And so I can share that with people in and outside the team<br />
-I want a preview environment to be provisioned which is similar to production</p>
-
-<p>As a web operations engineer working on the service<br />
-So that the we have a clean environment in which to test production deployments<br />
-And so that we have a secure environment to test with production-like data<br />
-I want to provision a staging environment which mimics production as closely as possible</p>
-
-<p><em>Production environment</em><br />
-As a web operations engineer working on the service<br />
-So that the service can launch to the public<br />
-I want to provision a production environment</p>
-
-<p><em>Base image(s)</em><br />
-As a web operations engineer working on the service<br />
-So that all server instances start out with sensible security settings<br />
-I want to create a base image running the chosen operating system with hardened configuration</p>
-
-<p><em>Public network interfaces</em><br />
-As a web operations engineer working on the service<br />
-So that the application only receives wanted traffic from the internet<br />
-And so that we don’t accidentally expose sensitive or insecure components of the system<br />
-I want to configure and test the public network interfaces for the system</p>
-
-<p><em>Private network configuration</em><br />
-As a web operations engineer working on the service<br />
-So that individual internal components can only talk with known parts of the system<br />
-And so we limit the extent of any security breach<br />
-I want to configure and test the private network interfaces for the system</p>
-
-<p><em>Network codes of connection</em><br />
-As a web operations engineer working on the service<br />
-Given I need to communicate with a system only available on a Government network<br />
-So that the two systems can talk with each other<br />
-I want to meet the code of connection requirements and configure access to the network</p>
-
-<p><em>Management network</em><br />
-As a web operations engineer working on the service<br />
-So that network traffic used to manage the infrastructure is separate from public traffic<br />
-And so we can monitor irregularities in network traffic separately<br />
-I want to configure a separate management network</p>
-
-<p><em>Platform load balancers</em><br />
-As a web operations engineer working on the service<br />
-So that we can reduce the number of single points of failure<br />
-And so that we can scale out to deal with a large amount of traffic<br />
-I want to provision load balancers to distribute traffic between multiple instances</p>
-
-<p><em>Platform firewalls</em><br />
-As a web operations engineer working on the service<br />
-So that unwanted traffic can be filtered before it enters our virtual infrastructure<br />
-I want to configure the external facing IaaS firewalls to only allow certain traffic</p>
-
-<p><em>Dynamic environments</em><br />
-As a web operations engineer working on the service<br />
-So that we are not constrained by a fixed number of environments<br />
-And so we can easy run full stack tests or experiments<br />
-I want to be able to easily provision an environment running the full service</p>
-
-<p><em>Elastic scaling</em><br />
-As a web operations engineer working on the service<br />
-So that the service can automatically deal with unexpected increases in traffic<br />
-I want to configure tooling to automatically scale the number of instances based on load</p>
-
-<h3 id="security-controls">Security controls</h3>
-
-<p><em>Operating system hardening</em><br />
-As a web operations engineer<br />
-So that we are making use of built-in operating system security controls<br />
-I want to automate a default set of hardening rules for our chosen operating system</p>
-
-<p><em>Malware detection</em><br />
-As a web operations engineer<br />
-So that instances which may be compromised can be dealt with quickly<br />
-I want to automate the detection of potential malware</p>
-
-<p><em>Intrusion detection</em><br />
-As a web operations engineer<br />
-So that instances which are being attacked or probed can defend themselves<br />
-I want to configure an intrusion detection and prevention system</p>
-
-<p><em>Virus scanning</em><br />
-As a web operations engineer<br />
-So we can be sure that files in the system don&rsquo;t have viruses<br />
-I want to install virus scanning for files passing a network boundary</p>
-
-<p><em>Host firewalls</em><br />
-As a web operations engineer<br />
-So that the surface area for attack is limited<br />
-And so that services which should only be available locally aren&rsquo;t exposed on the internet<br />
-I want to install and configure a local firewall</p>
-
-<p><em>On instance event auditing</em><br />
-As a web operations engineer<br />
-So that I know when things like logins or other sensitive events happen on instances<br />
-I want to set-up some auditing of events</p>
-
-<p><em>Rate/connection limiting</em><br />
-As a web operations engineer<br />
-So that large spikes in traffic from a single source don&rsquo;t overwhelm application<br />
-I want to configure some level of rate and connection limiting for web requests</p>
-
-<p><em>Secure storage of key material</em><br />
-As a web operations engineer<br />
-So that any highly sensitive cryptographic keys are not lost, resulting in a compromise<br />
-I want to have a mechanism in place to securely store key material</p>
-
-<p><em>Third party DDoS protection</em><br />
-As a web operations engineer<br />
-So that a the site does not go down under a denial of service attack<br />
-I want to purchase and/or configure a level of DDoS protection</p>
-
-<h3 id="testing">Testing</h3>
-
-<p><em>Performance testing</em><br />
-As the service manager responsible for the service<br />
-So that we know the service will be fast and responsive under realistic traffic<br />
-I want to be able to run a comprehensive performance test suite against the service</p>
-
-<p><em>As a developer working on the service</em><br />
-So that we know changes to the code do not negatively affect performance<br />
-I want the performance test suite to run as part of the continuous integration system</p>
-
-<p><em>Load testing</em><br />
-As the service manager responsible for the service<br />
-So that we know the service will still be working under larger amounts of traffic than are expected<br />
-I want to be able to run a comprehensive load test suite against the service</p>
-
-<p><em>Application penetration testing</em><br />
-As the service manager responsible for the service<br />
-So that the service does not get compromised due to a vulnerability<br />
-And so we meet our accreditation obligations<br />
-I want to run a suitable number of penetration tests against the applications under development</p>
-
-<p><em>As the service manager responsible for the service</em><br />
-So that the service does not get compromised due to a vulnerability<br />
-And so we meet our accreditation obligations<br />
-I want to run a suitable number of penetration tests against third party installed applications used as part of the service</p>
-
-<p><em>Infrastructure penetration testing</em><br />
-As the service manager responsible for the service<br />
-So that the service does not get compromised due to a vulnerability<br />
-And so we meet our accreditation obligations<br />
-I want to run a suitable number of penetration tests against the infrastructure configuration</p>
-
-<h3 id="operating-system">Operating system</h3>
-
-<p><em>Operation system selection</em><br />
-As a web operations engineer working on the service<br />
-So that we have a clear path to receiving security updates<br />
-And so we can more easily find support for our systems<br />
-I want to select and install a suitable default operating system for the service</p>
-
-<p><em>File systems</em><br />
-As a web operations engineer working on the service<br />
-So that we get the best possible performance and reliability from the disk<br />
-I want to select a suitable file system and partition layout</p>
-
-<p><em>Resource isolation</em><br />
-As a web operations engineer working on the service<br />
-So that noisy applications cannot affect other applications on the instance<br />
-I want to be able to isolate running applications from each other in terms of memory and CPU</p>
-
-<p><em>Read-only file systems</em><br />
-As a web operations engineer working on the service<br />
-So that I can protect against files being changed due to compromises in the application<br />
-I want to be able to configure a read-only file system if appropriate.</p>
 
       
     </div>

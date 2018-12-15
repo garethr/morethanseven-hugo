@@ -63,6 +63,49 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/08/14/geekout/">Geekout</a>
+      </h1>
+      <span class="post-date">Aug 14, 2006 &middot; 2 minute read
+      </span>
+      
+      <p>
+On occasion I even surprise myself. Sometimes you just need to geek. Rob at work was discussing his ideal device, basically something that would read text based RSS feeds to him while in the bath in the morning. Lazy I know.
+
+</p>
+<p>
+I thought to myself <em>That cant be too difficult</em> and I’ve never played with any text to speach stuff before and off I went. A few hours later and I just got my Windows machine to read out the top story from this site.
+
+</p>
+<p>
+Python is so cool to just hack in. Did I mention that before? I’ve yet to do anything <em>real</em> in it, but playing around with code is nice. Anyway, on with a solution;
+
+</p>
+<p>
+Lots of things to install first. As mentioned I used Windows, in this case so I could access the Win32 Speech API. I looked at using <a href="http://www.cstr.ed.ac.uk/projects/festival/">Festival</a> on Unix but left that for now. Tools of choice were <a href="http://python.org">Python</a> 2.4 with the <a href="http://sourceforge.net/projects/pywin32/">Win32 extensions</a>. A couple of Python modules do most of the work. First up <a href="http://sourceforge.net/projects/uncassist">pyTTS</a> which deals with the text to speach and SAPI integration. Next comes the <a href="http://feedparser.org/">Feedparser</a> module. I’d heard this mentioned by <a href="http://simon.incutio.com/archive/2006/08/08/ydn">Simon</a> over on the <a href="http://developer.yahoo.com/python/python-rss.html">Yahoo Python developer network</a> and it really is nice.
+
+</p>
+<p>
+The rest was easy.<code>
+
+    import pyTTS
+    import feedparser
+    d = feedparser.parse("http://morethanseven.net/rss")
+    tts = pyTTS.Create()
+    tts.Speak(d['items'][0].description)
+
+</code>
+
+</p>
+<p>
+Ok, so this isn’t an application. Just a proof of concept but you get the idea and I dont really want or need this app anyway. Why then? because I thought I could. Oh, and Python’s interactive prompt is so cool. I want one for everything.
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2006/08/07/some-start-of-the-week-fun-with-yahoo/">Some start of the week fun with Yahoo!</a>
       </h1>
       <span class="post-date">Aug 7, 2006 &middot; 1 minute read
@@ -477,29 +520,6 @@ I’ve been doing all sorts of stuff I want to blog about; I’m doing a Masters
 </p>
 <p>
 Oh, and apologies for the <a href="http://www.hicksdesign.co.uk/journal/ical-schedule-for-media#comment">delay</a> in getting <a href="http://www.google.com/calendar/ical/rp1ahkacn9nkhuqnjtihno34mg@group.calendar.google.com/public/basic">the calendar</a> updated. And I’ve no idea why some people couldn’t find it with the search tool. Anyway, updated now, so at least people shouldn’t get lost tomorrow.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/06/02/moving-and-friends/">Moving and Friends</a>
-      </h1>
-      <span class="post-date">Jun 2, 2006 &middot; 1 minute read
-      </span>
-      
-      <p>
-I’m afraid you’ll have to bare with me at the moment. I’m busy, moving house, have no internet outside work (except open wi-fi points) and oh, did I mention I’m busy?
-
-</p>
-<p>
-I have the usual raft of ideas, inability to really finish things unless I try and a dangerous penchant for playing with ever more scripting languages (<a href="http://media.wu-wien.ac.at/">XOTcl</a> anyone?).
-
-</p>
-<p>
-Oh, the friends bit? Inspired by <a href="http://molly.com">Molly</a> and her incredible ability to be open about her life, I thought I’d say a huge <strong>Thank you</strong> to everyone who helped me move house this week. Much appreciated. It could have gone oh so wrong, but everyone chipping in meant everything worked out just fine.
 
 </p>
 

@@ -63,6 +63,80 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/04/14/where-to-put-all-that-data-s3-resources/">Where to put all that data? S3 resources</a>
+      </h1>
+      <span class="post-date">Apr 14, 2006 &middot; 2 minute read
+      </span>
+      
+      <p>
+Lets face it, web apps are getting bigger. At least in terms of the amount of data they store. Take two big poster siblings, <a href="http://flickr.com">Flickr</a> and <a href="http://del.icio.us">del.icio.us</a>. All those user accounts, all that interlinking between then, all that meta data. <a href="http://technorati.com">Technorati</a> is another example – trying to keep up with all blogs everywhere in as near to real time as possible has got to be seriously data intensive. And at times this has shown through, all have had <a href="http://blog.del.icio.us/blog/2005/12/continued_hiccu.html">problems</a> at <a href="http://www.businessweek.com/the_thread/blogspotting/archives/2005/07/why_technorati.html">some</a> <a href="http://ishavingamassage.com/">point</a> in their short histories.
+
+</p>
+<p>
+If you are looking to get into the world of big, community focused, web apps then you need space. And I know I cant afford a huge outlay on storage and bandwidth, even most small web shops would probably have something of a problem with the large outlay, limited short term money making problem.
+
+</p>
+<p>
+An interesting solution to this would appear to exist in the shape of <a href="http://aws.amazon.com/s3">S3</a> from <a href="http://amazon.com">Amazon</a>. It has been around a little time, and <a href="http://adactio.com/journal/1102/">others</a> have been intrigued enough to mention it, but I decided not to ramble on until I’d had a brief play. Well, it’s quite cool.
+
+</p>
+<p>
+Amazon themselves provide a number of <a href="http://developer.amazonwebservices.com/connect/kbcategory.jspa?categoryID=47">useful code examples</a>
+in different languages, including Perl, Python, C\#, Java, Ruby and PHP. They also provide examples of the raw HTTP requests for thos that way inclined.
+
+</p>
+<p>
+This openness (OK, so they dont really have a choicee, the whole product consists of an open API, it being closed would seem to limit it’s usage!), as always, has allowed the community to run with the idea, building up sample apps and some easy to use wrappers:
+
+</p>
+<ul>
+<li>
+<a href="http://townx.org/blog/elliot/s3_rails">Rails example</a>
+
+</li>
+<li>
+<a href="http://caffo.backpackit.com/pub/502395">Another Rails example</a>
+
+</li>
+<li>
+<a href="http://www.other10percent.com/?p=15">BitBucket for Python</a>
+
+</li>
+<li>
+<a href="http://www.neurofuzzy.net/2006/03/17/amazon-s3-php-class/">PHP 4 class</a>
+
+</li>
+<li>
+<a href="http://blog.apokalyptik.com/?p=12">PHP 5 example</a>
+
+</li>
+<li>
+<a href="http://search.cpan.org/dist/Net-Amazon-S3/">Perl CPAN module</a>
+
+</li>
+<li>
+<a href="http://www.carion.org/s3dav/index.html">Java based webDAV server</a>
+
+</li>
+</ul>
+<p>
+Nothing here feels complete as yet. Most are early hacks by people getting on board early and giving the rest of us a starting point.
+
+</p>
+<p>
+Overall I like things like S3. If it works reliably and scales well then it could become something that just sits behind all sorts of <a href="http://aws.typepad.com/aws/2006/03/firefox_s3_some.html">realy</a> <a href="http://www.holovaty.com/blog/archive/2006/04/07/0927">cool</a> <a href="http://jkeyes.com/2006/03/ten_ideas_for_amazon_s3_applic.php">ideas</a>, preventing data loss and removing another potential headache for the small developer.
+
+</p>
+<p>
+Any other resources, or ideas, more than welcome.
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2006/04/07/speak-and-a-drink/">Speak and a Drink</a>
       </h1>
       <span class="post-date">Apr 7, 2006 &middot; 2 minute read
@@ -489,41 +563,6 @@ Pointing at Google maps as an example of Ajax is like pointing at a ferari on a 
 </blockquote>
 <p>
 We closed up the afternoon with some discussion of the accessibility concerns, some of the development issues (wireframing ajax apps anyone?) and a whistle stop look at frameworks. All in all a very useful day, both personally (ie. I had fun) and professionally (I think my employer got value for money.) It also reinforced what I’ve been thinking more and more recently. It’s nearly all about design when it comes to real work. <em>When</em> and <em>where</em> and <em>why</em> must come first, and <em>how</em> is often more trivial than you think.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2006/02/14/easy-for-whom-a-minor-rant-about-help-from-framewo/">Easy for whom? - a minor rant about help from frameworks</a>
-      </h1>
-      <span class="post-date">Feb 14, 2006 &middot; 2 minute read
-      </span>
-      
-      <p>
-Some people think that <a href="http://www.lscheffer.com/malbolge.shtml">programming should be hard</a> while others, like me, quite like the idea of anyone being able to build things, especially web sites. To me the fact that either of my housemates (non IT types) could probably build a website this evening if they so choose is great. And to be honest if they did I’d be unlikely to complain about the code or the programme they chose to build it with (Ok, I would, but that’s me and I’d like to pretend I wouldn’t.)
-
-</p>
-<p>
-It’s pretty unlikely however that either of them, or any beginnner, would go along the route of choosing say <a href="http://asp.net">ASP.NET</a> or <a href="http://rubyonrails.com">Ruby on Rails</a> for that first site. Which leads me to some sort of assumption – <em>that both of these</em> are for experts and <a href="http://www.molly.com/2005/11/14/web-standards-and-the-new-professionalism/">professionals</a>. There are other facets which could be used to back up this argument but I dont want to go on – rails making use of the command line (in very cool ways) or ASP.NET requiring IIS configuration for a start. Not something I fancy talking non experts through to be fair.
-
-</p>
-<p>
-Using that assumption brings me nicely to helpers. Both are frameworks that try (and in may places succeed) in making life easier for developers. This is a good thing. What’s not so good is where this goes too far, in my opinion. ASP.NET <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfsystemwebuiwebcontrolslinkbuttonclasstopic.asp">linkButtons</a> are simply Evil. No questions. At All. Stop using them. Now. Rails wades in as well with it’s reliance, when it comes to certain controls, on inline Javascript. Did someone not get the <a href="http://adactio.com/atmedia2005/">memo</a>?
-
-</p>
-<p>
-As good web standards people we have divided content from presentation. Behaviour from both (sort of). Now we have great (in both senses of the word) frameworks coming along and riding roughshod over our labour of love to make the web a better place. Making the developers life easier, but impacting negatively on the end users. Such wide ranging and powerful tools for experts need not treat all users as experts in everything. ASP.NET (or Ruby on Rails) does it so it must be OK? cannot be allowed to undo good works.
-
-</p>
-<p>
-Lots of similar talk abounds at the moment, with certainly some light in some of these areas showing through. Visit <a href="http://www.vivabit.com/bollocks/2006/02/09/rails-is-the-devil-in-your-client-side-shoulder">Dan</a> and <a href="http://domscripting.com/blog/display/49">Jeremy</a> for more.
-
-</p>
-<p>
-end Rant – mmm Rails
 
 </p>
 

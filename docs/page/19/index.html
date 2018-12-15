@@ -63,6 +63,29 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/02/07/xmpp-and-offline-processing-coming-google-app-engi/">XMPP and offline processing coming to Google App Engine</a>
+      </h1>
+      <span class="post-date">Feb 7, 2009 &middot; 1 minute read
+      </span>
+      
+      <p>Three weeks ago I pondered whether <a href="http://morethanseven.net/2009/01/15/are-xmpp-and-offline-processing-coming-google-app-/">XMPP and offline processing were coming to Google App Engine?</a>. It was a hunch based on the upcoming release of Jaiku on App Engine. I reasoned you couldn&rsquo;t really do it without XMPP and offline processing APIs. Looks like I was right.</p>
+
+<p>Today <a href="http://bitworking.org/news/">Joe Gregorio</a> announced on the <a href="http://googleappengine.blogspot.com/">App Engine Blog</a> an <a href="http://googleappengine.blogspot.com/2009/02/roadmap-update.html">update to the roadmap for the next 6 months</a>; including</p>
+
+<ul>
+<li>Support for running scheduled tasks</li>
+<li>Task queues for performing background processing</li>
+<li>Ability to receive and process incoming email</li>
+<li>Support for sending and receiving XMPP (Jabber) messages</li>
+</ul>
+
+<p>Colour me excited. This could be the point were we start seeing more and more interesting IM interfaces. And this ticks off several of my must haves for App Engine.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/02/05/hosting-images-app-engine/">Hosting Images on App Engine</a>
       </h1>
       <span class="post-date">Feb 5, 2009 &middot; 3 minute read
@@ -360,25 +383,6 @@ next: get details about the next track in the list</p>
 <p>All of these issues are high up on the <a href="http://code.google.com/p/googleappengine/issues/list">App Engine issues list</a> and solutions to these two outstanding problems would move App Engine, in my opinion, to being very cool to being very useful. I&rsquo;ve been impressed with the simple, well designed and well documented current set of APIs and I&rsquo;d love to see a few more added for XMPP and offline processing. If the Jaiku code is open source but relies on Google only APIs it would seem a little odd.</p>
 
 <p>So does anyone have any more information on this? Any passing Googlers who can get us an answer?</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/01/14/localbuilder-github/">Localbuilder on GitHub</a>
-      </h1>
-      <span class="post-date">Jan 14, 2009 &middot; 1 minute read
-      </span>
-      
-      <p>One of several little projects I have up and running on <a href="http://github.com">GitHub</a> at present is <a href="http://github.com/garethr/localbuilder/tree/master">LocalBuilder</a>. It&rsquo;s a pretty simple little script which watches for changes in a given directory and when they occur runs a given command. I knocked it together to use to trigger the running of a test suite each time I save files in a project. It&rsquo;s written in Python but you could use it to run commands in any language you like.</p>
-
-<p>It&rsquo;s all pretty simple Python really and is hopefully reasonably commented and tested so if you&rsquo;re interested you can follow along with <a href="http://github.com/garethr/localbuilder/tree/master">the code</a>. If you just want to use the damn thing then:</p>
-
-<pre><code>&lt;code&gt;./localbuilder --path /path/to/watch --command /command/to/execute&lt;/code&gt;
-</code></pre>
-
-<p>It turns out Ruby has a much nicer tool to do this and more in autotest, part of the <a href="http://www.zenspider.com/ZSS/Products/ZenTest/">ZenTest</a> suite of testing tools. I&rsquo;m finding more and more very nice bits of code written in Ruby of late, but that&rsquo;s probably a whole different blog post.</p>
 
       
     </div>

@@ -63,6 +63,45 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2006/01/08/widgets/">Widgets</a>
+      </h1>
+      <span class="post-date">Jan 8, 2006 &middot; 3 minute read
+      </span>
+      
+      <p>
+Of late I’ve got round to installing a few widgets on my computers – <a href="http://www.apple.com/macosx/features/dashboard">Dashboard</a> on my Mac and <a href="http://widgets.yahoo.com">Yahoo Widgets</a> on Windows (no linux widgets as yet). I’m actually still running OS X 10.3.9 and using the very nice <a href="http://www.mesadynamics.com/amnesty.htm">Amnesty</a> to allow run to Mac Widgets.
+
+</p>
+<p>
+I’ve been meaning to play with widgets for a while, mainly because I’ve been using HTML, CSS and Javascript for years and widgets simply reuse these technologies – making it easy to just jump in an make something handy. I’m also a fan of web services in general and widgets provide another handy interface to many online services.
+
+</p>
+<p>
+I’ve mainly been using the <a href="http://www.haveamint.com/">Junior Mint</a> widget (and <a href="http://www.widgetgallery.com/view.php?widget=37576">Minty</a>) for keeping an eye on my site stats, I think I mentioned before I’m hooked). I’ve also been using WiFi monitoring widgets, battery monitoring widgets and looking at the <a href="http://backpackit.com">backpack</a> <a href="http://www.chipt.com/">widget</a> which looks nice.
+
+</p>
+<p>
+As for having a go at developing them – I just made available my first go, a widget to keep track of the <a href="http://morethanseven.net/atmedia2006">@media2006 feed agregator</a> I have built. It’s relatively simply – it polls the site for a couple of variables and displays them across a couple of panes. The numbers in question are the total number of posts, the number of new posts this week and today – as well as a countdown to the event. I had to do a little work to expose these properties in an XML format from the site but nothing major.
+
+</p>
+<p>
+I learned by looking at a couple of <a href="http://developer.apple.com/documentation/AppleApplications/Conceptual/Dashboard_Tutorial/index.html">tutorials</a> as well as existing widgets. Disecting code prooved the most useful – the majority of tutorials seemed to provide good <em>Hello World</em> examples but you could probably guess most of that. If anyone has any good intermediary or advanced widget tutorials then let me know.
+
+</p>
+<p>
+The main problem with the development process was definately the iterative testing. With web pages I tend to work in large steps (with very little testing) early on and then move to more small changes and quick testing later on when it’s down to the details rather than the brush strokes. I’d definately echo the sentiment of others by testing in safari (it uses the same rendering engine) first, and also add that getting all the markup and CSS in place before moving to Javascript is probably the best bet. You really need to test the Javascipt with a real running widget as it has it’s own functions available via the widget object. I’ve heard Apple may be working on a suitable IDE for widgets (my guess would be a tie in with Xcode) and I’ve come across <a href="http://www.widgetfactor.com/factor.php">Wcode</a> which appears to offer some useful tools.
+
+</p>
+<p>
+I’ve not yet looked into the situation with Yahoo Widgets – I intend to port my @media widget to Yahoo as an experiment and we’ll see how that goes (and yes I know that’s the wrong way round – Dashboard was, to some, a copy of Konfabulator, now Yahoo widgets. It’s early days I think for widgets – the move to more of a distributed systems feel, with open APIs and web services, amongst modern web applications would seem to be a perfect match for small desktop applications that tie into them. Watch this space.
+
+</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2006/01/04/media-redux/">@media redux</a>
       </h1>
       <span class="post-date">Jan 4, 2006 &middot; 2 minute read
@@ -522,45 +561,6 @@ After missing <a href="http://dconstruct.org">d.Construct</a> I dont feel two ba
 </p>
 <p>
 So, anyone else going along? Want to meet up? Ideas for accomodation or things to do on the Thursday? See you in February!
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2005/11/20/accessify-rocks-manchester/">Accessify ROCKS Manchester</a>
-      </h1>
-      <span class="post-date">Nov 20, 2005 &middot; 2 minute read
-      </span>
-      
-      <p>
-Back from Manchester after a pretty <a href="http://accessifyforum.com/viewtopic.php?t=3770&#38;postdays=0&#38;postorder=asc&#38;highlight=meetup&#38;start=150">good weekend</a> all in all.
-
-</p>
-<p>
-It didn’t start particularly well. Very briefly I was late getting to the station. Missed train. Waited an hour and the next train was delayed half an hour. Missed meeting everyone at the station and had no clue where the place was. After a trip (in the opposite direction to the pub) to the tourist information centre I finally got there and things picked up markedly.
-
-</p>
-<p>
-Present where <a href="http://www.splintered.co.uk/">Patrick Lauke</a>, <a href="http://vigo.org.uk">Vigo</a>, <a href="http://www.logohere.co.uk/">Andy Saxton</a>, <a href="http://www.thepickards.co.uk">Jack Pickard</a>, <a href="http://www.pixeldiva.co.uk">Pixeldiva</a>, <a href="http://www.xhtmlcoder.com">Robert Wellock</a>, <a href="http://accidentalsmallholder.net">Dan Champion</a> and myself.
-
-</p>
-<p>
-We started out in a small deserted bar where Patrick had booked a table (including a reserved sign with bad fonts). Considering that we accounted for the vast majority of people in their throughout the afternoon this was mildy amusing.
-
-</p>
-<p>
-I missed most of the introductions but not to fear. Conversation jumped around – people who made it to <a href="http://dconstruct.org">d.Construct</a> filled everyone else in with the highlights and the behind the scenes gossip. Tales of massages and ladies mainly. We had a wireless laptop connection and browsed around a little. Bad examples of error messages (I’ll dig out the links later on), brand new public sector sites that simply consist of sliced up images (including links with blue underlines and ovely image maps) and goings on at the BBC. But we cant speak about the later. Some talk as well on privacy issues tied in with the whole open API goings on and an idea we intent to sell to google – stalking.google.com – which is fairly self explanatory but we got into a worrying level of detail!
-
-</p>
-<p>
-After a brief break to stop off at the hotel, and for some of the group to depart, we got some Indian food on the way to a pub recommended by Patrick, who was going to meet the rest of us there. It was a ROCK pub. Rage on the jukebox, lots of proper beers, people wearing black, etc. All of a sudden we found something else we had in common – musical tastes. More discussions going backwards and forwards between the music (what’s that tune?) and the state of the industry. All good fun.
-
-</p>
-<p>
-Overall, another enjoyable meetup. Thumbs up to everyone turning up and I’ll look forward to the next one. I’ll post links and the obligatory <a href="http://flickr.com">flick</a> details once everyone else has their say.
 
 </p>
 

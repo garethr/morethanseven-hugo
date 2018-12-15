@@ -63,6 +63,26 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2008/03/19/own-your-endpoints/">Own your endpoints</a>
+      </h1>
+      <span class="post-date">Mar 19, 2008 &middot; 2 minute read
+      </span>
+      
+      <p>If <a href="http://google-code-updates.blogspot.com/2008/02/urls-are-people-too.html">URLs are people too</a> then you better make sure you control your URLs.</p>
+
+<p>Although some people use blog hosting services like <a href="http://www.blogger.com">blogger</a> the majority of serious bloggers, web designers or companies generally use their own domain name to host their site. Controlling your own domain name is increasingly important when that URL is a representation of you on the internet.</p>
+
+<p>With all these social networks we&rsquo;re starting to have pieces of us scattered all over the place. I&rsquo;ve joked previously about the utility of domain names over real names for interpersonal communication but this breaks down a little when not all the urls that represent me are owned by me. I control morethanseven.net/photos but I only have some influence over <a href="http://flickr.com/photos/garethr">flickr.com/photos/garethr</a>. With external hosts you also need to be aware of cybersquatting. I own morethanseven.net so no one else can use it. However with services that give you your own URL as part of registration everywhere people can cybersquat in hundreds of new domains that you might not even know about.</p>
+
+<p>It&rsquo;s not just web pages you have to worry about. Feeds are another example of URLs you just might want to keep control over. This last one is also something I see lots of people handing off to others - specifically <a href="http://feedburner.com">Feedburner</a>. Now I&rsquo;m a big fan of feedburner and use it for the feeds on this site. But I don&rsquo;t use the feedburner URL, anyone subscribing to the feeds here does so using morethanseven.net/feed/. If I decide to stop using feedburner I can, without having to upset the few people who subscribe to it by moving my feed address. It&rsquo;s the same with email addresses; I love gmail but rarely actually give my gmail email address out.</p>
+
+<p>So, start looking after your domain names a little more carefully. They are pieces of you scattered around the internet, and losing control of them is going to become increasingly socially painful.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2008/03/14/accepted-for-xtech/">Accepted for Xtech</a>
       </h1>
       <span class="post-date">Mar 14, 2008 &middot; 3 minute read
@@ -578,60 +598,6 @@ pear install phing/phing&lt;/code&gt;
 <p>One particular thorny problem I wasn&rsquo;t aware of was issues surrounding accessibility. <a href="http://www.brucelawson.co.uk/index.php/2008/accessibility-implications-microsoft-versioning/">Bruce Lawson</a> has some of the details but in short by locking a large number of sites into the ways of IE7 we essentially freeze the (poor) state of accessibility on the web. <a href="http://splintered.co.uk">Patrick Lauke</a> also raises a related issue in the comments regarding further alienating screen reader and assistive technology developers. These points for me are ones I want addressing by Microsoft and one&rsquo;s without resolution which would make me change my mind on this whole issue of defaults.</p>
 
 <p>So, the jury is still out in my mind. I hope it is in the minds of those working closer to the heart of this problem at Microsoft. Like <a href="http://molly.com">Molly</a> I&rsquo;m glad this issue has been raised now, rather than simply revealed at launch. I just hope the reason for that was to get the sort of high quality feedback we&rsquo;re seeing in some areas of the community in order to test the waters and come to a consensus.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2008/01/22/who-loses-out-to-x-ua-compatible/">Who loses out to X-UA-Compatible?</a>
-      </h1>
-      <span class="post-date">Jan 22, 2008 &middot; 4 minute read
-      </span>
-      
-      
-
-<p>If you work on the web you&rsquo;ll probably have already seen or noted the existence of the <a href="http://alistapart.com/issues/251">latest issue of A List Apart</a>:</p>
-
-<ul>
-<li><a href="http://alistapart.com/articles/beyonddoctype">Beyond DOCTYPE: Web Standards, Forward Compatibility, and IE8</a></li>
-<li><a href="http://alistapart.com/articles/fromswitchestotargets">From Switches to Targets: A Standardista&rsquo;s Journey</a></li>
-</ul>
-
-<p>My twitter feed positively exploded with negative feedback on this issue but I&rsquo;ve only just got round to reading (and re-reading) the various interesting articles and (some half through through) comments. I though I&rsquo;d have a think through who this affects.</p>
-
-<p>What we&rsquo;re disucssing is either adding a meta element to your documents or alternatively sending the relevant HTTP header. The code for that looks like:</p>
-
-<pre><code>&lt;code&gt;&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=8&quot; /&gt;&lt;/code&gt;
-</code></pre>
-
-<h3 id="ie-users">IE Users</h3>
-
-<p>Users of Internet Explorer get a bum deal here I think. Their browser is going to get bigger - potentially a lot bigger. With all those rendering engines rolled into one it&rsquo;s also likely to need lots of memory. How this affects the mobile version of IE is anyones guess. Memory and file size are even more important here.</p>
-
-<h3 id="other-browser-vendors">Other Browser Vendors</h3>
-
-<p>I have a feeling they will all go <em>Meh</em> and move along as if nothing happened. Certainly my experience of upgrades to Firefox, Safari and Opera (including recent bleeding edge versions) doesn&rsquo;t break any of my bits of the web or the bits I frequent.</p>
-
-<h3 id="web-standards-savvy-designers-and-developers">Web Standards Savvy Designers and Developers</h3>
-
-<p>A really cool feature for us designers and developers has gone unmentioned I feel. We&rsquo;ve been asking Microsoft for one application in which we can test all their browsers in. IE8 will be that browser. Think about it. By changing the contents of the meta element (or the header) we can trigger the rendering engine to use IE6, IE7 or IE8.</p>
-
-<p>I&rsquo;m a big fan of the whole progressive enhancement approach, using new browser features that not everyone supports (generated content, CSS3 selectors, etc.) in a way that they don&rsquo;t affect older browsers. If I were to use a feature not yet supported by IE7 but expected in IE8 for instance in this way I would expect it work in IE8. If I include an IE7 <em>X-UA-Compatible</em> declaration this won&rsquo;t happen. Which is why I probably won&rsquo;t include one. The problem is if I don&rsquo;t include it at all I still have the same problem. I&rsquo;ll come back to the solution (and the problem with the solution) in a moment.</p>
-
-<h3 id="other-web-designers-and-developers">Other Web Designers and Developers</h3>
-
-<p>Not everyone is using Web Standards, and even less get progressive enhancement. Most of the web is broken and we <em>are not going to fix this</em>. Virtually no one thinks XHTML2 is a good idea because it starts with this fact and says <em>&ldquo;Let&rsquo;s start again, but get it right this time&rdquo;</em>. The fact that all those websites (and more importantly for Microsoft the users of those websites) standardise on IE7 is fine by me. IE7 isn&rsquo;t that bad remember.</p>
-
-<p>So, all in all I don&rsquo;t see a major problem for me, or other savvy web designers and developers. I have one issue; namely the strong language around the use of <em>edge</em>.</p>
-
-<blockquote>
-<p>This option, though strongly discouraged, will cause a site to target the latest IE browser versions as they release.</p>
-</blockquote>
-
-<p>What this is describing is how things work now. It&rsquo;s also how I want to work - using progressive enhancement to make my websites better when people have browsers that support them. I&rsquo;ll be adding the relevant <em>edge</em> headers to my sites by default as I get a moment to tinker.</p>
-
-<p>In my view this should allow the web to move forward faster with newer features hitting IE sooner, leaving a ghetto populated by IE users who don&rsquo;t upgrade quickly and designers and developers who don&rsquo;t want to be professional about their craft (or tools that aim for the lowest common denominator). Yes, I&rsquo;ll need to add a header to all of my sites in the future but in return I get the latest version of IE that lets me test all previous versions of IE.</p>
 
       
     </div>

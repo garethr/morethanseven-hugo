@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>What is CNAB? &middot; More than seven</title>
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/hyde.css">
+  <link rel="stylesheet" href="/css/poole-overrides.css">
+  <link rel="stylesheet" href="/css/hyde-overrides.css">
+  <link rel="stylesheet" href="/css/hyde-x.css">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link href="/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-435455-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body class="theme-base-08">
+<div class="sidebar">
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIKK3M&placement=morethansevennet" id="_carbonads_js"></script>
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1><a href="/">More than seven</a></h1>
+      <p class="lead">Writing about code. Occasional other topics. Made by <a href="https://twitter.com/garethr">@garethr</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1 class="post-title">What is CNAB?</h1>
+    <span class="post-date">Dec 15, 2018 &middot; 6 minute read
+    </span>
+    
+
+<p>We announced <a href="https://cnab.io">Cloud Native Application Bundles (CNAB)</a> at DockerCon EU and Microsoft Connect just last week, and I spent a bunch of time talking to folks and anwsering questions about it at KubeCon too. As I’m heading home I thought it would be good to write down a few thoughts about what CNAB <em>is</em>. As I see it CNAB is two things:</p>
+
+<ul>
+<li>Formalisation of a pattern we’ve seen for multi-toolchain installers</li>
+<li>Commoditization of the packaging part of the infrastructure-as-code stack</li>
+</ul>
+
+<p>Let’s take each of these in turn.</p>
+
+<h2 id="formalisation-of-a-pattern-we-ve-seen-for-multi-toolchain-installers">Formalisation of a pattern we’ve seen for multi-toolchain installers</h2>
+
+<p>The explosion of APIs for infrastructure services has led to a corresponding explosion of tools to help you manage and orchestrate them. From API clients for individual projects (countless Kubernetes configuration management tools) to cloud-provider specific tools (CloudFormation templates, ARM templates) to high-level DSLs (Ansible, Terraform). Throw in the <a href="http://mikehadlow.blogspot.com/2012/05/configuration-complexity-clock.html">configuration complexity clock</a> (so we have Pulumi in Typescript, Terraform with it’s own HCL DSL, too much YAML everywhere) and we have a lot of tool options. I posit this choice is a good thing, and that we’re never going to see everyone agree on one approach or another. One pattern that has emerged is packaging API clients as Docker images. <a href="https://hub.docker.com/r/lachlanevenson/k8s-kubectl">lachlanevenson/k8s-kubectl</a> has seen 5 million pulls, there are CloudFormation images on Hub that have millions of pulls, the official Terraform image has more than 10 million pulls. There are also lots of projects like <a href="https://github.com/jtbonhomme/terraform-ansible-docker">terraform-ansible-docker</a> which use multiple tools at the same time. CNAB is a formalisation of these patterns.</p>
+
+<h2 id="commoditization-of-the-packaging-part-of-the-infrastructure-as-code-stack">Commoditization of the packaging part of the infrastructure-as-code stack</h2>
+
+<p>There is a now familiar pattern when it comes to infrastructure-as-code tools, namely the introduction of a package format and some form of registry. Puppet and the Forge. Chef and the Supermarket. Ansible and Ansible Galaxy. Terraform and the Module Registry. Everyone basically creates a tar file with some metadata. Not all projects have done this, but most would probably benefit from doing so. Compose files, ARM templates, CloudFormation templates; all are shared predominantly as source artefacts which are copy-and-pasted around.</p>
+
+<p>CNAB aims to commoditize this part of the stack and provide tools for anyone implementing something similar. It’s predominantly undifferentiated heavy lifting. No-one is competing based on the package metadata format so maybe lets build some agreement, some shared tooling and move on.</p>
+
+<h2 id="what-has-this-got-to-do-with-kubernetes">What has this got to do with Kubernetes?</h2>
+
+<p>One point that came up in a few conversations around CNAB was what this has to do with Kubernetes? Typically this came from people so deep into Kubernetes that all they can see is the Kubernetes API. If that’s you then you probably don’t need CNAB, especially at this early stage. You probably think in one of two ways when it comes to application of configuration:</p>
+
+<ul>
+<li>You like the package metaphor and you’re a big fan of Helm</li>
+<li>You don’t like the package metaphor and you use some other tool to access the Kubernetes API more directly</li>
+</ul>
+
+<p>Back to our two original points. When it comes to a multi-toolchain installer, in the case of Kubernetes-only, you might not have multiple toolchains so this point is moot. Everything in your world is just the Kubernetes API.</p>
+
+<p>When it comes to the second point around a standard for packaging, Helm already serves this need within the tight scope of Kubernetes. I fully expect to see (or hey, to build) a Helm plugin which will allow for wrapping a Helm chart in CNAB. There are a few advantages to CNAB support for Helm; a single artefact could include the desired Helm chart and it’s dependent charts and it could include all of the images in use within those charts. That single artefact can be signed and stored in a registry of your choise. But that’s mainly a case of incremental benefit to most Helm users. It’s also theorectical, CNAB is just a specifcation, so concrete things like a Helm plugin still need to be actually built.</p>
+
+<p>What I would say to those that view everything through a Kubernetes lens is that not everyone does. CNAB is mainly for a messier world of multiple toolchains and multiple APIs.</p>
+
+<h2 id="why-you-might-care">Why you might care?</h2>
+
+<p>Depending on your role in the pantheon of software development you may care about one or both of the original points. You may care about them directly (especially if you’re a software vendor) or indirectly (because of what they allow us to collectively build for end-users.)</p>
+
+<p>The story is pretty straightforward if you’re a software vendor. It’s very likely you’re shipping software to customers using multiple toolchains. Either you’re dealing with the complexity of asking customers to install particular tools and providing content for each (say asking users to first run some Terraform code and then run something else) or you’re struggling to get a large number of different teams to use the same tool and cram everything into it. Lots of vendors also have something that looks like a storefront for mixed content, or multiple stores for individual tools. Everyone is getting bored of supporting all the different formats, so a standard here appeals.</p>
+
+<p>From the end user point of view the story is more about future potential. This is analogous to other standards. You might not have read or implemented anything against the OCI image or distribution spec, but you benefit from the compatability between all the different registries and runtimes. If you’ve built a multi-toolchain installer then you at least appreciate one of the problems CNAB aims to solve. But then you already have a point solution and the CNAB tooling is early here. You only benefit from commoditization of the format indirectly, and only if it’s actually adopted by multiple tools. But assuming it is widely adopted, in the future when a nifty new infrastructure as code tool comes along (say like Pulumi recently, or Terraform previously) then you’ll aleady know how to install applications defined using it if it implements the CNAB specifcation. You’ll already have CI/CD toolchains that accomodate CNAB. You’ll already have CNAB-compatible tools for storing and distributing bundles. The typical barriers to entry for yet another tool are reduced.</p>
+
+<h2 id="the-importance-of-agreement">The importance of agreement</h2>
+
+<p>There is a risk with any effort like this, one that aims to solve a general problem at a low level, that the actual user need gets lost. This is one of those solutions which impacts tool builders directly, and end users somewhat indirectly. That means you have to be a certain type of developer to benefit from looking at CNAB today. But if you look at <a href="https://blog.docker.com/2018/12/docker-app-and-cnab/">Docker App</a> you’ll find a much more opinionated tool which just happens to implement CNAB under the hood, without exposing it to end users. The end user benefits there (sharing Compose-based applications on Docker Hub, a single artefact with the application definition and associated images) are much more concrete.</p>
+
+<p>CNAB isn’t about one tool to rule them alI. It’s about building agreement between people and projects solving the same set of problems. That agreement means more time to focus on end users problems rather than undifferentiated heavy lifting and more compatibility between tools. I expect the future to look like a range of completely separate tools for specific formats and toolchains which just happen to be compatible because they implement CNAB. We can then build a whole new set of tools that work across all of these packages, from graphical installers to documentation generation to whatever else we can think of. If that sounds interesting join the conversation around this <a href="https://github.com/deislabs/cnab-spec">new specifaction</a> and lets see if it just might work.</p>
+
+  </div>
+  
+</div>
+
+
+
+
+
+</body>
+</html>
+

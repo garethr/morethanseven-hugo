@@ -63,6 +63,49 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/06/23/ant-web-developers-ii-restart-apache/">Ant for Web Developers II - Restart Apache</a>
+      </h1>
+      <span class="post-date">Jun 23, 2009 &middot; 2 minute read
+      </span>
+      
+      <p>Following on from <a href="http://morethanseven.net/2009/06/22/ant-web-developers-i-backup-config-file/">yesterdays first useful ant task</a>, here&rsquo;s another commonly used task - restarting a remote service. I&rsquo;ve used apache in this example, but it could be any service running on your remote machine and it doesn&rsquo;t have to be the restart command.</p>
+
+<p>In order to do this we&rsquo;ll use the <a href="http://ant.apache.org/manual/OptionalTasks/sshexec.html">sshexec target</a> which has a third party <a href="http://ant.apache.org/manual/install.html#librarydependencies">library dependency</a>. This is the same third party library needed for the scp task in yesterdays post</p>
+
+<p>You need first to download <a href="http://www.jcraft.com/jsch/index.html">JSCH</a> and then compile the source using ant. Just run <em>ant dist</em> in the downloaded folder and you should get a .jar file in the /dist/lib folder. Save this .jar file as as jsch.jar to a folder in your home directory <em>~/.ant/lib</em> where ant can automatically load it. Alternatively you can run ant with the -lib command to load libraries from a different location.</p>
+
+<p>pre. ant -lib /tools/ant-libraries</p>
+
+<p>With that out of the way lets have a look at the task.</p>
+
+<p>pre.</p>
+
+<p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?&gt;
+<project name="example" basedir=".">
+<property name="host" value="{host}"/>
+<property name="username" value="{user}"/>
+<property name="password" value="{password}"/>
+<target name="restart-apache" description="execute a remote command to restart apache">
+<sshexec host="${host}"
+            username="${username}"
+            password="${password}"
+            command="/etc/init.d/apache2 restart"/>
+</target>
+</project></p>
+
+<p>And running it is as simple as:</p>
+
+<p>pre. ant restart-apache</p>
+
+<p>One potential issue with tasks like this is storing the password in the build file in plain text. The target we&rsquo;re using can also use key authentication is you&rsquo;re happy using ssh keys. Alternatively you can set properties on the command line each time you run ant like so.</p>
+
+<p>pre. ant restart-apache -Dpassword={password}</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/06/22/ant-web-developers-i-backup-config-file/">Ant for Web Developers I - Backup Config File</a>
       </h1>
       <span class="post-date">Jun 22, 2009 &middot; 3 minute read
@@ -363,49 +406,6 @@ application = TokenBasedApplication(routes)</p>
 </ul>
 
 <p>Now it&rsquo;s possible to spend too much time playing with small tools that are likely to be peripheral to the bulk of your application. But the number of stories I&rsquo;ve head of people writing their own messages queuing systems in PHP, or using PHPMyAdmin as an application admin interface or ignoring the fact that their fancy new application only supports a few people at once.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/05/21/universal-ie6-css-and-different-types-of-sites/">Universal Internet Explorer 6 CSS and different types of sites</a>
-      </h1>
-      <span class="post-date">May 21, 2009 &middot; 4 minute read
-      </span>
-      
-      <p>Andy Clarke, as only he can, has started something of a slagging match with his proposals for a <a href="http://forabeautifulweb.com/blog/about/universal_internet_explorer_6_css/">single, central IE6 stylesheet</a>. My first impression was that this is basically a much better version of the browser defaults.</p>
-
-<p>Between backslapping and shouts of heresy there are a few good comments floating on the post so far (I&rsquo;d expect more). But most of them seem to assume only two types of website exist:</p>
-
-<ol>
-<li>Websites for <em>clients</em>. You know, business to business or business to consumer sorts of things. Online stores, radio station websites, newspapers, company brochures, etc.</li>
-<li>Personal blogs</li>
-</ol>
-
-<p>Obviously that covers only a fraction of web pages, but it covers a much larger proportion of web sites. What do I mean by that?</p>
-
-<ol>
-<li>Admin interfaces. Available all over the place and often used by a very small number of people.</li>
-<li>Intranets. If your company default browser isn&rsquo;t IE6 then don&rsquo;t spend more time that you have to supporting it.</li>
-<li>Internal application interfaces. Everything from holiday to payroll to IT helpdesk requests are often built as well apps. Again if the audience using them isn&rsquo;t using IE6 then don&rsquo;t waste you&rsquo;re time.</li>
-</ol>
-
-<p>Most people (ok so this might be my opinion) seem to work within small to medium sized agency style places. Smallish companies need to rely more on employees as part of their marketing effort, younger people tend to be more militant and people working for smaller organisations (like Andy) tend to benefit more from a little celebrity. But that ignores an army of people who work in house or in other types of company that just happen to build top notch web sites or applications. I&rsquo;ve now worked in everything from small agencies, via medium sized agencies to freelance and inhouse. They are all different and all place different types of time pressure on the people involved.</p>
-
-<p>Another argument to be had here is summed up by Sion (<a href="http://twitter.com/sionnnn/status/1872141409">http://twitter.com/sionnnn/status/1872141409</a>)</p>
-
-<blockquote>
-<p>if u write code with all browsers in mind from the offset it doesn&rsquo;t take any longer though? hows that commercially unsound?</p>
-</blockquote>
-
-<p>And this is pretty much how I used to work. But this means ignoring whole swathes of the unsupported parts of CSS2 and in particular CSS3. CSS3 doesn&rsquo;t really allow you to make designs that you couldn&rsquo;t make before (ok, that&rsquo;s a little unfair, maybe) but it does allow you to do what you did before <em>much more efficiently</em>. Multi-column layout stuff, multiple background, rounded corners, opacity, RGBa. Smaller stylesheets are easier and quicker to write, test and maintain. And sometimes the time saved is worth more than the additional overhead of writing and maintaining CSS for IE6. Maybe not for a decent sized consumer project with a reasonable team and a few hundred thousand budget. Maybe not for a local council or government site. But for a surprisingly large range of other types of projects this might be a worthwhile approach.</p>
-
-<p>Something else I think that comes through in many of the comments is that it&rsquo;s often seen as the web designers job to fight for things. So we fight to ensure time is spend on making something accessible. We fight to make sure we use valid code wherever possible. We fight for sensible fallbacks when javascript isn&rsquo;t available. But we also get accused of not being able to see both sides and at times being unrealistic. Worth considering with regards peoples initial reactions to this, mine included.</p>
-
-<p>The only thing I would say to anyone looking to use this is don&rsquo;t create your own version. Use the <a href="http://code.google.com/p/universal-ie6-css/">one from google code</a>. As Andy suggests, do suggest improvements, ideally by making the changes yourself presumably along with a solid test case. The time saving benefits basically disappear if we all have to maintain our own versions, before that means we have to test our own versions.</p>
-
-<p>I&rsquo;m not saying <em>ignore IE6</em>, and neither is Andy (I don&rsquo;t think). I&rsquo;m saying pick your battles. I&rsquo;ve build websites to support everything under the sun. Sometimes it&rsquo;s been absolutely the right thing to do, sometimes in hindsight it&rsquo;s probably been a little bit of wasted time. I&rsquo;m sure you can think of similar times from the sites you&rsquo;ve been involved in.</p>
 
       
     </div>

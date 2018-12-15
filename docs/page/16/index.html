@@ -63,6 +63,49 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2009/05/21/universal-ie6-css-and-different-types-of-sites/">Universal Internet Explorer 6 CSS and different types of sites</a>
+      </h1>
+      <span class="post-date">May 21, 2009 &middot; 4 minute read
+      </span>
+      
+      <p>Andy Clarke, as only he can, has started something of a slagging match with his proposals for a <a href="http://forabeautifulweb.com/blog/about/universal_internet_explorer_6_css/">single, central IE6 stylesheet</a>. My first impression was that this is basically a much better version of the browser defaults.</p>
+
+<p>Between backslapping and shouts of heresy there are a few good comments floating on the post so far (I&rsquo;d expect more). But most of them seem to assume only two types of website exist:</p>
+
+<ol>
+<li>Websites for <em>clients</em>. You know, business to business or business to consumer sorts of things. Online stores, radio station websites, newspapers, company brochures, etc.</li>
+<li>Personal blogs</li>
+</ol>
+
+<p>Obviously that covers only a fraction of web pages, but it covers a much larger proportion of web sites. What do I mean by that?</p>
+
+<ol>
+<li>Admin interfaces. Available all over the place and often used by a very small number of people.</li>
+<li>Intranets. If your company default browser isn&rsquo;t IE6 then don&rsquo;t spend more time that you have to supporting it.</li>
+<li>Internal application interfaces. Everything from holiday to payroll to IT helpdesk requests are often built as well apps. Again if the audience using them isn&rsquo;t using IE6 then don&rsquo;t waste you&rsquo;re time.</li>
+</ol>
+
+<p>Most people (ok so this might be my opinion) seem to work within small to medium sized agency style places. Smallish companies need to rely more on employees as part of their marketing effort, younger people tend to be more militant and people working for smaller organisations (like Andy) tend to benefit more from a little celebrity. But that ignores an army of people who work in house or in other types of company that just happen to build top notch web sites or applications. I&rsquo;ve now worked in everything from small agencies, via medium sized agencies to freelance and inhouse. They are all different and all place different types of time pressure on the people involved.</p>
+
+<p>Another argument to be had here is summed up by Sion (<a href="http://twitter.com/sionnnn/status/1872141409">http://twitter.com/sionnnn/status/1872141409</a>)</p>
+
+<blockquote>
+<p>if u write code with all browsers in mind from the offset it doesn&rsquo;t take any longer though? hows that commercially unsound?</p>
+</blockquote>
+
+<p>And this is pretty much how I used to work. But this means ignoring whole swathes of the unsupported parts of CSS2 and in particular CSS3. CSS3 doesn&rsquo;t really allow you to make designs that you couldn&rsquo;t make before (ok, that&rsquo;s a little unfair, maybe) but it does allow you to do what you did before <em>much more efficiently</em>. Multi-column layout stuff, multiple background, rounded corners, opacity, RGBa. Smaller stylesheets are easier and quicker to write, test and maintain. And sometimes the time saved is worth more than the additional overhead of writing and maintaining CSS for IE6. Maybe not for a decent sized consumer project with a reasonable team and a few hundred thousand budget. Maybe not for a local council or government site. But for a surprisingly large range of other types of projects this might be a worthwhile approach.</p>
+
+<p>Something else I think that comes through in many of the comments is that it&rsquo;s often seen as the web designers job to fight for things. So we fight to ensure time is spend on making something accessible. We fight to make sure we use valid code wherever possible. We fight for sensible fallbacks when javascript isn&rsquo;t available. But we also get accused of not being able to see both sides and at times being unrealistic. Worth considering with regards peoples initial reactions to this, mine included.</p>
+
+<p>The only thing I would say to anyone looking to use this is don&rsquo;t create your own version. Use the <a href="http://code.google.com/p/universal-ie6-css/">one from google code</a>. As Andy suggests, do suggest improvements, ideally by making the changes yourself presumably along with a solid test case. The time saving benefits basically disappear if we all have to maintain our own versions, before that means we have to test our own versions.</p>
+
+<p>I&rsquo;m not saying <em>ignore IE6</em>, and neither is Andy (I don&rsquo;t think). I&rsquo;m saying pick your battles. I&rsquo;ve build websites to support everything under the sun. Sometimes it&rsquo;s been absolutely the right thing to do, sometimes in hindsight it&rsquo;s probably been a little bit of wasted time. I&rsquo;m sure you can think of similar times from the sites you&rsquo;ve been involved in.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2009/05/14/back-toon-thinking-digital/">Back in Toon - Thinking Digital </a>
       </h1>
       <span class="post-date">May 14, 2009 &middot; 1 minute read
@@ -291,62 +334,6 @@ And the django view looks something like this:</p>
       </span>
       
       <p>The webapp framework wish ships with App Engine uses the Django templating system by default, but without Django apps doesn&rsquo;t support the same mechanism for loading template tags and filters. <a href="http://javawonders.blogspot.com/2009/01/google-app-engine-templates-and-custom.html">This is how to do it though</a> using a few webapp.template methods.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2009/03/18/simple-wsgi-middleware-app-engine/">Simple WSGI Middleware (for App Engine)</a>
-      </h1>
-      <span class="post-date">Mar 18, 2009 &middot; 2 minute read
-      </span>
-      
-      <blockquote>
-<p>WSGI is the Web Server Gateway Interface. It is a specification for web servers and application servers to communicate with web applications (though it can also be used for more than that). It is a Python standard, described in detail in <a href="http://www.python.org/dev/peps/pep-0333/">PEP 333</a>.</p>
-</blockquote>
-
-<p>For Ruby people WSGI is the <a href="http://rack.rubyforge.org/">Rack</a> in Python. In fact it was one of the inspirations behind Rack. Rack descriptions itself as:</p>
-
-<blockquote>
-<p>Rack provides an minimal interface between webservers supporting Ruby and Ruby frameworks.</p>
-</blockquote>
-
-<p>Which I think is a clearer explanation, except in WSGI&rsquo;s case we replace Ruby with Python.</p>
-
-<p>As well as being able to write WSGI middleware for Django or Pylons we can also write WSGI middleware for App Engine applications - which is what I spent some time doing today. For the most part I found the examples and documentation interesting but overkill for what I needed to do. Specifically I wanted a piece of middleware which modified the response content, adding extra content into the response. Most of the examples I found didn&rsquo;t focus on middleware, or where full blown examples making them hard to follow.</p>
-
-<p>So for anyone looking for a simple example of WSGI middleware which adds content into the response here goes. I used the <a href="http://pythonpaste.org/webob/">WebOb</a> framework because it provides a nicer interface to the request and response objects and it&rsquo;s included in the standard App Engine SDK. The following sample middleware simple adds <em>Hello World</em> to the end of every response.</p>
-
-<p>pre. from webob import Request
-class SimpleMiddleware(object):
-&ldquo;Example middleware that appends a message to all 200 html responses&rdquo;
-def <em>init</em>(self, app):
-self.app = app
-def <em>call</em>(self, environ, start_response):
-# deal with webob request and response objects
-# due to a nicer interface
-req = Request(environ)
-resp = req.get_response(self.app)
-# add a string to the end of the body
-body = resp.body + &ldquo;Hello World&rdquo;
-# set the body to the new copy
-resp.body = body
-return resp(environ, start_response)</p>
-
-<p>In reality you might want to append something to a specific place in the response, or introduce conditionals. This is easy enough to do by parsing the initial value of <em>resp.body</em> in the example above.</p>
-
-<p>To use the middleware in your application you simple wrap your current WSGIApplication instance with the middleware class.</p>
-
-<p>pre. application = webapp.WSGIApplication(ROUTES, debug=settings.DEBUG)</p>
-
-<ol>
-<li>add simple middleware
-application = SimpleMiddleware(application)
-run_wsgi_app(application)</li>
-</ol>
-
-<p>WSGI middleware is both a useful place for common functionality to live in your App Engine application as well as being a handy tool for anyone working across multiple Python frameworks to share code.</p>
 
       
     </div>

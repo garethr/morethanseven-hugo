@@ -63,6 +63,82 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2007/03/03/microformats-and-erdf-sitting-in-a-tree/">Microformats and eRDF sitting in a tree</a>
+      </h1>
+      <span class="post-date">Mar 3, 2007 &middot; 3 minute read
+      </span>
+      
+      <p>Following on from <a href="http://morethanseven.net/posts/what-erdf-can-learn-from-microformats/">my previous post</a> on <a href="http://www.w3.org/RDF/">eRDF</a> I&rsquo;ve started to play around with it. For anyone bored enought to have read the source of this site today you&rsquo;ll have seen a couple of behind the scenes changes - specifically I&rsquo;ve added a dash of <a href="http://www.foaf-project.org/">FOAF</a>.</p>
+
+<p>The FOAF, or Friend of a Friend, project is:</p>
+
+<blockquote>
+<p>creating a Web of machine-readable pages describing people, the links between them and the things they create and do.</p>
+</blockquote>
+
+<p>I sort of see it as a bigger and more complicated older brother to <a href="http://gmpg.org/xfn">XFN</a> and <a href="http://microformats.org/wiki/hcard">hCard</a>.</p>
+
+<p>First things first, unlike <a href="http://microformats.org">Microformats</a>, using eRDF needs a bit of setup outside just adding classes and attributes - specifically you need to add a profile to the <em>head</em> element of your document and then add some namespaces links into the <em>head</em> like so:</p>
+
+<pre><code>&lt;code&gt;&lt;head profile=&quot;http://purl.org/NET/erdf/profile&quot;&gt;
+  &lt;link rel=&quot;schema.rdfs&quot; href=&quot;http://www.w3.org/2000/01/rdf-schema#&quot; /&gt;
+  &lt;link rel=&quot;schema.foaf&quot; href=&quot;http://xmlns.com/foaf/0.1/&quot; /&gt;
+&lt;/head&gt;&lt;/code&gt;
+</code></pre>
+
+<p>Then you&rsquo;re onto the more familiar ground (if you&rsquo;re used to Microformats) of adding semantic attributes. I already had the following snippet markup up in hCard, i just needed to add a few more classes (-foaf-Person, foaf-weblog and foaf-name) to existing elements.</p>
+
+<pre><code>&lt;code&gt;&lt;div id=&quot;iHead&quot;&gt;
+  &lt;h2 class=&quot;vcard -foaf-Person&quot; id=&quot;gareth&quot;&gt;
+  &lt;a href=&quot;/&quot; class=&quot;url org foaf-weblog&quot;&gt;Morethanseven&lt;/a&gt;
+  &lt;span&gt;is where &lt;a href=&quot;mailto:&amp;#103;&amp;#097;&amp;#114;&amp;#101;&amp;#116;&amp;#104;&amp;#064;&amp;#109;&amp;#111;&amp;#114;&amp;#101;&amp;#116;&amp;#104;&amp;#097;&amp;#110;&amp;#115;&amp;#101;&amp;#118;&amp;#101;&amp;#110;&amp;#046;&amp;#110;&amp;#101;&amp;#116;&quot; 
+    class=&quot;email fn foaf-name&quot;&gt;Gareth Rushgrove&lt;/a&gt; plays with the web
+    &lt;/span&gt;&lt;/h2&gt;
+&lt;/div&gt;&lt;/code&gt;
+</code></pre>
+
+<p>The full <a href="http://xmlns.com/foaf/0.1/">FOAF Specification</a> details a huge range of other elements - everything from <a href="http://xmlns.com/foaf/0.1/#term_Project">foaf:Project</a> for making associations between yourself and projects you have worked on, to <a href="http://xmlns.com/foaf/0.1/#term_OnlineGamingAccount">foaf:OnlineGamingAccount</a> which is pretty self explanatory.</p>
+
+<p>When parsed out that gives you a foaf document a little something like:</p>
+
+<pre><code>&lt;code&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;rdf:RDF xmlns:admin=&quot;http://webns.net/mvcb/&quot; 
+  xmlns:doap=&quot;http://usefulinc.com/ns/doap#&quot; 
+  xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; 
+  xmlns:foaf=&quot;http://xmlns.com/foaf/0.1/&quot; 
+  xmlns:h=&quot;http://www.w3.org/1999/xhtml&quot; 
+  xmlns:rdfs=&quot;http://www.w3.org/2000/01/rdf-schema#&quot;
+  xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;&gt;
+  &lt;rdf:Description rdf:about=&quot;&quot;&gt;
+    &lt;admin:generatorAgent 
+      rdf:resource=&quot;http://purl.org/NET/erdf/extract&quot;/&gt;
+  &lt;/rdf:Description&gt;
+  &lt;rdf:Description rdf:about=&quot;&quot;/&gt;
+  &lt;rdf:Description rdf:about=&quot;#gareth&quot;&gt;
+    &lt;rdf:type rdf:resource=&quot;http://xmlns.com/foaf/0.1/Person&quot;/&gt;
+    &lt;ns_13:weblog xmlns:ns_13=&quot;http://xmlns.com/foaf/0.1/&quot;&gt;
+      Morethanseven
+    &lt;/ns_13:weblog&gt;
+    &lt;ns_14:name xmlns:ns_14=&quot;http://xmlns.com/foaf/0.1/&quot;&gt;
+      Gareth Rushgrove
+    &lt;/ns_14:name&gt;
+  &lt;/rdf:Description&gt;
+  &lt;rdf:Description rdf:about=&quot;http://morethanseven.net&quot;/&gt;
+  &lt;rdf:Description rdf:about=&quot;mailto:gareth@morethanseven.net&quot;/&gt;
+&lt;/rdf:RDF&gt;&lt;/code&gt;
+</code></pre>
+
+<p>So far I&rsquo;d agree with <a href="http://ben-ward.co.uk/journal/fao-rdf/">Ben</a>. All I&rsquo;ve done is something people (including me) have been doing already with hCard. But I&rsquo;ve done it in a way, using eRDF, that doesn&rsquo;t in any way stop me continuing using Microformats.</p>
+
+<p>Marking things up with Microformats for it&rsquo;s own sake was only ever really of interest to markup junkies (including me again). It&rsquo;s only when you can parse that information out that it gets more interesting. I&rsquo;ve got a follow up post to this on just that subject involving some XSL, Javascript, PHP and some standing on the shoulder of giants. It will be left to a post after that when I try do something a little different.</p>
+
+<p>On a related note; so far I&rsquo;ve found only scattered and often overly technical and verbose documentation on eRDF and RDF in general. I&rsquo;ve been adding links to <a href="http://del.icio.us/garethr">del.icio.us</a> as I find useful resources but I can see how useful <a href="http://getsemantic.com">Get Semantic</a> has the potential to be if any of this is going to take off in the web standards community.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2007/02/28/uk-web-design-meetups-map/">UK Web Design Meetups Map</a>
       </h1>
       <span class="post-date">Feb 28, 2007 &middot; 2 minute read
@@ -477,105 +553,6 @@ I’d already booked the day after FOWA off work knowing that something would co
 </table>
 <p>
 Now I think about it, or rather now I write them all down in one place, I think I might have got carried away.
-
-</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/01/24/uri-templates-in-the-real-world/">URI Templates in the Real World</a>
-      </h1>
-      <span class="post-date">Jan 24, 2007 &middot; 2 minute read
-      </span>
-      
-      <p>
-I do quite a bit of big picture web site/application design at work (ok, that probably needs more of a description). I get involved in alot of the details that lie somewhere off to the side of the obvious bits that need to be done (mmm, not much better). All those technologies and tools and ideas only tell part of the story of building a successful site or online application. Even something stringing together a good idea, clean markup, good CSS, some fancy backend code (insert prefered option) and a sprinkling of user centred design tools can fall down on the hidden details; good form labels, help messages that actually help rather than just repeating the problem, organising file systems to allow for simple scaling, skinning and internationalisation, etc.
-
-</p>
-<p>
-<a href="http://plasticbag.org">Tom Coates</a> spoke last year about his concept of <a href="http://www.plasticbag.org/files/native/">Native to a Web of Data</a> which really struck a chord at the time, and not just because I still want <a href="http://www.flickr.com/photos/redux/97126279/">this on a t-shirt</a>. More recently the idea of <a href="http://en.wikipedia.org/wiki/REST">REST</a> has really caught on, especially amongst the dynamic languages crowd – you just need to look at Rails 1.2 for an example their. The big picture is <a href="http://www.faqs.org/rfcs/rfc2616.html">HTTP</a> is back and everyone who didn’t already get it should be doing some reading.
-
-</p>
-<p>
-Another notable person talking quite a bit about REST, HTTP and related issues is <a href="http://bitworking.org">Joe Gregorio</a>. Amongst other interesting posts, I came across one on <a href="http://bitworking.org/news/URI_Templates">URI Templates</a> a good while ago and have been following the specification to produce recent documentation. The idea is simple and so is the <a href="http://bitworking.org/projects/URI-Templates/draft-gregorio-uritemplate-00.html">specification</a>. A quick example, for a simple CRUD interface might be:
-
-</p>
-<table>
-<tr>
-<th>
-Action
-
-</th>
-<th>
-URI
-
-</th>
-<th>
-Method
-
-</th>
-</tr>
-<tr>
-<td>
-View
-
-</td>
-<td>
-/view/{id}
-
-</td>
-<td>
-Get
-
-</td>
-</tr>
-<tr>
-<td>
-Add
-
-</td>
-<td>
-/page/add
-
-</td>
-<td>
-Get, Post
-
-</td>
-</tr>
-<tr>
-<td>
-Edit
-
-</td>
-<td>
-/page/edit/{id}
-
-</td>
-<td>
-Get, Post
-
-</td>
-</tr>
-<tr>
-<td>
-Delete
-
-</td>
-<td>
-/page/delete/{id}
-
-</td>
-<td>
-Post
-
-</td>
-</tr>
-</table>
-<p>
-Doing this for a site or application in the early stages of development really helps to highlight what actions are available, and to remove the need for costly changes later in the day. It also helps others learn, mainly through discussion, about the different HTTP methods and the importance of the URI in general.
 
 </p>
 

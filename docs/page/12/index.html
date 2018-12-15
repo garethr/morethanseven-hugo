@@ -63,6 +63,26 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2010/03/28/More-django-project-templates/">More Django Project Templates</a>
+      </h1>
+      <span class="post-date">Mar 28, 2010 &middot; 1 minute read
+      </span>
+      
+      <p>Quite a while ago I released some handy scripts for building up Django project layouts. Part of the reason behind this was to kick off discussions about ideal pproject layouts and maybe even get a few user submitted layouts into the project. Paster makes this soft of thing really easy to do and I was interested in what people might come up with.</p>
+
+<p>Well, the team over at <a href="http://chicagotribune.com/">The Chicargo Tribune</a> have done just that, creating a branch of the original project and <a href="http://github.com/ryanmark/django-project-templates/">adding a very rich example project to it</a></p>
+
+<p>I&rsquo;ve finally gotten around to merging that back into <a href="http://github.com/garethr/django-project-templates/">my branch</a> and releasing a new version to <a href="http://pypi.python.org/pypi/django-project-templates/0.11">PyPi</a>. It&rsquo;s got a good number of PostGreSQL commands that might be of use, as well as several Amazon S3 and EC2 examples. Even if none of these complete templates fit what you&rsquo;re looking for exactly their are lots of smaller fabric recipes worth taking a look at.</p>
+
+<p>You can read all about what is in the project over on their <a href="http://blog.apps.chicagotribune.com/2010/03/08/advanced-django-project-layout/">developer blog</a>, which if filled with other interesting web and operations goodness.</p>
+
+<p>So, huge thanks to <a href="http://blog.apps.chicagotribune.com/author/cgroskopf/">Chris</a>, <a href="http://blog.apps.chicagotribune.com/author/bboyer/">Brian</a>, <a href="http://blog.apps.chicagotribune.com/author/ryanthomasmark/">Ryan</a> and <a href="http://blog.apps.chicagotribune.com/author/joegermuskact/">Joe</a> for some great work.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2010/03/21/Sandbox-your-ruby-gems/">Sandbox Your Ruby Gems</a>
       </h1>
       <span class="post-date">Mar 21, 2010 &middot; 1 minute read
@@ -292,32 +312,6 @@ Feature: localhost
 </code></pre>
 
 <p>My main usecase was to keep an eye on a known queue size and number of consumers. I&rsquo;m sure I&rsquo;m missing some features at the moment so any feedback much appreciated.</p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2010/01/26/processing-large-files-sed-and-awk/">Processing large files with sed and awk</a>
-      </h1>
-      <span class="post-date">Jan 26, 2010 &middot; 2 minute read
-      </span>
-      
-      <p>I found myself using a couple of powerful but underused command line applications this week and felt like sharing.</p>
-
-<p>My problem involved a large text file with over three million lines and a script that processed the file line by line, in this case running a SQL query against a remote database.</p>
-
-<p>My script didn&rsquo;t try and process everything in one go, rather taking off large chunks and processing them in turn, then stopping and printing out the number of lines processed. This was mainly so I could keep an eye on it and make sure it wasn&rsquo;t having a detrimental affect on other systems. But once I&rsquo;d run the script once (and processed the first quarter of a million records or so) I wanted to run it again, except without the first batch of lines. For this I used sed. The following command creates a new file with the contents of the original file, minus the first 254263 lines.</p>
-
-<pre><code>sed '1,254263d' original.txt &gt; new.txt
-</code></pre>
-
-<p>I could then run my script with the input from new.txt and not have to reprocess the deleted lines. My next problem came when the network connection between the box running the script and the database dropped out. The script printed out the contents of the last line successfully processed, so what I wanted was a new file with the all contents of the old file past the last line. The following awk command does just that, assuming the last line processed was f251f9ee0b39beb5b5c4675ed4802113.</p>
-
-<pre><code>awk '/^f251f9ee0b39beb5b5c4675ed4802113/{f=1;next}f' original.txt &gt; new.txt
-</code></pre>
-
-<p>Now I could have made the script that did the work more complicated and ensure it dealt with these cases. But it would have involved much more code and the original scripts where only a handful of throw away code. For one off jobs like this a quick dive into the command line seemed more prudent.</p>
 
       
     </div>

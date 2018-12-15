@@ -6,10 +6,20 @@
     <description>Recent content on More than seven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Sun, 29 Jul 2018 10:13:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Dec 2018 09:25:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>What is CNAB?</title>
+      <link>/2018/12/15/what-is-cnab/</link>
+      <pubDate>Sat, 15 Dec 2018 09:25:00 +0000</pubDate>
+      
+      <guid>/2018/12/15/what-is-cnab/</guid>
+      <description>We announced Cloud Native Application Bundles (CNAB) at DockerCon EU and Microsoft Connect just last week, and I spent a bunch of time talking to folks and anwsering questions about it at KubeCon too. As I’m heading home I thought it would be good to write down a few thoughts about what CNAB is. As I see it CNAB is two things:
+ Formalisation of a pattern we’ve seen for multi-toolchain installers Commoditization of the packaging part of the infrastructure-as-code stack  Let’s take each of these in turn.</description>
+    </item>
     
     <item>
       <title>Knative Build with Docker, BuildKit and Img</title>

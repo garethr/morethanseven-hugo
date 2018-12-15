@@ -63,6 +63,24 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="/2007/05/18/some-good-news/">Some good news</a>
+      </h1>
+      <span class="post-date">May 18, 2007 &middot; 1 minute read
+      </span>
+      
+      <p>Yeah, I just got my confirmation email for <a href="http://hackday.org">hackday</a> in a months time.</p>
+
+<p><a href="http://www.hackday.org" style="border: none; padding: 0px; margin: 0px"><img src="http://l.yimg.com/us.yimg.com/i/us/ydn/hackday/hack_day_pattern_four.gif" alt="Hack Day: London, June 16/17 2007" width="180" height="105" style="border: none; margin: 0; padding: 0;"/></a></p>
+
+<p>So, who else is going along and does anyone have any ideas they want team mates for? I&rsquo;m thinking something mobile or microformats related or alternatively something I know very little about. Any ideas?</p>
+
+<p>Oh, and I know I&rsquo;ve been quite around the place lately, more on that when I can talk about it.</p>
+
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="/2007/05/07/cssxx/">CSSx.x</a>
       </h1>
       <span class="post-date">May 7, 2007 &middot; 3 minute read
@@ -399,82 +417,6 @@ $website = new Website('http://morethanseven.net',$parser);&lt;/code&gt;
 <p>On a related note the combination of Sumo! and the <a href="http://www.getfirebug.com/">Firebug</a> javascript console is just perfect. Anyone who hasn&rsquo;t yet downloaded the latest version should get over there quick.</p>
 
 <p><img src="http://morethanseven.net/_assets/media/imgFirebug.png" alt="Firebug" title="Firebug" /></p>
-
-      
-    </div>
-    
-    <div class="post">
-      <h1 class="post-title">
-        <a href="/2007/03/03/microformats-and-erdf-sitting-in-a-tree/">Microformats and eRDF sitting in a tree</a>
-      </h1>
-      <span class="post-date">Mar 3, 2007 &middot; 3 minute read
-      </span>
-      
-      <p>Following on from <a href="http://morethanseven.net/posts/what-erdf-can-learn-from-microformats/">my previous post</a> on <a href="http://www.w3.org/RDF/">eRDF</a> I&rsquo;ve started to play around with it. For anyone bored enought to have read the source of this site today you&rsquo;ll have seen a couple of behind the scenes changes - specifically I&rsquo;ve added a dash of <a href="http://www.foaf-project.org/">FOAF</a>.</p>
-
-<p>The FOAF, or Friend of a Friend, project is:</p>
-
-<blockquote>
-<p>creating a Web of machine-readable pages describing people, the links between them and the things they create and do.</p>
-</blockquote>
-
-<p>I sort of see it as a bigger and more complicated older brother to <a href="http://gmpg.org/xfn">XFN</a> and <a href="http://microformats.org/wiki/hcard">hCard</a>.</p>
-
-<p>First things first, unlike <a href="http://microformats.org">Microformats</a>, using eRDF needs a bit of setup outside just adding classes and attributes - specifically you need to add a profile to the <em>head</em> element of your document and then add some namespaces links into the <em>head</em> like so:</p>
-
-<pre><code>&lt;code&gt;&lt;head profile=&quot;http://purl.org/NET/erdf/profile&quot;&gt;
-  &lt;link rel=&quot;schema.rdfs&quot; href=&quot;http://www.w3.org/2000/01/rdf-schema#&quot; /&gt;
-  &lt;link rel=&quot;schema.foaf&quot; href=&quot;http://xmlns.com/foaf/0.1/&quot; /&gt;
-&lt;/head&gt;&lt;/code&gt;
-</code></pre>
-
-<p>Then you&rsquo;re onto the more familiar ground (if you&rsquo;re used to Microformats) of adding semantic attributes. I already had the following snippet markup up in hCard, i just needed to add a few more classes (-foaf-Person, foaf-weblog and foaf-name) to existing elements.</p>
-
-<pre><code>&lt;code&gt;&lt;div id=&quot;iHead&quot;&gt;
-  &lt;h2 class=&quot;vcard -foaf-Person&quot; id=&quot;gareth&quot;&gt;
-  &lt;a href=&quot;/&quot; class=&quot;url org foaf-weblog&quot;&gt;Morethanseven&lt;/a&gt;
-  &lt;span&gt;is where &lt;a href=&quot;mailto:&amp;#103;&amp;#097;&amp;#114;&amp;#101;&amp;#116;&amp;#104;&amp;#064;&amp;#109;&amp;#111;&amp;#114;&amp;#101;&amp;#116;&amp;#104;&amp;#097;&amp;#110;&amp;#115;&amp;#101;&amp;#118;&amp;#101;&amp;#110;&amp;#046;&amp;#110;&amp;#101;&amp;#116;&quot; 
-    class=&quot;email fn foaf-name&quot;&gt;Gareth Rushgrove&lt;/a&gt; plays with the web
-    &lt;/span&gt;&lt;/h2&gt;
-&lt;/div&gt;&lt;/code&gt;
-</code></pre>
-
-<p>The full <a href="http://xmlns.com/foaf/0.1/">FOAF Specification</a> details a huge range of other elements - everything from <a href="http://xmlns.com/foaf/0.1/#term_Project">foaf:Project</a> for making associations between yourself and projects you have worked on, to <a href="http://xmlns.com/foaf/0.1/#term_OnlineGamingAccount">foaf:OnlineGamingAccount</a> which is pretty self explanatory.</p>
-
-<p>When parsed out that gives you a foaf document a little something like:</p>
-
-<pre><code>&lt;code&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;rdf:RDF xmlns:admin=&quot;http://webns.net/mvcb/&quot; 
-  xmlns:doap=&quot;http://usefulinc.com/ns/doap#&quot; 
-  xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; 
-  xmlns:foaf=&quot;http://xmlns.com/foaf/0.1/&quot; 
-  xmlns:h=&quot;http://www.w3.org/1999/xhtml&quot; 
-  xmlns:rdfs=&quot;http://www.w3.org/2000/01/rdf-schema#&quot;
-  xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;&gt;
-  &lt;rdf:Description rdf:about=&quot;&quot;&gt;
-    &lt;admin:generatorAgent 
-      rdf:resource=&quot;http://purl.org/NET/erdf/extract&quot;/&gt;
-  &lt;/rdf:Description&gt;
-  &lt;rdf:Description rdf:about=&quot;&quot;/&gt;
-  &lt;rdf:Description rdf:about=&quot;#gareth&quot;&gt;
-    &lt;rdf:type rdf:resource=&quot;http://xmlns.com/foaf/0.1/Person&quot;/&gt;
-    &lt;ns_13:weblog xmlns:ns_13=&quot;http://xmlns.com/foaf/0.1/&quot;&gt;
-      Morethanseven
-    &lt;/ns_13:weblog&gt;
-    &lt;ns_14:name xmlns:ns_14=&quot;http://xmlns.com/foaf/0.1/&quot;&gt;
-      Gareth Rushgrove
-    &lt;/ns_14:name&gt;
-  &lt;/rdf:Description&gt;
-  &lt;rdf:Description rdf:about=&quot;http://morethanseven.net&quot;/&gt;
-  &lt;rdf:Description rdf:about=&quot;mailto:gareth@morethanseven.net&quot;/&gt;
-&lt;/rdf:RDF&gt;&lt;/code&gt;
-</code></pre>
-
-<p>So far I&rsquo;d agree with <a href="http://ben-ward.co.uk/journal/fao-rdf/">Ben</a>. All I&rsquo;ve done is something people (including me) have been doing already with hCard. But I&rsquo;ve done it in a way, using eRDF, that doesn&rsquo;t in any way stop me continuing using Microformats.</p>
-
-<p>Marking things up with Microformats for it&rsquo;s own sake was only ever really of interest to markup junkies (including me again). It&rsquo;s only when you can parse that information out that it gets more interesting. I&rsquo;ve got a follow up post to this on just that subject involving some XSL, Javascript, PHP and some standing on the shoulder of giants. It will be left to a post after that when I try do something a little different.</p>
-
-<p>On a related note; so far I&rsquo;ve found only scattered and often overly technical and verbose documentation on eRDF and RDF in general. I&rsquo;ve been adding links to <a href="http://del.icio.us/garethr">del.icio.us</a> as I find useful resources but I can see how useful <a href="http://getsemantic.com">Get Semantic</a> has the potential to be if any of this is going to take off in the web standards community.</p>
 
       
     </div>
