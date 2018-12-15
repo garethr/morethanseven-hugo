@@ -79,7 +79,7 @@ the <a href="https://github.com/knative/build/tree/master/test">tests folder</a>
 has been the best way I&rsquo;ve found of discovering how to do various things. In this post I thought I&rsquo;d try a few examples, making use
 of the latest build functionality in Docker 18.06 and using BuildKit via <a href="https://github.com/genuinetools/img">Img</a>.</p>
 
-<h2 id="knative-and-docker-build">Knative and Docker Build</h2>
+<h2 id="knative-build-and-docker-build">Knative Build and Docker Build</h2>
 
 <p>First lets describe a <code>BuildTemplate</code> for BuildKit. Templates can be reused for different builds by defining parameters that need to be set by the <code>Build</code>.
 Templates aren&rsquo;t strictly required (see the basic examples mentioned above) but feel like a useful tool in most cases. The following template uses
@@ -146,7 +146,7 @@ a Dockerfile to build from. Save the following as <code>kubeval-buildkit.yaml</c
 <pre><code>kubectl -n default logs -f kubeval-buildkit-gztzq -c build-step-build
 </code></pre>
 
-<h2 id="knative-and-img">Knative and Img</h2>
+<h2 id="knative-build-and-img">Knative Build and Img</h2>
 
 <p>The above example uses the hosts Docker daemon, but if you want to run the build without you&rsquo;re in luck. <a href="https://github.com/genuinetools/img">Img</a>
 is a &ldquo;standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.&rdquo; It&rsquo;s using the same build engine, BuildKit, as
@@ -236,7 +236,7 @@ you have permissions to push to, rather than <code>garethr/kubeval</code>.</p>
 <ul>
 <li>The <code>img</code> images run as priviledged. I tried and failed to set the relevant capabilities instead but I&rsquo;m sure that&rsquo;s fixable
 with a little more debugging</li>
-<li>I rebuild the <code>img</code> Docker image and pushed this to my repo. This image runs as root, due to a conflict with permissions and
+<li>I rebuilt the <code>img</code> Docker image and pushed this to my repo. This image runs as root, due to a conflict with permissions and
 the user in the original image. Again, I&rsquo;m sure that&rsquo;s also resolvable with a bit more spelunking.</li>
 </ul>
 

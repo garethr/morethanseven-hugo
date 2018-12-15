@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.40.3" />
+	<meta name="generator" content="Hugo 0.51" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -248,7 +248,7 @@ used <a href="http://kitchen.ci/">Test Kitchen</a> and
 virtual machines (one for each supported operating system), applying the
 Puppet manifest and then making some assertions:</p>
 
-<script src="//gist.github.com/garethr/a8d090b5d7f7a190f7d9.js"></script>
+<script type="application/javascript" src="//gist.github.com/garethr/a8d090b5d7f7a190f7d9.js"></script>
 
 <p>The above is simply checking whether certain packages are installed, the
 PPA is setup correctly and whether <code>mirage</code> and <code>opam</code> can be executed
@@ -261,7 +261,7 @@ resulting software allows us to build MirageOS unikernels. For this I
 used <a href="https://github.com/sstephenson/bats">Bats</a> running in the same
 Test Kitchen setup.</p>
 
-<script src="//gist.github.com/garethr/191c4c0676b471f9b986.js"></script>
+<script type="application/javascript" src="//gist.github.com/garethr/191c4c0676b471f9b986.js"></script>
 
 <p>The above configures and builds a simple HTTP server unikernel, and then
 checks that when run it returns the expected response on the correct
@@ -312,7 +312,7 @@ Explorer if you prefer).</p>
 
 <p>This launches BoxStarter, which executes the following code:</p>
 
-<script src="//gist.github.com/garethr/a1838aa68355a0766de4.js"></script>
+<script type="application/javascript" src="//gist.github.com/garethr/a1838aa68355a0766de4.js"></script>
 
 <p>This takes a while as it runs Windows update and repeatedly reboots the
 machine. But once completed you&rsquo;ll have the listed software installed
@@ -742,13 +742,12 @@ knowing the IP addresses easier.</p>
 
 <ul class="pagination">
     
-    <li>
-        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <li class="page-item">
+        <a href="/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     </li>
     
-    <li
-    >
-    <a href="/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <li class="page-item">
+    <a href="/page/2/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     
     
@@ -760,8 +759,7 @@ knowing the IP addresses easier.</p>
         
     
     
-    <li
-    ><a href="/">1</a></li>
+    <li class="page-item"><a class="page-link" href="/">1</a></li>
     
     
     
@@ -772,8 +770,7 @@ knowing the IP addresses easier.</p>
         
     
     
-    <li
-    ><a href="/page/2/">2</a></li>
+    <li class="page-item"><a class="page-link" href="/page/2/">2</a></li>
     
     
     
@@ -784,8 +781,7 @@ knowing the IP addresses easier.</p>
         
     
     
-    <li
-    class="active"><a href="/page/3/">3</a></li>
+    <li class="page-item active"><a class="page-link" href="/page/3/">3</a></li>
     
     
     
@@ -796,8 +792,7 @@ knowing the IP addresses easier.</p>
         
     
     
-    <li
-    ><a href="/page/4/">4</a></li>
+    <li class="page-item"><a class="page-link" href="/page/4/">4</a></li>
     
     
     
@@ -808,7 +803,7 @@ knowing the IP addresses easier.</p>
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -1152,17 +1147,15 @@ knowing the IP addresses easier.</p>
         
     
     
-    <li
-    ><a href="/page/43/">43</a></li>
+    <li class="page-item"><a class="page-link" href="/page/43/">43</a></li>
     
     
-    <li
-    >
-    <a href="/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <li class="page-item">
+    <a href="/page/4/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
-    <li>
-        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <li class="page-item">
+        <a href="/page/43/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

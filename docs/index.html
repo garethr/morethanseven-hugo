@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.40.3" />
+	<meta name="generator" content="Hugo 0.51" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -86,7 +86,7 @@ the <a href="https://github.com/knative/build/tree/master/test">tests folder</a>
 has been the best way I&rsquo;ve found of discovering how to do various things. In this post I thought I&rsquo;d try a few examples, making use
 of the latest build functionality in Docker 18.06 and using BuildKit via <a href="https://github.com/genuinetools/img">Img</a>.</p>
 
-<h2 id="knative-and-docker-build">Knative and Docker Build</h2>
+<h2 id="knative-build-and-docker-build">Knative Build and Docker Build</h2>
 
 <p>First lets describe a <code>BuildTemplate</code> for BuildKit. Templates can be reused for different builds by defining parameters that need to be set by the <code>Build</code>.
 Templates aren&rsquo;t strictly required (see the basic examples mentioned above) but feel like a useful tool in most cases. The following template uses
@@ -153,7 +153,7 @@ a Dockerfile to build from. Save the following as <code>kubeval-buildkit.yaml</c
 <pre><code>kubectl -n default logs -f kubeval-buildkit-gztzq -c build-step-build
 </code></pre>
 
-<h2 id="knative-and-img">Knative and Img</h2>
+<h2 id="knative-build-and-img">Knative Build and Img</h2>
 
 <p>The above example uses the hosts Docker daemon, but if you want to run the build without you&rsquo;re in luck. <a href="https://github.com/genuinetools/img">Img</a>
 is a &ldquo;standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.&rdquo; It&rsquo;s using the same build engine, BuildKit, as
@@ -243,7 +243,7 @@ you have permissions to push to, rather than <code>garethr/kubeval</code>.</p>
 <ul>
 <li>The <code>img</code> images run as priviledged. I tried and failed to set the relevant capabilities instead but I&rsquo;m sure that&rsquo;s fixable
 with a little more debugging</li>
-<li>I rebuild the <code>img</code> Docker image and pushed this to my repo. This image runs as root, due to a conflict with permissions and
+<li>I rebuilt the <code>img</code> Docker image and pushed this to my repo. This image runs as root, due to a conflict with permissions and
 the user in the original image. Again, I&rsquo;m sure that&rsquo;s also resolvable with a bit more spelunking.</li>
 </ul>
 
@@ -2232,13 +2232,12 @@ I want to be able to configure a read-only file system if appropriate.</p>
 
 <ul class="pagination">
     
-    <li>
-        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <li class="page-item">
+        <a href="/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     </li>
     
-    <li
-    class="disabled">
-    <a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <li class="page-item disabled">
+    <a href="" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     
     
@@ -2250,8 +2249,7 @@ I want to be able to configure a read-only file system if appropriate.</p>
         
     
     
-    <li
-    class="active"><a href="/">1</a></li>
+    <li class="page-item active"><a class="page-link" href="/">1</a></li>
     
     
     
@@ -2262,8 +2260,7 @@ I want to be able to configure a read-only file system if appropriate.</p>
         
     
     
-    <li
-    ><a href="/page/2/">2</a></li>
+    <li class="page-item"><a class="page-link" href="/page/2/">2</a></li>
     
     
     
@@ -2274,8 +2271,7 @@ I want to be able to configure a read-only file system if appropriate.</p>
         
     
     
-    <li
-    ><a href="/page/3/">3</a></li>
+    <li class="page-item"><a class="page-link" href="/page/3/">3</a></li>
     
     
     
@@ -2286,7 +2282,7 @@ I want to be able to configure a read-only file system if appropriate.</p>
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -2639,17 +2635,15 @@ I want to be able to configure a read-only file system if appropriate.</p>
         
     
     
-    <li
-    ><a href="/page/43/">43</a></li>
+    <li class="page-item"><a class="page-link" href="/page/43/">43</a></li>
     
     
-    <li
-    >
-    <a href="/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <li class="page-item">
+    <a href="/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
-    <li>
-        <a href="/page/43/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <li class="page-item">
+        <a href="/page/43/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
